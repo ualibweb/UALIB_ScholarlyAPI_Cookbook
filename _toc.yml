@@ -1,0 +1,13 @@
+format: jb-book
+root: introduction
+parts:
+- caption: Snippets
+  chapters:
+  - file: item1
+    sections:
+    - file: subitem1
+    - file: subitem2
+  - file: item2
+- caption: Background
+  chapters:
+  - file: aboutus
