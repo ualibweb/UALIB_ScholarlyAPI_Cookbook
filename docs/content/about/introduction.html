@@ -1,0 +1,687 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction &#8212; Scholarly API Cookbook</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Crossref" href="../scripts/A_overview/crossref_overview.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/UALIB_logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Scholarly API Cookbook</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 current">
+  <a class="reference internal" href="#">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  BIBLIOGRAPHIC/GENERAL
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../scripts/A_overview/crossref_overview.html">
+   Crossref
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/python/python_crossref.html">
+     …in Python
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/shell/shell_crossref.html">
+     …in Unix Shell
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/matlab/matlab_crossref.html">
+     …in Matlab
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/mathematica/mathematica_crossref.html">
+     …in Mathematica
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../scripts/A_overview/scopus_overview.html">
+   Scopus
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/python/python_scopus.html">
+     …in Python
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/shell/shell_scopus.html">
+     …in Unix Shell
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/matlab/matlab_scopus.html">
+     …in Matlab
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/mathematica/mathematica_scopus.html">
+     …in Mathematica
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  BUSINESS
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../scripts/A_overview/worldbank_overview.html">
+   World Bank
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/python/python_worldbank.html">
+     …in Python
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/shell/shell_worldbank.html">
+     …in Unix Shell
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/matlab/matlab_worldbank.html">
+     …in Matlab
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/mathematica/mathematica_worldbank.html">
+     …in Mathematica
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  SCIENTIFIC
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../scripts/A_overview/casc_overview.html">
+   CAS Common Chemistry
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/python/python_casc.html">
+     …in Python
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/shell/shell_casc.html">
+     …in Unix Shell
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/matlab/matlab_casc.html">
+     …in Matlab
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/mathematica/mathematica_casc.html">
+     …in Mathematica
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../scripts/A_overview/ev_overview.html">
+   Engineering Village
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/python/python_ev.html">
+     …in Python
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/shell/shell_ev.html">
+     …in Unix Shell
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/matlab/matlab_ev.html">
+     …in Matlab
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/mathematica/mathematica_ev.html">
+     …in Mathematica
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../scripts/A_overview/pubmed_overview.html">
+   PubMed
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/python/python_pubmed.html">
+     …in Python
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/shell/shell_pubmed.html">
+     …in Unix Shell
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/matlab/matlab_pubmed.html">
+     …in Matlab
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/mathematica/mathematica_pubmed.html">
+     …in Mathematica
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  SOCIAL SCIENCES
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../scripts/A_overview/uscensus_overview.html">
+   U.S. Census Data
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/python/python_uscensus.html">
+     …in Python
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/shell/shell_uscensus.html">
+     …in Unix Shell
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/matlab/matlab_uscensus.html">
+     …in Matlab
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/mathematica/mathematica_uscensus.html">
+     …in Mathematica
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  ABOUT
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="contributing.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="license_reuse.html">
+   License and Reuse
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tech_details.html">
+   Technical Details
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/content/about/introduction.rst"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/vfscalfani/UALIB_ScholarlyAPI_Cookbook"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/vfscalfani/UALIB_ScholarlyAPI_Cookbook/issues/new?title=Issue%20on%20page%20%2Fcontent/about/introduction.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-is-this">
+     What is this?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-should-i-be-aware-of-before-getting-started">
+     What should I be aware of before getting started?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-kind-of-content-is-included">
+     What kind of content is included?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#which-programming-languages-are-covered">
+     Which Programming Languages are Covered?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-about-video-tutorials">
+     What about Video Tutorials?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#who-is-creating-the-content">
+     Who is Creating the Content?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-is-this">
+<h3>What is this?<a class="headerlink" href="#what-is-this" title="Permalink to this headline">¶</a></h3>
+<p>This is an open online book containing short scholarly API code examples (i.e., “recipes”)
+that demonstrate how to work with various scholarly web service APIs. It is part of the University of
+Alabama Libraries efforts to support <a class="reference external" href="https://guides.lib.ua.edu/Data/ResearchDataServices/">Research Data Services</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This book is in-progress and is currently in the early stages. Check back in
+a few months for more content.</p>
+</div>
+</div>
+<div class="section" id="what-should-i-be-aware-of-before-getting-started">
+<h3>What should I be aware of before getting started?<a class="headerlink" href="#what-should-i-be-aware-of-before-getting-started" title="Permalink to this headline">¶</a></h3>
+<p>Before interacting with any scholarly APIs, it is very important to review the scholarly API’s
+usage policies, which generally includes information such as query limits and data reuse policies.
+We have endeavored to follow all appropriate API usage policies in our examples and have linked
+to the specific API policies where possible. While some APIs are openly accessible and do
+not require special authentication, other scholarly APIs require that you are affiliated with a
+subscribing institution, and have registered for an API key to use for authentication in API queries.
+We have added instructions about any necessary authentication within the relevant code recipes.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>In general, scholarly APIs are designed for the collection of small to medium
+sized datasets; that is, in the range of 100s or maybe a few thousand API queries at most
+(various with API). If you need large bulk datasets, an API is likely not the method to use, and
+there may be bulk data downloads available from the database instead.</p>
+</div>
+<p>If you decide that your use-case is appropriate for a scholarly API, here are a few good general practices
+to follow when working with any web API:</p>
+<ol class="arabic simple">
+<li><p>Read the API documentation and usage guidelines before starting.</p></li>
+<li><p>Start with testing the behavior of the API using a single programmatic API request (i.e., not in a loop).</p></li>
+<li><p>Add a 1 second delay between API requests when using a loop.</p></li>
+<li><p>When using a loop to repeat API requests, start out with a small list, perhaps 3-5.</p></li>
+<li><p>Cache the API returned data when testing. For example, if you are trying to parse the returned API data in a scripting workflow, save the returned data in a variable or to a file so that you do not need to repeat the API request unnecessarily for the downstream parsing or analysis.</p></li>
+</ol>
+</div>
+<div class="section" id="what-kind-of-content-is-included">
+<h3>What kind of content is included?<a class="headerlink" href="#what-kind-of-content-is-included" title="Permalink to this headline">¶</a></h3>
+<p>The scope of this book is to provide short code examples related to the retrieval of data and information
+from scholarly APIs using several different programming languages.</p>
+<p>While there may be some introductory programming content in this book, the
+content is not meant to be a general introduction to programming.
+Instead, our aim with the Scholarly API Cookbook is to provide
+some short scripting based workflows for working with scholarly data and information APIs.
+For more general introductions to programming, we recommend searching the
+UA Libraries Scout database for programming books (e.g., <cite>TI python</cite>).</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>UA Libraries Workshop lessons and references therein for more general
+programming content <a class="footnote-reference brackets" href="#ua-work" id="id1">1</a>.</p>
+</div>
+</div>
+<div class="section" id="which-programming-languages-are-covered">
+<h3>Which Programming Languages are Covered?<a class="headerlink" href="#which-programming-languages-are-covered" title="Permalink to this headline">¶</a></h3>
+<p>Currently, we are planning to provide scholarly API code examples in Python, Unix Shell (Bash),
+Matlab, and Mathematica. We hope that providing examples in several programming languages will
+provide the reader with not only a choice, but also some information about the differences between
+the programming workflows. In some cases, for example, it may be preferable to
+choose one language over the other.</p>
+<p>For good luck, let’s add <code class="docutils literal notranslate"><span class="pre">Hello</span> <span class="pre">World!</span></code> in each programming language:</p>
+<div class="tabbed-set docutils">
+<input checked="checked" id="0fc9258a-c9e9-45fe-89e3-0f3b40b26b03" name="47d4bbf1-b2bc-4618-8fcf-1bb44df60214" type="radio">
+</input><label class="tabbed-label" for="0fc9258a-c9e9-45fe-89e3-0f3b40b26b03">
+Python</label><div class="tabbed-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello World!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="47a8c1a9-6d74-4168-966a-388de6a01b52" name="47d4bbf1-b2bc-4618-8fcf-1bb44df60214" type="radio">
+</input><label class="tabbed-label" for="47a8c1a9-6d74-4168-966a-388de6a01b52">
+Unix Shell</label><div class="tabbed-content docutils">
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="s2">&quot;Hello World!&quot;</span>
+</pre></div>
+</div>
+</div>
+<input id="5d466e28-3740-4fb9-8142-3d0dc58cee64" name="47d4bbf1-b2bc-4618-8fcf-1bb44df60214" type="radio">
+</input><label class="tabbed-label" for="5d466e28-3740-4fb9-8142-3d0dc58cee64">
+Matlab</label><div class="tabbed-content docutils">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="nb">disp</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<input id="8605e05c-84ad-4f98-ae67-7abaf00bbf3f" name="47d4bbf1-b2bc-4618-8fcf-1bb44df60214" type="radio">
+</input><label class="tabbed-label" for="8605e05c-84ad-4f98-ae67-7abaf00bbf3f">
+Mathematica</label><div class="tabbed-content docutils">
+<div class="highlight-mathematica notranslate"><div class="highlight"><pre><span></span><span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">:=</span><span class="w"> </span><span class="n">Print</span><span class="p">[</span><span class="s">&quot;Hello World!&quot;</span><span class="p">]</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="what-about-video-tutorials">
+<h3>What about Video Tutorials?<a class="headerlink" href="#what-about-video-tutorials" title="Permalink to this headline">¶</a></h3>
+<p>Yes! We plan to also reproduce selected written tutorials from this book as videos.
+In those cases, a link will be provided to the video on the corresponding tutorial page.</p>
+</div>
+<div class="section" id="who-is-creating-the-content">
+<h3>Who is Creating the Content?<a class="headerlink" href="#who-is-creating-the-content" title="Permalink to this headline">¶</a></h3>
+<p>The Scholarly API Cookbook content is authored by University of Alabama
+Libraries faculty and student assistants. Specific authors are noted on each
+tutorial or document page.</p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="ua-work"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://github.com/vfscalfani/UALIB_Workshops">https://github.com/vfscalfani/UALIB_Workshops</a></p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./content/about"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='right-next' id="next-link" href="../scripts/A_overview/crossref_overview.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Crossref</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By The University of Alabama Libraries<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
