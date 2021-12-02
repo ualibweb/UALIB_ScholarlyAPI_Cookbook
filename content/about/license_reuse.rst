@@ -10,7 +10,7 @@ All code in this book is licensed with the permissive MIT license. Please feel f
 to reuse or adapt the code in your teaching and research. A copy of the license
 can be found in the GitHub repository:
 
-`<https://github.com/vfscalfani/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE>`_
+`<https://github.com/ualibweb/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE>`_
 
 
 .. important::

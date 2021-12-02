@@ -119,6 +119,6 @@ tutorial or document page.
 
 .. rubric:: References
 
-.. [#ua_work] `<https://github.com/vfscalfani/UALIB_Workshops>`_
+.. [#ua_work] `<https://github.com/ualibweb/UALIB_Workshops>`_
 
 
