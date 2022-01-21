@@ -31,5 +31,5 @@ html:
   use_repository_button: true
 
 launch_buttons:
-  colab_url: "https://colab.research.google.com"
+  colab_url: ""
   binderhub_url: ""
