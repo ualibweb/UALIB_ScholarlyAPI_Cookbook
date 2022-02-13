@@ -457,9 +457,26 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#world-bank-api-python">
-   World Bank API Python
+  <a class="reference internal nav-link" href="#world-bank-api-in-python">
+   World Bank API in Python
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-list-of-country-iso2codes-and-names">
+     1. Get list of country iso2Codes and names
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#compile-a-custom-indicator-dataset">
+     2. Compile a Custom Indicator Dataset
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-indicator-data">
+     3. Plot Indicator data
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -474,9 +491,391 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="in-python">
 <h1>…in Python<a class="headerlink" href="#in-python" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="world-bank-api-python">
-<h2>World Bank API Python<a class="headerlink" href="#world-bank-api-python" title="Permalink to this headline">¶</a></h2>
-<p>by TBD</p>
+<div class="section" id="world-bank-api-in-python">
+<h2>World Bank API in Python<a class="headerlink" href="#world-bank-api-in-python" title="Permalink to this headline">¶</a></h2>
+<p>by Avery Fernandez</p>
+<p>See the <a class="reference external" href="https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation">World Bank API documentation</a></p>
+<p>These recipe examples were tested on February 13, 2022</p>
+<div class="section" id="get-list-of-country-iso2codes-and-names">
+<h3>1. Get list of country iso2Codes and names<a class="headerlink" href="#get-list-of-country-iso2codes-and-names" title="Permalink to this headline">¶</a></h3>
+<p>First, import libraries needed to pull data from the API:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For obtaining data from the World Bank API, it is helpful to first obtain a list of country codes and names.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define root WorldBank API</span>
+<span class="n">api</span> <span class="o">=</span> <span class="s1">&#39;https://api.worldbank.org/v2/&#39;</span>
+
+<span class="c1"># define api url for getting country code data</span>
+<span class="n">country_url</span> <span class="o">=</span> <span class="n">api</span> <span class="o">+</span> <span class="s1">&#39;country/?format=json&amp;per_page=500&#39;</span>
+
+<span class="c1"># read the url and import data as JSON data</span>
+<span class="n">country_data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">country_url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">country_data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># shows first bit of data</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">country_data</span><span class="p">))</span> <span class="c1"># shows the size of data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;adminregion&#39;: {&#39;id&#39;: &#39;&#39;, &#39;iso2code&#39;: &#39;&#39;, &#39;value&#39;: &#39;&#39;},
+ &#39;capitalCity&#39;: &#39;Oranjestad&#39;,
+ &#39;id&#39;: &#39;ABW&#39;,
+ &#39;incomeLevel&#39;: {&#39;id&#39;: &#39;HIC&#39;, &#39;iso2code&#39;: &#39;XD&#39;, &#39;value&#39;: &#39;High income&#39;},
+ &#39;iso2Code&#39;: &#39;AW&#39;,
+ &#39;latitude&#39;: &#39;12.5167&#39;,
+ &#39;lendingType&#39;: {&#39;id&#39;: &#39;LNX&#39;, &#39;iso2code&#39;: &#39;XX&#39;, &#39;value&#39;: &#39;Not classified&#39;},
+ &#39;longitude&#39;: &#39;-70.0167&#39;,
+ &#39;name&#39;: &#39;Aruba&#39;,
+ &#39;region&#39;: {&#39;id&#39;: &#39;LCN&#39;,
+            &#39;iso2code&#39;: &#39;ZJ&#39;,
+            &#39;value&#39;: &#39;Latin America &amp; Caribbean &#39;}}
+299
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract out iso2code from countries data</span>
+<span class="n">country_iso2Code</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">isos</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">country_data</span><span class="p">)):</span>
+    <span class="n">country_iso2Code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">country_data</span><span class="p">[</span><span class="n">isos</span><span class="p">][</span><span class="s2">&quot;iso2Code&quot;</span><span class="p">])</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">country_iso2Code</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span> <span class="c1"># shows first 10</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">country_iso2Code</span><span class="p">))</span> <span class="c1"># shows the size of data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;AW&#39;, &#39;ZH&#39;, &#39;AF&#39;, &#39;A9&#39;, &#39;ZI&#39;, &#39;AO&#39;, &#39;AL&#39;, &#39;AD&#39;, &#39;1A&#39;, &#39;AE&#39;]
+299
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract out country names</span>
+<span class="n">country_name</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">names</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">country_data</span><span class="p">)):</span>
+    <span class="n">country_name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">country_data</span><span class="p">[</span><span class="n">names</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">country_name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span> <span class="c1"># shows first 10</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">country_name</span><span class="p">))</span> <span class="c1"># shows the size of data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Aruba&#39;,
+ &#39;Africa Eastern and Southern&#39;,
+ &#39;Afghanistan&#39;,
+ &#39;Africa&#39;,
+ &#39;Africa Western and Central&#39;,
+ &#39;Angola&#39;,
+ &#39;Albania&#39;,
+ &#39;Andorra&#39;,
+ &#39;Arab World&#39;,
+ &#39;United Arab Emirates&#39;]
+299
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now combine country_iso2Code and country name</span>
+<span class="n">country_iso2code_name</span> <span class="o">=</span> <span class="p">{</span><span class="n">country_iso2Code</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">country_name</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">country_iso2Code</span><span class="p">))}</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">country_iso2code_name</span><span class="p">))</span> <span class="c1"># shows the size of data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>299
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we know the country iso2Codes which we can use to pull specific indicator data for countries.</p>
+</div>
+<div class="section" id="compile-a-custom-indicator-dataset">
+<h3>2. Compile a Custom Indicator Dataset<a class="headerlink" href="#compile-a-custom-indicator-dataset" title="Permalink to this headline">¶</a></h3>
+<p>There are many availabe indicators: <a class="reference external" href="https://data.worldbank.org/indicator">https://data.worldbank.org/indicator</a></p>
+<p>We wll select three indicators for this example:</p>
+<ol class="simple">
+<li><p>Scientific and Technical Journal Article Data = <a class="reference external" href="https://data.worldbank.org/indicator/IP.JRN.ARTC.SC?view=chart">IP.JRN.ARTC.SC</a></p></li>
+<li><p>Patent Applications, residents = <a class="reference external" href="https://data.worldbank.org/indicator/IP.PAT.RESD?view=chart">IP.PAT.RESD</a></p></li>
+<li><p>GDP per capita (current US$) Code = <a class="reference external" href="https://data.worldbank.org/indicator/NY.GDP.PCAP.CD?view=chart">NY.GDP.PCAP.CD</a></p></li>
+</ol>
+<p>Note that these three selected indictaors have a <a class="reference external" href="https://datacatalog.worldbank.org/public-licenses#cc-by">CC-BY 4.0 license</a> We will compile this indicator data for the United States (US) and United Kingdom (GB)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">indicators</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IP.JRN.ARTC.SC&#39;</span><span class="p">,</span><span class="s1">&#39;IP.PAT.RESD&#39;</span><span class="p">,</span><span class="s1">&#39;NY.GDP.PCAP.CD&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Generate the web API urls we need for U.S and retrieve the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">US_api_URL</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">US_indicator_data</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indicators</span><span class="p">)):</span>
+    <span class="n">US_api_URL</span> <span class="o">=</span> <span class="n">api</span> <span class="o">+</span> <span class="s1">&#39;country/US/indicator/&#39;</span> <span class="o">+</span> <span class="n">indicators</span><span class="p">[</span><span class="n">number</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/?format=json&amp;per_page=500&#39;</span>
+    <span class="n">US_indicator_data</span><span class="p">[</span><span class="n">number</span><span class="p">]</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">US_api_URL</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Generate web API urls we need for the UK (GB)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">UK_api_URL</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">UK_indicator_data</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indicators</span><span class="p">)):</span>
+    <span class="n">UK_api_URL</span> <span class="o">=</span> <span class="n">api</span> <span class="o">+</span> <span class="s1">&#39;country/GB/indicator/&#39;</span> <span class="o">+</span> <span class="n">indicators</span><span class="p">[</span><span class="n">number</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/?format=json&amp;per_page=500&#39;</span>
+    <span class="n">UK_indicator_data</span><span class="p">[</span><span class="n">number</span><span class="p">]</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">UK_api_URL</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we need to extract the data and compile for analysis.</p>
+<p>column 1: year</p>
+<p>column 2: Scientific and Technical Journal Article Data = <code class="docutils literal notranslate"><span class="pre">IP.JRN.ARTC.SC</span></code></p>
+<p>column 3: Patent Applications, residents = <code class="docutils literal notranslate"><span class="pre">IP.PAT.RESD</span></code></p>
+<p>column 4: GDP per capita (current US$) Code = <code class="docutils literal notranslate"><span class="pre">NY.GDP.PCAP.CD</span></code></p>
+<blockquote>
+<div><p><strong><em>NOTE:</em></strong>  float(x or ‘nan’) is used to get rid of empty cells.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># US Data compilation</span>
+<span class="n">US_data</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">years</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">US_indicator_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])):</span>
+    <span class="n">US_data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">US_indicator_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">years</span><span class="p">][</span><span class="s2">&quot;date&quot;</span><span class="p">])]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">US_indicator_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">years</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;nan&#39;</span><span class="p">),</span> 
+                                                            <span class="nb">float</span><span class="p">(</span><span class="n">US_indicator_data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">years</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;nan&#39;</span><span class="p">),</span> 
+                                                            <span class="nb">float</span><span class="p">(</span><span class="n">US_indicator_data</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">years</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;nan&#39;</span><span class="p">)]</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">US_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{1960: [nan, nan, 3007.12344537862],
+ 1961: [nan, nan, 3066.56286916615],
+ 1962: [nan, nan, 3243.84307754988],
+ 1963: [nan, nan, 3374.51517105082],
+ 1964: [nan, nan, 3573.94118474743],
+ 1965: [nan, nan, 3827.52710972039],
+ 1966: [nan, nan, 4146.31664631665],
+ 1967: [nan, nan, 4336.42658722171],
+ 1968: [nan, nan, 4695.92339043178],
+ 1969: [nan, nan, 5032.14474262003],
+ 1970: [nan, nan, 5234.2966662115],
+ 1971: [nan, nan, 5609.38259952519],
+ 1972: [nan, nan, 6094.01798986165],
+ 1973: [nan, nan, 6726.35895596695],
+ 1974: [nan, nan, 7225.69135952566],
+ 1975: [nan, nan, 7801.45666356443],
+ 1976: [nan, nan, 8592.25353727612],
+ 1977: [nan, nan, 9452.57651914511],
+ 1978: [nan, nan, 10564.9482220275],
+ 1979: [nan, nan, 11674.1818666548],
+ 1980: [nan, 62098.0, 12574.7915062163],
+ 1981: [nan, 62404.0, 13976.10539252],
+ 1982: [nan, 63316.0, 14433.787727053],
+ 1983: [nan, 59391.0, 15543.8937174925],
+ 1984: [nan, 61841.0, 17121.2254849995],
+ 1985: [nan, 63673.0, 18236.8277265009],
+ 1986: [nan, 65195.0, 19071.2271949295],
+ 1987: [nan, 68315.0, 20038.9410992658],
+ 1988: [nan, 75192.0, 21417.0119305191],
+ 1989: [nan, 82370.0, 22857.1544330056],
+ 1990: [nan, 90643.0, 23888.6000088133],
+ 1991: [nan, 87955.0, 24342.2589048189],
+ 1992: [nan, 92425.0, 25418.9907763319],
+ 1993: [nan, 99955.0, 26387.2937338171],
+ 1994: [nan, 107233.0, 27694.853416234],
+ 1995: [nan, 123962.0, 28690.8757013347],
+ 1996: [nan, 106892.0, 29967.7127181749],
+ 1997: [nan, 119214.0, 31459.1389804773],
+ 1998: [nan, 134733.0, 32853.6769523009],
+ 1999: [nan, 149251.0, 34513.5615037271],
+ 2000: [304781.56, 164795.0, 36334.9087770589],
+ 2001: [305612.91, 177513.0, 37133.2428088526],
+ 2002: [319307.62, 184245.0, 38023.1611144021],
+ 2003: [329398.86, 188941.0, 39496.4858751381],
+ 2004: [353853.49, 189536.0, 41712.8010675545],
+ 2005: [384572.94, 207867.0, 44114.7477810544],
+ 2006: [385515.0, 221784.0, 46298.7314440927],
+ 2007: [391909.59, 241347.0, 47975.9676958038],
+ 2008: [393978.95, 231588.0, 48382.5584490552],
+ 2009: [399350.31, 224912.0, 47099.9804711343],
+ 2010: [408817.1, 241977.0, 48466.6576026922],
+ 2011: [423958.81, 247750.0, 49882.5581321495],
+ 2012: [427996.8, 268782.0, 51602.9310457907],
+ 2013: [429570.05, 287831.0, 53106.5367672165],
+ 2014: [433192.28, 285096.0, 55049.9883272312],
+ 2015: [429988.89, 288335.0, 56863.3714957652],
+ 2016: [427264.63, 295327.0, 58021.4004997125],
+ 2017: [432216.49, 293904.0, 60109.6557260477],
+ 2018: [422807.71, 285095.0, 63064.4184096731],
+ 2019: [nan, 285113.0, 65279.5290260953],
+ 2020: [nan, nan, 63413.5138584508]}
+</pre></div>
+</div>
+</div>
+</div>
+<p>UK Data extraction</p>
+<p>column 1: year</p>
+<p>column 2: Scientific and Technical Journal Article Data = <code class="docutils literal notranslate"><span class="pre">IP.JRN.ARTC.SC</span></code></p>
+<p>column 3: Patent Applications, residents = <code class="docutils literal notranslate"><span class="pre">IP.PAT.RESD</span></code></p>
+<p>column 4: GDP per capita (current US$) Code = <code class="docutils literal notranslate"><span class="pre">NY.GDP.PCAP.CD</span></code></p>
+<blockquote>
+<div><p><strong><em>NOTE:</em></strong>  float(x or ‘nan’) is used to get rid of empty cells.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">UK_data</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">years</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">UK_indicator_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])):</span>
+    <span class="n">UK_data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">UK_indicator_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">years</span><span class="p">][</span><span class="s2">&quot;date&quot;</span><span class="p">])]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">UK_indicator_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">years</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;nan&#39;</span><span class="p">),</span> 
+                                                            <span class="nb">float</span><span class="p">(</span><span class="n">UK_indicator_data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">years</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;nan&#39;</span><span class="p">),</span> 
+                                                            <span class="nb">float</span><span class="p">(</span><span class="n">UK_indicator_data</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">years</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;nan&#39;</span><span class="p">)]</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">UK_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{1960: [nan, nan, 1397.5948032844],
+ 1961: [nan, nan, 1472.38571407868],
+ 1962: [nan, nan, 1525.77585271032],
+ 1963: [nan, nan, 1613.45688373392],
+ 1964: [nan, nan, 1748.2881176141],
+ 1965: [nan, nan, 1873.56777435421],
+ 1966: [nan, nan, 1986.74715869685],
+ 1967: [nan, nan, 2058.78188198056],
+ 1968: [nan, nan, 1951.75859587532],
+ 1969: [nan, nan, 2100.66786858672],
+ 1970: [nan, nan, 2347.54431773747],
+ 1971: [nan, nan, 2649.80151387223],
+ 1972: [nan, nan, 3030.43251411977],
+ 1973: [nan, nan, 3426.27622050378],
+ 1974: [nan, nan, 3665.8627976419],
+ 1975: [nan, nan, 4299.74561799284],
+ 1976: [nan, nan, 4138.16778761535],
+ 1977: [nan, nan, 4681.43993173038],
+ 1978: [nan, nan, 5976.93816899991],
+ 1979: [nan, nan, 7804.76208051155],
+ 1980: [nan, 19612.0, 10032.062080015],
+ 1981: [nan, 20808.0, 9599.30622221965],
+ 1982: [nan, 20530.0, 9146.07735701852],
+ 1983: [nan, 19893.0, 8691.51881306514],
+ 1984: [nan, 19093.0, 8179.19444064991],
+ 1985: [nan, 19672.0, 8652.21654247593],
+ 1986: [nan, 20040.0, 10611.112210096],
+ 1987: [nan, 19945.0, 13118.586534629],
+ 1988: [nan, 20536.0, 15987.1680775688],
+ 1989: [nan, 19732.0, 16239.2821960944],
+ 1990: [nan, 19310.0, 19095.4669984608],
+ 1991: [nan, 19230.0, 19900.7266505069],
+ 1992: [nan, 18848.0, 20487.1707852878],
+ 1993: [nan, 18727.0, 18389.0195675099],
+ 1994: [nan, 18384.0, 19709.2380983653],
+ 1995: [nan, 18630.0, 23206.5685593776],
+ 1996: [nan, 18184.0, 24438.531169209],
+ 1997: [nan, 17938.0, 26742.9848472166],
+ 1998: [nan, 19530.0, 28269.322509823],
+ 1999: [nan, 21333.0, 28726.8572106345],
+ 2000: [77244.9, 22050.0, 28223.0675706515],
+ 2001: [73779.92, 21423.0, 27806.4488245133],
+ 2002: [74814.46, 20624.0, 30049.8963232066],
+ 2003: [75564.08, 20426.0, 34487.4675722539],
+ 2004: [79249.97, 19178.0, 40371.7108259838],
+ 2005: [84940.1, 17833.0, 42132.0907219815],
+ 2006: [88142.47, 17484.0, 44654.0969208924],
+ 2007: [91212.76, 17375.0, 50653.2569148306],
+ 2008: [91357.74, 16523.0, 47549.3486286006],
+ 2009: [93803.37, 15985.0, 38952.2110262455],
+ 2010: [93791.51, 15490.0, 39688.6149684498],
+ 2011: [95820.1, 15343.0, 42284.8844902996],
+ 2012: [98144.92, 15370.0, 42686.8000524926],
+ 2013: [99228.41, 14972.0, 43713.8141242308],
+ 2014: [99384.79, 15196.0, 47787.2412984884],
+ 2015: [99616.02, 14867.0, 45404.5677734722],
+ 2016: [99366.17, 13876.0, 41499.5557033073],
+ 2017: [99128.72, 13301.0, 40857.7555829627],
+ 2018: [97680.9, 12865.0, 43646.9519711493],
+ 2019: [nan, 12061.0, 43070.4983595888],
+ 2020: [nan, nan, 41124.5347686731]}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plot-indicator-data">
+<h3>3. Plot Indicator data<a class="headerlink" href="#plot-indicator-data" title="Permalink to this headline">¶</a></h3>
+<p>Create a line plot of US/UK Number of Scientific and Technical Journal Articles and Patents by year</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">import</span> <span class="n">figure</span>
+
+<span class="c1"># US Data</span>
+<span class="n">US_patentsandarticles</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">US_gdp</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">data_years</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">US_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">data_years</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">years</span> <span class="ow">in</span> <span class="n">data_years</span><span class="p">:</span>
+    <span class="n">US_patentsandarticles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">US_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">years</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">US_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">years</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">US_gdp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">US_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">years</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c1"># UK Data</span>
+<span class="n">UK_patentsandarticles</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">UK_gdp</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">data_years</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">UK_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">data_years</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">years</span> <span class="ow">in</span> <span class="n">data_years</span><span class="p">:</span>
+    <span class="n">UK_patentsandarticles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">UK_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">years</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">UK_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">years</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">UK_gdp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">UK_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">years</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Articles and Patents&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;deepskyblue&#39;</span><span class="p">})</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_years</span><span class="p">,</span><span class="n">US_patentsandarticles</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;US Patents and Articles&quot;</span><span class="p">,</span> 
+         <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;deepskyblue&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_years</span><span class="p">,</span><span class="n">UK_patentsandarticles</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;UK Patents and Articles&quot;</span><span class="p">,</span> 
+         <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;deepskyblue&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;deepskyblue&quot;</span><span class="p">)</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;GDP per capita (current US$)&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;tomato&#39;</span><span class="p">})</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_years</span><span class="p">,</span><span class="n">US_gdp</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;US GDP&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tomato&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_years</span><span class="p">,</span><span class="n">UK_gdp</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;UK GDP&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tomato&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;tomato&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;US and UK data&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">2018</span><span class="p">)</span>
+
+<span class="n">lines_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span> <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">]</span>
+<span class="n">lines</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">lol</span><span class="p">,</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">lol</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">lines_labels</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">#fig.legend(lines, labels,loc = &#39;upper right&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/python_worldbank_21_0.png" src="../../../_images/python_worldbank_21_0.png" />
+</div>
+</div>
+</div>
 </div>
 </div>
 
