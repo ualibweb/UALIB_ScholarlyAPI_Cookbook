@@ -460,6 +460,69 @@
   <a class="reference internal nav-link" href="#scopus-api-in-python">
    Scopus API in Python
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#initial-pybliometrics-setup">
+     1. Initial Pybliometrics Setup
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-author-data">
+     2. Get Author Data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#number-of-records-for-author">
+       Number of Records for Author
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#download-record-data">
+       Download Record Data
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-author-data-in-a-loop">
+     3. Get Author Data in a Loop
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Number of Records for Author
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id2">
+       Download Record Data
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#save-record-data-to-a-file">
+       Save Record Data to a file
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-references-via-a-title-search">
+     4. Get References via a Title Search
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#number-of-title-match-records">
+       Number of Title Match Records
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#download-title-match-record-data">
+       Download Title Match Record Data
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -476,7 +539,1135 @@
 <h1>…in Python<a class="headerlink" href="#in-python" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="scopus-api-in-python">
 <h2>Scopus API in Python<a class="headerlink" href="#scopus-api-in-python" title="Permalink to this headline">¶</a></h2>
-<p>by TBD</p>
+<p>by Vincent Scalfani</p>
+<p>These recipe examples use the Elsevier Scopus API and the Python Scopus API-wrapper package, <a class="reference external" href="https://pybliometrics.readthedocs.io/en/stable/">pybliometrics</a>. Code was tested and sample data downloaded from the Scopus API on February 16, 2022 via <a class="reference external" href="http://api.elsevier.com">http://api.elsevier.com</a> and <a class="reference external" href="http://www.scopus.com">http://www.scopus.com</a>. This tutorial content is intended to help facillitate academic research. Before continuing or reusing any of this code, please be aware of Elsevier’s <a class="reference external" href="https://dev.elsevier.com/use_cases.html">API policies and appropiate use-cases</a>. You will also need to register for an API key in order to use the Scopus API.</p>
+<div class="section" id="initial-pybliometrics-setup">
+<h3>1. Initial Pybliometrics Setup<a class="headerlink" href="#initial-pybliometrics-setup" title="Permalink to this headline">¶</a></h3>
+<p>The first time you run <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pybliometrics</span></code>, it will prompt you for your Elsevier Scopus API Key,
+which is then saved to a local config file. See the documentation:
+<a class="reference external" href="https://pybliometrics.readthedocs.io/en/stable/configuration.html">https://pybliometrics.readthedocs.io/en/stable/configuration.html</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pybliometrics</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import other libraries needed</span>
+<span class="kn">from</span> <span class="nn">pybliometrics.scopus</span> <span class="kn">import</span> <span class="n">ScopusSearch</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-author-data">
+<h3>2. Get Author Data<a class="headerlink" href="#get-author-data" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="number-of-records-for-author">
+<h4>Number of Records for Author<a class="headerlink" href="#number-of-records-for-author" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scopus Author ID field (AU-ID): 55764087400, Vincent Scalfani</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="n">ScopusSearch</span><span class="p">(</span><span class="s1">&#39;AU-ID(55764087400)&#39;</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">q1</span><span class="o">.</span><span class="n">get_results_size</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>21
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="download-record-data">
+<h4>Download Record Data<a class="headerlink" href="#download-record-data" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">ScopusSearch</span><span class="p">(</span><span class="s1">&#39;AU-ID(55764087400)&#39;</span><span class="p">)</span>
+
+<span class="c1"># save to dataframe</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view column names</span>
+<span class="n">df1</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;eid&#39;, &#39;doi&#39;, &#39;pii&#39;, &#39;pubmed_id&#39;, &#39;title&#39;, &#39;subtype&#39;,
+       &#39;subtypeDescription&#39;, &#39;creator&#39;, &#39;afid&#39;, &#39;affilname&#39;,
+       &#39;affiliation_city&#39;, &#39;affiliation_country&#39;, &#39;author_count&#39;,
+       &#39;author_names&#39;, &#39;author_ids&#39;, &#39;author_afids&#39;, &#39;coverDate&#39;,
+       &#39;coverDisplayDate&#39;, &#39;publicationName&#39;, &#39;issn&#39;, &#39;source_id&#39;, &#39;eIssn&#39;,
+       &#39;aggregationType&#39;, &#39;volume&#39;, &#39;issueIdentifier&#39;, &#39;article_number&#39;,
+       &#39;pageRange&#39;, &#39;description&#39;, &#39;authkeywords&#39;, &#39;citedby_count&#39;,
+       &#39;openaccess&#39;, &#39;freetoread&#39;, &#39;freetoreadLabel&#39;, &#39;fund_acr&#39;, &#39;fund_no&#39;,
+       &#39;fund_sponsor&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of rows</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">df1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>21
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># view first 5 rows</span>
+<span class="n">df1</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>eid</th>
+      <th>doi</th>
+      <th>pii</th>
+      <th>pubmed_id</th>
+      <th>title</th>
+      <th>subtype</th>
+      <th>subtypeDescription</th>
+      <th>creator</th>
+      <th>afid</th>
+      <th>affilname</th>
+      <th>...</th>
+      <th>pageRange</th>
+      <th>description</th>
+      <th>authkeywords</th>
+      <th>citedby_count</th>
+      <th>openaccess</th>
+      <th>freetoread</th>
+      <th>freetoreadLabel</th>
+      <th>fund_acr</th>
+      <th>fund_no</th>
+      <th>fund_sponsor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2-s2.0-85120727934</td>
+      <td>10.1021/acs.jchemed.1c00904</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Using NCBI Entrez Direct (EDirect) for Small M...</td>
+      <td>ar</td>
+      <td>Article</td>
+      <td>Scalfani V.F.</td>
+      <td>60025371</td>
+      <td>The University of Alabama</td>
+      <td>...</td>
+      <td>3904-3914</td>
+      <td>The National Center for Biotechnology Informat...</td>
+      <td>Chemoinformatics | Chemometrics | Computer-Bas...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>undefined</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2-s2.0-85117202467</td>
+      <td>10.5860/crln.82.9.428</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Using the linux operating system full-time tip...</td>
+      <td>no</td>
+      <td>Note</td>
+      <td>Scalfani V.F.</td>
+      <td>122977160</td>
+      <td>University of Alabama</td>
+      <td>...</td>
+      <td>428-431</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0</td>
+      <td>1</td>
+      <td>publisherfree2read</td>
+      <td>Bronze</td>
+      <td>None</td>
+      <td>undefined</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2-s2.0-85052857258</td>
+      <td>10.1021/acs.iecr.8b02573</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Analysis of the Frequency and Diversity of 1,3...</td>
+      <td>ar</td>
+      <td>Article</td>
+      <td>Scalfani V.</td>
+      <td>60025371</td>
+      <td>The University of Alabama</td>
+      <td>...</td>
+      <td>15971-15981</td>
+      <td>The hypothetical assertion that there are pote...</td>
+      <td>None</td>
+      <td>16</td>
+      <td>0</td>
+      <td>repositoryam</td>
+      <td>Green</td>
+      <td>NSF</td>
+      <td>1605411</td>
+      <td>National Science Foundation</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2-s2.0-85022325302</td>
+      <td>10.1021/acs.jchemed.6b00602</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Rapid Access to Multicolor Three-Dimensional P...</td>
+      <td>ar</td>
+      <td>Article</td>
+      <td>Van Wieren K.</td>
+      <td>60025371;60018491</td>
+      <td>The University of Alabama;Simon Fraser University</td>
+      <td>...</td>
+      <td>964-969</td>
+      <td>Use of color 3D printers as a visualization to...</td>
+      <td>Biochemistry | First-Year Undergraduate/Genera...</td>
+      <td>23</td>
+      <td>0</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>undefined</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2-s2.0-85021056236</td>
+      <td>10.5062/F4TD9VBX</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Text analysis of chemistry thesis and disserta...</td>
+      <td>ar</td>
+      <td>Article</td>
+      <td>Scalfani V.</td>
+      <td>60025371</td>
+      <td>The University of Alabama</td>
+      <td>...</td>
+      <td>None</td>
+      <td>Programmatic text analysis can be used to unde...</td>
+      <td>None</td>
+      <td>4</td>
+      <td>0</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>undefined</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 36 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We can index data from our new dataframe, df1.</span>
+<span class="c1"># For example, create a list of just the DOIs</span>
+<span class="n">dois</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">doi</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dois</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;10.1021/acs.jchemed.1c00904&#39;, &#39;10.5860/crln.82.9.428&#39;, &#39;10.1021/acs.iecr.8b02573&#39;, &#39;10.1021/acs.jchemed.6b00602&#39;, &#39;10.5062/F4TD9VBX&#39;, &#39;10.1021/acs.macromol.6b02005&#39;, &#39;10.1186/s13321-016-0181-z&#39;, &#39;10.1021/acs.chemmater.5b04431&#39;, &#39;10.1021/acs.jchemed.5b00512&#39;, &#39;10.1021/acs.jchemed.5b00375&#39;, &#39;10.5860/crln.76.9.9384&#39;, &#39;10.5860/crln.76.2.9259&#39;, &#39;10.1126/science.346.6214.1258&#39;, &#39;10.1021/ed400887t&#39;, &#39;10.1016/j.acalib.2014.03.015&#39;, &#39;10.5062/F4XS5SB9&#39;, &#39;10.1021/ma300328u&#39;, &#39;10.1021/mz200108a&#39;, &#39;10.1021/ma201170y&#39;, &#39;10.1021/ma200184u&#39;, &#39;10.1021/cm102374t&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get a list of article titles</span>
+<span class="n">titles</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">titles</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Using NCBI Entrez Direct (EDirect) for Small Molecule Chemical Information Searching in a Unix Terminal&#39;,
+ &#39;Using the linux operating system full-time tips and experiences from a subject liaison librarian&#39;,
+ &#39;Analysis of the Frequency and Diversity of 1,3-Dialkylimidazolium Ionic Liquids Appearing in the Literature&#39;,
+ &#39;Rapid Access to Multicolor Three-Dimensional Printed Chemistry and Biochemistry Models Using Visualization and Three-Dimensional Printing Software Programs&#39;,
+ &#39;Text analysis of chemistry thesis and dissertation titles&#39;,
+ &#39;Phototunable Thermoplastic Elastomer Hydrogel Networks&#39;,
+ &#39;Programmatic conversion of crystal structures into 3D printable files using Jmol&#39;,
+ &#39;Dangling-End Double Networks: Tapping Hidden Toughness in Highly Swollen Thermoplastic Elastomer Hydrogels&#39;,
+ &#39;Replacing the Traditional Graduate Chemistry Literature Seminar with a Chemical Research Literacy Course&#39;,
+ &#39;3D Printed Block Copolymer Nanostructures&#39;,
+ &#39;Hypotheses in librarianship: Applying the scientific method&#39;,
+ &#39;Recruiting students to campus: Creating tangible and digital products in the academic library&#39;,
+ &#39;Finally free&#39;,
+ &#39;3D printed molecules and extended solid models for teaching symmetry and point groups&#39;,
+ &#39;Repurposing Space in a Science and Engineering Library: Considerations for a Successful Outcome&#39;,
+ &#39;A model for managing 3D printing services in academic libraries&#39;,
+ &#39;Morphological phase behavior of poly(RTIL)-containing diblock copolymer melts&#39;,
+ &#39;Network formation in an orthogonally self-assembling system&#39;,
+ &#39;Access to nanostructured hydrogel networks through photocured body-centered cubic block copolymer melts&#39;,
+ &#39;Synthesis and ordered phase separation of imidazolium-based alkyl-ionic diblock copolymers made via ROMP&#39;,
+ &#39;Thermally stable photocuring chemistry for selective morphological trapping in block copolymer melt systems&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now a list of the cited by count</span>
+<span class="n">cited_by</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">citedby_count</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cited_by</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0, 0, 16, 23, 4, 11, 18, 6, 10, 24, 0, 0, 0, 94, 6, 34, 39, 31, 18, 44, 11]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get sum of cited_by counts</span>
+<span class="nb">sum</span><span class="p">(</span><span class="n">cited_by</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>389
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-author-data-in-a-loop">
+<h3>3. Get Author Data in a Loop<a class="headerlink" href="#get-author-data-in-a-loop" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Number of Records for Author<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load a list of author names and Scopus AUIDs</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;authors.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+          <span class="n">rows</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+          <span class="n">author_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">author_list</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;Emy Decker&#39;, &#39;36660678600&#39;], [&#39;Lindsey Lowry&#39;, &#39;57210944451&#39;], [&#39;Karen Chapman&#39;, &#39;35783926100&#39;], [&#39;Kevin Walker&#39;, &#39;56133961300&#39;], [&#39;Sara Whitver&#39;, &#39;57194760730&#39;]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get number of Scopus records for each author</span>
+<span class="n">num_records</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">author</span><span class="p">,</span><span class="n">authorID</span> <span class="ow">in</span> <span class="n">author_list</span><span class="p">:</span>
+    
+    <span class="c1"># query search</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">ScopusSearch</span><span class="p">(</span><span class="s1">&#39;AU-ID&#39;</span> <span class="o">+</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">authorID</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get_results_size</span><span class="p">()</span>
+    
+    <span class="c1"># compile saved scopus data into a list of lists               </span>
+    <span class="n">num_records</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">author</span><span class="p">,</span> <span class="n">authorID</span><span class="p">,</span> <span class="n">num</span><span class="p">])</span>
+    
+    <span class="c1"># delay one second between api calls to be nice to Elsevier servers</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_records</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;Emy Decker&#39;, &#39;36660678600&#39;, 14],
+ [&#39;Lindsey Lowry&#39;, &#39;57210944451&#39;, 4],
+ [&#39;Karen Chapman&#39;, &#39;35783926100&#39;, 29],
+ [&#39;Kevin Walker&#39;, &#39;56133961300&#39;, 8],
+ [&#39;Sara Whitver&#39;, &#39;57194760730&#39;, 4]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h4>Download Record Data<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s say we want the DOIs and cited by counts in a list</span>
+<span class="n">cites</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">author</span><span class="p">,</span><span class="n">authorID</span> <span class="ow">in</span> <span class="n">author_list</span><span class="p">:</span>
+    
+    <span class="c1"># query search</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">ScopusSearch</span><span class="p">(</span><span class="s1">&#39;AU-ID&#39;</span> <span class="o">+</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">authorID</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># create a dataframe</span>
+    <span class="n">q_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+       
+    <span class="c1"># save DOIs to a list</span>
+    <span class="n">doi</span> <span class="o">=</span> <span class="n">q_df</span><span class="o">.</span><span class="n">doi</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    
+    <span class="c1"># save citedby_count to a list</span>
+    <span class="n">citedby_count</span> <span class="o">=</span> <span class="n">q_df</span><span class="o">.</span><span class="n">citedby_count</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+       
+    <span class="c1"># compile saved scopus data into a list of lists               </span>
+    <span class="n">cites</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">author</span><span class="p">,</span> <span class="n">doi</span><span class="p">,</span> <span class="n">citedby_count</span><span class="p">])</span>
+    
+    <span class="c1"># delay one second between api calls to be nice to Elsevier servers</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The cites variable is a list of list with the data</span>
+<span class="c1"># view data for first two authors</span>
+<span class="n">cites</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;Emy Decker&#39;,
+  [&#39;10.1108/RSR-08-2021-0051&#39;,
+   &#39;10.1080/1072303X.2021.1929642&#39;,
+   &#39;10.1080/15367967.2021.1900740&#39;,
+   &#39;10.1080/15367967.2020.1826951&#39;,
+   &#39;10.1080/10691316.2020.1781725&#39;,
+   &#39;10.1145/3347709.3347805&#39;,
+   &#39;10.4018/978-1-5225-5631-2.ch09&#39;,
+   &#39;10.1016/B978-0-08-102409-6.00007-9&#39;,
+   &#39;10.1108/LM-10-2016-0078&#39;,
+   &#39;10.1016/B978-0-08-100775-4.00010-8&#39;,
+   &#39;10.1108/S0732-067120160000036013&#39;,
+   &#39;10.4018/978-1-4666-8624-3&#39;,
+   &#39;10.1108/S0065-2830(2013)0000037006&#39;,
+   &#39;10.1108/07378831011096268&#39;],
+  [0, 0, 7, 0, 0, 0, 3, 0, 6, 1, 2, 0, 0, 10]],
+ [&#39;Lindsey Lowry&#39;,
+  [&#39;10.1080/1941126X.2021.1949153&#39;,
+   &#39;10.5860/lrts.65n1.4-13&#39;,
+   &#39;10.1080/00987913.2020.1733173&#39;,
+   &#39;10.1080/1941126X.2019.1634951&#39;],
+  [1, 0, 1, 0]]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We can transform this into a flat list as follows</span>
+<span class="c1"># credit to Avery Fernandez for help with this clever transformation!</span>
+<span class="n">cites_flat</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">authors</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cites</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">doi</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cites</span><span class="p">[</span><span class="n">authors</span><span class="p">][</span><span class="mi">1</span><span class="p">])):</span>
+        <span class="n">cites_flat</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">cites</span><span class="p">[</span><span class="n">authors</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">cites</span><span class="p">[</span><span class="n">authors</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">doi</span><span class="p">],</span> <span class="n">cites</span><span class="p">[</span><span class="n">authors</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="n">doi</span><span class="p">]])</span>
+<span class="n">cites_flat</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">18</span><span class="p">]</span> <span class="c1"># show first 2 author sets</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;Emy Decker&#39;, &#39;10.1108/RSR-08-2021-0051&#39;, 0],
+ [&#39;Emy Decker&#39;, &#39;10.1080/1072303X.2021.1929642&#39;, 0],
+ [&#39;Emy Decker&#39;, &#39;10.1080/15367967.2021.1900740&#39;, 7],
+ [&#39;Emy Decker&#39;, &#39;10.1080/15367967.2020.1826951&#39;, 0],
+ [&#39;Emy Decker&#39;, &#39;10.1080/10691316.2020.1781725&#39;, 0],
+ [&#39;Emy Decker&#39;, &#39;10.1145/3347709.3347805&#39;, 0],
+ [&#39;Emy Decker&#39;, &#39;10.4018/978-1-5225-5631-2.ch09&#39;, 3],
+ [&#39;Emy Decker&#39;, &#39;10.1016/B978-0-08-102409-6.00007-9&#39;, 0],
+ [&#39;Emy Decker&#39;, &#39;10.1108/LM-10-2016-0078&#39;, 6],
+ [&#39;Emy Decker&#39;, &#39;10.1016/B978-0-08-100775-4.00010-8&#39;, 1],
+ [&#39;Emy Decker&#39;, &#39;10.1108/S0732-067120160000036013&#39;, 2],
+ [&#39;Emy Decker&#39;, &#39;10.4018/978-1-4666-8624-3&#39;, 0],
+ [&#39;Emy Decker&#39;, &#39;10.1108/S0065-2830(2013)0000037006&#39;, 0],
+ [&#39;Emy Decker&#39;, &#39;10.1108/07378831011096268&#39;, 10],
+ [&#39;Lindsey Lowry&#39;, &#39;10.1080/1941126X.2021.1949153&#39;, 1],
+ [&#39;Lindsey Lowry&#39;, &#39;10.5860/lrts.65n1.4-13&#39;, 0],
+ [&#39;Lindsey Lowry&#39;, &#39;10.1080/00987913.2020.1733173&#39;, 1],
+ [&#39;Lindsey Lowry&#39;, &#39;10.1080/1941126X.2019.1634951&#39;, 0]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># add to dataframe</span>
+<span class="n">cites_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cites_flat</span><span class="p">)</span>
+<span class="n">cites_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Emy Decker</td>
+      <td>10.1108/RSR-08-2021-0051</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Emy Decker</td>
+      <td>10.1080/1072303X.2021.1929642</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Emy Decker</td>
+      <td>10.1080/15367967.2021.1900740</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Emy Decker</td>
+      <td>10.1080/15367967.2020.1826951</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Emy Decker</td>
+      <td>10.1080/10691316.2020.1781725</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Emy Decker</td>
+      <td>10.1145/3347709.3347805</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Emy Decker</td>
+      <td>10.4018/978-1-5225-5631-2.ch09</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Emy Decker</td>
+      <td>10.1016/B978-0-08-102409-6.00007-9</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Emy Decker</td>
+      <td>10.1108/LM-10-2016-0078</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Emy Decker</td>
+      <td>10.1016/B978-0-08-100775-4.00010-8</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Emy Decker</td>
+      <td>10.1108/S0732-067120160000036013</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Emy Decker</td>
+      <td>10.4018/978-1-4666-8624-3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Emy Decker</td>
+      <td>10.1108/S0065-2830(2013)0000037006</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Emy Decker</td>
+      <td>10.1108/07378831011096268</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Lindsey Lowry</td>
+      <td>10.1080/1941126X.2021.1949153</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Lindsey Lowry</td>
+      <td>10.5860/lrts.65n1.4-13</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Lindsey Lowry</td>
+      <td>10.1080/00987913.2020.1733173</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Lindsey Lowry</td>
+      <td>10.1080/1941126X.2019.1634951</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="save-record-data-to-a-file">
+<h4>Save Record Data to a file<a class="headerlink" href="#save-record-data-to-a-file" title="Permalink to this headline">¶</a></h4>
+<p>Here is one method if you want to loop over author queries and save all Scopus document data to a file</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load a list of author names and Scopus AUIDs</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;authors.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+          <span class="n">rows</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+          <span class="n">author_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">author_list</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;Emy Decker&#39;, &#39;36660678600&#39;], [&#39;Lindsey Lowry&#39;, &#39;57210944451&#39;], [&#39;Karen Chapman&#39;, &#39;35783926100&#39;], [&#39;Kevin Walker&#39;, &#39;56133961300&#39;], [&#39;Sara Whitver&#39;, &#39;57194760730&#39;]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ****this writes one file for each author dataset*****</span>
+
+<span class="k">for</span> <span class="n">authorName</span><span class="p">,</span><span class="n">authorID</span> <span class="ow">in</span> <span class="n">author_list</span><span class="p">:</span>
+    
+    <span class="c1"># create new empty dataFrame on each loop</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    
+    <span class="c1"># query search by Author ID</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">ScopusSearch</span><span class="p">(</span><span class="s1">&#39;AU-ID&#39;</span> <span class="o">+</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">authorID</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># convert to dataframe</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+    
+    <span class="c1"># Save to file</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">authorName</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">authorID</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_ScopusData&quot;</span> <span class="o">+</span> <span class="s2">&quot;.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="c1"># delay two seconds between api calls to be nice to Elsevier servers</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load one of the files into pandas</span>
+<span class="n">df_author3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Karen_Chapman_35783926100_ScopusData.tsv&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">df_author3</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># view first 5</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>eid</th>
+      <th>doi</th>
+      <th>pii</th>
+      <th>pubmed_id</th>
+      <th>title</th>
+      <th>subtype</th>
+      <th>subtypeDescription</th>
+      <th>creator</th>
+      <th>afid</th>
+      <th>affilname</th>
+      <th>...</th>
+      <th>pageRange</th>
+      <th>description</th>
+      <th>authkeywords</th>
+      <th>citedby_count</th>
+      <th>openaccess</th>
+      <th>freetoread</th>
+      <th>freetoreadLabel</th>
+      <th>fund_acr</th>
+      <th>fund_no</th>
+      <th>fund_sponsor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2-s2.0-85106619646</td>
+      <td>10.1016/j.acalib.2021.102396</td>
+      <td>S0099133321000872</td>
+      <td>NaN</td>
+      <td>Characteristics of systematic reviews in the s...</td>
+      <td>ar</td>
+      <td>Article</td>
+      <td>Chapman K.</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>As systematic reviews become more common in th...</td>
+      <td>Database searching | Search strategies | Socia...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>undefined</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2-s2.0-85120603808</td>
+      <td>10.1108/RSR-08-2021-0051</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Launching chat service during the pandemic: in...</td>
+      <td>ar</td>
+      <td>Article</td>
+      <td>Decker E.N.</td>
+      <td>60025371</td>
+      <td>The University of Alabama</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>Purpose: This article details the implementati...</td>
+      <td>Best practices | Chat | COVID-19 | Librarians ...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>undefined</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2-s2.0-85073936184</td>
+      <td>10.1108/IJLM-04-2019-0110</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>An evaluation of Web of Science, Scopus and Go...</td>
+      <td>ar</td>
+      <td>Article</td>
+      <td>Chapman K.</td>
+      <td>60025371</td>
+      <td>The University of Alabama</td>
+      <td>...</td>
+      <td>1039-1053</td>
+      <td>Purpose: Ongoing deliberation about how resear...</td>
+      <td>North America | Performance measurements | Pro...</td>
+      <td>13</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>undefined</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2-s2.0-85065484203</td>
+      <td>10.1080/10528008.2018.1533412</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>BENCHMARKING MARKETING SCHOLAR PRODUCTIVITY</td>
+      <td>ar</td>
+      <td>Article</td>
+      <td>Chapman K.</td>
+      <td>60119544;60025371</td>
+      <td>Culverhouse College of Business;The University...</td>
+      <td>...</td>
+      <td>207-218</td>
+      <td>Despite growing utilization of scholarly metri...</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>undefined</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2-s2.0-85018240091</td>
+      <td>10.1016/j.acalib.2017.02.018</td>
+      <td>S0099133316303305</td>
+      <td>NaN</td>
+      <td>The Impact of the Monographs Crisis on the Fie...</td>
+      <td>ar</td>
+      <td>Article</td>
+      <td>Chapman K.</td>
+      <td>60025371</td>
+      <td>The University of Alabama</td>
+      <td>...</td>
+      <td>163-169</td>
+      <td>This study replicates and extends Yates and Ch...</td>
+      <td>Citation analysis | Communication | Ebooks | M...</td>
+      <td>2</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>undefined</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 36 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get info about citedby_count</span>
+<span class="n">df_author3</span><span class="o">.</span><span class="n">citedby_count</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    29.000000
+mean      5.034483
+std       5.703901
+min       0.000000
+25%       1.000000
+50%       3.000000
+75%       8.000000
+max      21.000000
+Name: citedby_count, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get info about publication titles</span>
+<span class="n">df_author3</span><span class="o">.</span><span class="n">publicationName</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count                                           29
+unique                                          11
+top       Behavioral and Social Sciences Librarian
+freq                                             8
+Name: publicationName, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-references-via-a-title-search">
+<h3>4. Get References via a Title Search<a class="headerlink" href="#get-references-via-a-title-search" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="number-of-title-match-records">
+<h4>Number of Title Match Records<a class="headerlink" href="#number-of-title-match-records" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Search Scopus for all references containing &#39;ChemSpider&#39; in the record title</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">ScopusSearch</span><span class="p">(</span><span class="s1">&#39;TITLE(ChemSpider)&#39;</span><span class="p">,</span><span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">q2</span><span class="o">.</span><span class="n">get_results_size</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># repeat this in a loop</span>
+<span class="n">titleWord_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ChemSpider&#39;</span><span class="p">,</span> <span class="s1">&#39;PubChem&#39;</span><span class="p">,</span> <span class="s1">&#39;ChEMBL&#39;</span><span class="p">,</span> <span class="s1">&#39;Reaxys&#39;</span><span class="p">,</span> <span class="s1">&#39;SciFinder&#39;</span><span class="p">]</span>
+
+<span class="c1"># get number of Scopus records for each title search</span>
+<span class="n">num_records_title</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">titleWord</span> <span class="ow">in</span> <span class="n">titleWord_list</span><span class="p">:</span>
+    
+    <span class="c1"># query search</span>
+    <span class="n">qt</span> <span class="o">=</span> <span class="n">ScopusSearch</span><span class="p">(</span><span class="s1">&#39;TITLE&#39;</span> <span class="o">+</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">titleWord</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span><span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">numt</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">get_results_size</span><span class="p">()</span>
+    
+    <span class="c1"># compile saved scopus data into a list of lists               </span>
+    <span class="n">num_records_title</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">titleWord</span><span class="p">,</span><span class="n">numt</span><span class="p">])</span>
+    
+    <span class="c1"># delay one second between api calls to be nice to Elsevier servers</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_records_title</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;ChemSpider&#39;, 7],
+ [&#39;PubChem&#39;, 79],
+ [&#39;ChEMBL&#39;, 53],
+ [&#39;Reaxys&#39;, 8],
+ [&#39;SciFinder&#39;, 30]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="download-title-match-record-data">
+<h4>Download Title Match Record Data<a class="headerlink" href="#download-title-match-record-data" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># download records and create a list of selected metadata</span>
+<span class="n">titleWord_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ChemSpider&#39;</span><span class="p">,</span> <span class="s1">&#39;PubChem&#39;</span><span class="p">,</span> <span class="s1">&#39;ChEMBL&#39;</span><span class="p">,</span> <span class="s1">&#39;Reaxys&#39;</span><span class="p">,</span> <span class="s1">&#39;SciFinder&#39;</span><span class="p">]</span>
+<span class="n">scopus_title_data</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">titleWord</span> <span class="ow">in</span> <span class="n">titleWord_list</span><span class="p">:</span>
+    
+    <span class="c1"># query search</span>
+    <span class="n">qt</span> <span class="o">=</span> <span class="n">ScopusSearch</span><span class="p">(</span><span class="s1">&#39;TITLE&#39;</span> <span class="o">+</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">titleWord</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span> 
+    
+    <span class="c1"># create the dataframe</span>
+    <span class="n">qt_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">qt</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+    
+    <span class="c1"># save DOIs to a list</span>
+    <span class="n">doi</span> <span class="o">=</span> <span class="n">qt_df</span><span class="o">.</span><span class="n">doi</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    
+    <span class="c1"># save title to a list</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">qt_df</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="c1"># save coverDate to a list</span>
+    <span class="n">coverDate</span> <span class="o">=</span> <span class="n">qt_df</span><span class="o">.</span><span class="n">coverDate</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    
+    <span class="c1"># compile saved scopus_title_data into a list of lists               </span>
+    <span class="n">scopus_title_data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">titleWord</span><span class="p">,</span> <span class="n">doi</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">coverDate</span><span class="p">])</span>
+    
+    <span class="c1"># delay one second between api calls to be nice to Elsevier servers</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a flat list of scopus_title_data</span>
+<span class="n">scopus_title_data_flat</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">titleWord</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scopus_title_data</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">doi</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scopus_title_data</span><span class="p">[</span><span class="n">titleWord</span><span class="p">][</span><span class="mi">1</span><span class="p">])):</span>
+        <span class="n">scopus_title_data_flat</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">scopus_title_data</span><span class="p">[</span><span class="n">titleWord</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="c1"># titleWord</span>
+                                       <span class="n">scopus_title_data</span><span class="p">[</span><span class="n">titleWord</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">doi</span><span class="p">],</span> <span class="c1"># doi</span>
+                                       <span class="n">scopus_title_data</span><span class="p">[</span><span class="n">titleWord</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="n">doi</span><span class="p">],</span> <span class="c1"># title</span>
+                                       <span class="n">scopus_title_data</span><span class="p">[</span><span class="n">titleWord</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="n">doi</span><span class="p">]])</span> <span class="c1"># coverdate</span>
+
+<span class="c1"># add to dataFrame</span>
+<span class="n">scopus_title_data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scopus_title_data_flat</span><span class="p">)</span>
+
+
+<span class="n">scopus_title_data_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s2">&quot;titleWord&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;doi&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;coverDate&quot;</span><span class="p">},</span>
+                            <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">scopus_title_data_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>titleWord</th>
+      <th>doi</th>
+      <th>title</th>
+      <th>coverDate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ChemSpider</td>
+      <td>10.1039/c5np90022k</td>
+      <td>Editorial: ChemSpider-a tool for Natural Produ...</td>
+      <td>2015-08-01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ChemSpider</td>
+      <td>10.1021/bk-2013-1128.ch020</td>
+      <td>ChemSpider: How a free community resource of d...</td>
+      <td>2013-01-01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ChemSpider</td>
+      <td>10.1007/s13361-011-0265-y</td>
+      <td>Identification of "known unknowns" utilizing a...</td>
+      <td>2012-01-01</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ChemSpider</td>
+      <td>10.1002/9781118026038.ch22</td>
+      <td>Chemspider: A Platform for Crowdsourced Collab...</td>
+      <td>2011-05-03</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ChemSpider</td>
+      <td>10.1021/ed100697w</td>
+      <td>Chemspider: An online chemical information res...</td>
+      <td>2010-11-01</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>SciFinder</td>
+      <td>10.1021/ci0003808</td>
+      <td>Strategies for chemical reaction searching in ...</td>
+      <td>2000-01-01</td>
+    </tr>
+    <tr>
+      <th>173</th>
+      <td>SciFinder</td>
+      <td>10.1002/nadc.19990471212</td>
+      <td>SciFinder scholar - Ein erster erfahrungsbericht</td>
+      <td>1999-01-01</td>
+    </tr>
+    <tr>
+      <th>174</th>
+      <td>SciFinder</td>
+      <td>10.1021/cen-v074n025.p043</td>
+      <td>Chemical abstracts service launches release 2....</td>
+      <td>1996-01-01</td>
+    </tr>
+    <tr>
+      <th>175</th>
+      <td>SciFinder</td>
+      <td>None</td>
+      <td>Scientists online at their desktops SciFinder</td>
+      <td>1996-01-01</td>
+    </tr>
+    <tr>
+      <th>176</th>
+      <td>SciFinder</td>
+      <td>None</td>
+      <td>SciFinder from CAS: Information at the desktop...</td>
+      <td>1995-07-01</td>
+    </tr>
+  </tbody>
+</table>
+<p>177 rows × 4 columns</p>
+</div></div></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
