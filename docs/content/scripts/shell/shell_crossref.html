@@ -460,6 +460,101 @@
   <a class="reference internal nav-link" href="#crossref-api-in-unix-shell">
    Crossref API in Unix Shell
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#program-requirements">
+     Program requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-crossref-api-call">
+     1. Basic crossref API call
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#setup-api-parameters">
+       Setup API parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#request-data-from-crossref-api">
+       Request data from crossref API
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#select-some-specific-data">
+       Select some specific data
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#crossref-api-call-with-a-loop">
+     2. Crossref API call with a Loop
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Setup API parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#create-a-list-of-dois">
+       Create a list of DOIs
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#request-metadata-for-each-doi-from-crossref-api-and-save-to-an-array">
+       Request metadata for each DOI from Crossref API and save to an array
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id2">
+       Select some specific data
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#crossref-api-call-for-journal-information">
+     3. Crossref API call for Journal information
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id3">
+       Setup API parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#request-journal-data-from-crossref-api">
+       Request journal data from crossref API
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#crossref-api-get-article-dois-for-a-journal">
+     4. Crossref API - Get article DOIs for a journal
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id4">
+       Setup API parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#request-doi-data-from-crossref-api">
+       Request DOI data from crossref API
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#extract-dois">
+       Extract DOIs
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -476,6 +571,330 @@
 <h1>…in Unix Shell<a class="headerlink" href="#in-unix-shell" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="crossref-api-in-unix-shell">
 <h2>Crossref API in Unix Shell<a class="headerlink" href="#crossref-api-in-unix-shell" title="Permalink to this headline">¶</a></h2>
+<p>by Avery Fernandez</p>
+<p><strong>Crossref API documentation:</strong> <a class="reference external" href="https://api.crossref.org/swagger-ui/index.html">https://api.crossref.org/swagger-ui/index.html</a></p>
+<p>These recipe examples were tested on March 7, 2022 using Ubuntu 18.04.</p>
+<p><em>From our testing, we have found that the crossref metadata across publishers and even journals can vary considerably. As a result, it can be easier to work with one journal at a time when using the crossref API (e.g., particulary when trying to extract selected data from records).</em></p>
+<div class="section" id="program-requirements">
+<h3>Program requirements<a class="headerlink" href="#program-requirements" title="Permalink to this headline">¶</a></h3>
+<p>In order to run this code, you will need to first install <a class="reference external" href="https://github.com/curl/curl">curl</a> and <a class="reference external" href="https://stedolan.github.io/jq/">jq</a>. curl is used to request the data from the API and jq is used to parse the JSON data.</p>
+</div>
+<div class="section" id="basic-crossref-api-call">
+<h3>1. Basic crossref API call<a class="headerlink" href="#basic-crossref-api-call" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="setup-api-parameters">
+<h4>Setup API parameters<a class="headerlink" href="#setup-api-parameters" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">base_url</span><span class="o">=</span><span class="s2">&quot;https://api.crossref.org/works/&quot;</span><span class="p">;</span> <span class="nv">email</span><span class="o">=</span><span class="s2">&quot;your_email@ua.edu&quot;</span><span class="p">;</span> <span class="nv">mailto</span><span class="o">=</span><span class="s2">&quot;?mailto=&quot;</span><span class="nv">$email</span><span class="p">;</span> <span class="nv">doi</span><span class="o">=</span><span class="s2">&quot;10.1186/1758-2946-4-12&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">;</span></code> allows us to enter multiple variable assignments on one line and the <code class="docutils literal notranslate"><span class="pre">$</span></code> allows for variable expansion.</p>
+</div>
+</div>
+<div class="section" id="request-data-from-crossref-api">
+<h4>Request data from crossref API<a class="headerlink" href="#request-data-from-crossref-api" title="Permalink to this headline">¶</a></h4>
+<p>If you want to view the returned json data directly, you can pipe the curl -s (silent option) output to jq:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>curl -s <span class="nv">$base_url$doi$mailto</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</pre></div>
+</div>
+<p><em>Output not shown here</em></p>
+<p>However, for our case, we will redirct the output to a file named storage.json</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>curl <span class="nv">$base_url$doi$mailto</span> &gt; storage.json
+</pre></div>
+</div>
+</div>
+<div class="section" id="select-some-specific-data">
+<h4>Select some specific data<a class="headerlink" href="#select-some-specific-data" title="Permalink to this headline">¶</a></h4>
+<p>For example, the container-title data, which contains the journal title:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat storage.json <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;container-title&quot;][0]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Journal of Cheminformatics&quot;</span>
+</pre></div>
+</div>
+<p>Get article title:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat storage.json <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;title&quot;][0]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;The Molecule Cloud - compact visualization of large collections of molecules&quot;</span>
+</pre></div>
+</div>
+<p>Get article author names. First, check how many authors there are. One method is to use jq’s builtin length function:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat storage.json <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;author&quot;] | length&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">2</span>
+</pre></div>
+</div>
+<p>Now we can incorporate the length into a for loop:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>The below for loop uses C syntax for looping range (e.g., <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">((</span> <span class="pre">variable</span> <span class="pre">=</span> <span class="pre">0;</span> <span class="pre">variable</span> <span class="pre">&lt;</span> <span class="pre">range</span> <span class="pre">;</span> <span class="pre">variable++</span> <span class="pre">))</span></code>).</p></li>
+<li><p>The first name and last name of the authors are concatenated together using <code class="docutils literal notranslate"><span class="pre">$</span></code> variable expansiion.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">tr</span> <span class="pre">-d</span> <span class="pre">'&quot;'</span></code> command removes extra quotes around the names.</p></li>
+</ul>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="o">((</span> <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span> i &lt; <span class="k">$(</span>cat storage.json <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;author&quot;] | length&#39;</span><span class="k">)</span><span class="p">;</span> i++ <span class="o">))</span>
+<span class="k">do</span>
+  <span class="nv">name</span><span class="o">=</span><span class="k">$(</span>cat storage.json <span class="p">|</span> jq <span class="s2">&quot;.message.author[</span><span class="nv">$i</span><span class="s2">].given&quot;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span><span class="k">)</span><span class="s2">$&quot; &quot;</span><span class="k">$(</span>cat storage.json <span class="p">|</span> jq <span class="s2">&quot;.message.author[</span><span class="nv">$i</span><span class="s2">].family&quot;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span><span class="k">)</span><span class="p">;</span>
+  <span class="nb">echo</span> <span class="nv">$name</span><span class="p">;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Peter Ertl
+Bernhard Rohde
+</pre></div>
+</div>
+<p>Get bibliography references:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat storage.json <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;reference&quot;][].unstructured&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Martin E, Ertl P, Hunt P, Duca J, Lewis R: Gazing into the crystal ball; the future of computer-aided drug design. J Comp-Aided Mol Des. 2011, 26: 77-79.&quot;</span>
+<span class="s2">&quot;Langdon SR, Brown N, Blagg J: Scaffold diversity of exemplified medicinal chemistry space. J Chem Inf Model. 2011, 26: 2174-2185.&quot;</span>
+<span class="s2">&quot;Blum LC, Reymond J-C: 970 Million druglike small molecules for virtual screening in the chemical universe database GDB-13. J Am Chem Soc. 2009, 131: 8732-8733. 10.1021/ja902302h.&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="crossref-api-call-with-a-loop">
+<h3>2. Crossref API call with a Loop<a class="headerlink" href="#crossref-api-call-with-a-loop" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Setup API parameters<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">base_url</span><span class="o">=</span><span class="s2">&quot;https://api.crossref.org/works/&quot;</span><span class="p">;</span> <span class="nv">email</span><span class="o">=</span><span class="s2">&quot;your_email@ua.edu&quot;</span><span class="p">;</span> <span class="nv">mailto</span><span class="o">=</span><span class="s2">&quot;?mailto=&quot;</span><span class="nv">$email</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-list-of-dois">
+<h4>Create a list of DOIs<a class="headerlink" href="#create-a-list-of-dois" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">doi_list</span><span class="o">=(</span><span class="s1">&#39;10.1021/acsomega.1c03250&#39;</span> <span class="s1">&#39;10.1021/acsomega.1c05512&#39;</span> <span class="s1">&#39;10.1021/acsomega.8b01647&#39;</span> <span class="s1">&#39;10.1021/acsomega.1c04287&#39;</span> <span class="s1">&#39;10.1021/acsomega.8b01834&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="request-metadata-for-each-doi-from-crossref-api-and-save-to-an-array">
+<h4>Request metadata for each DOI from Crossref API and save to an array<a class="headerlink" href="#request-metadata-for-each-doi-from-crossref-api-and-save-to-an-array" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -a my_array
+<span class="k">for</span> <span class="o">((</span> <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; <span class="si">${#</span><span class="nv">doi_list</span><span class="p">[@]</span><span class="si">}</span> <span class="p">;</span> i++ <span class="o">))</span><span class="p">;</span> <span class="k">do</span>
+my_array<span class="o">[</span><span class="nv">$i</span><span class="o">]=</span><span class="k">$(</span>curl <span class="nv">$base_url</span><span class="si">${</span><span class="nv">doi_list</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="si">}</span><span class="nv">$mailto</span><span class="k">)</span>
+sleep <span class="m">1</span><span class="p">;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">declare</span> <span class="pre">-a</span></code> creates an array variable; <code class="docutils literal notranslate"><span class="pre">${#doi_list[&#64;]}</span></code> returns length.</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h4>Select some specific data<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>Get article titles:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> i <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="p">!my_array[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+<span class="nb">echo</span> <span class="si">${</span><span class="nv">my_array</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;title&quot;][0]&#39;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;${!my_array[&#64;]}&quot;</span></code> returns array range.</p>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Navigating into the Chemical Space of Monoamine Oxidase Inhibitors by Artificial Intelligence and Cheminformatics Approach&quot;</span>
+<span class="s2">&quot;Impact of Artificial Intelligence on Compound Discovery, Design, and Synthesis&quot;</span>
+<span class="s2">&quot;How Precise Are Our Quantitative Structure–Activity Relationship Derived Predictions for New Query Chemicals?&quot;</span>
+<span class="s2">&quot;Applying Neuromorphic Computing Simulation in Band Gap Prediction and Chemical Reaction Classification&quot;</span>
+<span class="s2">&quot;QSPR Modeling of the Refractive Index for Diverse Polymers Using 2D Descriptors&quot;</span>
+</pre></div>
+</div>
+<p>Get all author affiliations for each article:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> i <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="p">!my_array[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+<span class="nb">echo</span> <span class="si">${</span><span class="nv">my_array</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;author&quot;][].affiliation[0].name&#39;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Department of Pharmaceutical Chemistry and Analysis, Amrita School of Pharmacy, Amrita Vishwa Vidyapeetham, AIMS Health Sciences Campus, Kochi 682041, India&quot;</span>
+<span class="s2">&quot;Department of Pharmaceutical Chemistry and Analysis, Amrita School of Pharmacy, Amrita Vishwa Vidyapeetham, AIMS Health Sciences Campus, Kochi 682041, India&quot;</span>
+...
+...
+<span class="s2">&quot;Department of Chemical and Biomolecular Engineering, The Ohio State University, Columbus, Ohio 43210, United States&quot;</span>
+<span class="s2">&quot;Department of Chemical and Biomolecular Engineering, The Ohio State University, Columbus, Ohio 43210, United States&quot;</span>
+<span class="s2">&quot;Department of Pharmacoinformatics, National Institute of Pharmaceutical Educational and Research (NIPER), Chunilal Bhawan, 168, Manikata Main Road, 700054 Kolkata, India&quot;</span>
+<span class="s2">&quot;Department of Coatings and Polymeric Materials, North Dakota State University, Fargo, North Dakota 58108-6050, United States&quot;</span>
+<span class="s2">&quot;Drug Theoretics and Cheminformatics Laboratory, Division of Medicinal and Pharmaceutical Chemistry, Department of Pharmaceutical Technology, Jadavpur University, 700032 Kolkata, India&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="crossref-api-call-for-journal-information">
+<h3>3. Crossref API call for Journal information<a class="headerlink" href="#crossref-api-call-for-journal-information" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h4>Setup API parameters<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>We will use the issn for the journal <em>BMC Bioinformatics</em> as an example:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">jbase_url</span><span class="o">=</span><span class="s2">&quot;https://api.crossref.org/journals/&quot;</span><span class="p">;</span> <span class="nv">email</span><span class="o">=</span><span class="s2">&quot;your_email@ua.edu&quot;</span><span class="p">;</span> <span class="nv">mailto</span><span class="o">=</span><span class="s2">&quot;?mailto=&quot;</span><span class="nv">$email</span><span class="p">;</span> <span class="nv">issn</span><span class="o">=</span><span class="s2">&quot;1471-2105&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="request-journal-data-from-crossref-api">
+<h4>Request journal data from crossref API<a class="headerlink" href="#request-journal-data-from-crossref-api" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>curl -s <span class="nv">$jbase_url$issn$mailto</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</pre></div>
+</div>
+<p><em>Output not shown here</em></p>
+</div>
+</div>
+<div class="section" id="crossref-api-get-article-dois-for-a-journal">
+<h3>4. Crossref API - Get article DOIs for a journal<a class="headerlink" href="#crossref-api-get-article-dois-for-a-journal" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h4>Setup API parameters<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>We will use the issn for the journal <em>BMC Bioinformatics</em> and year 2014 as an example:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">jbase_url</span><span class="o">=</span><span class="s2">&quot;https://api.crossref.org/journals/&quot;</span><span class="p">;</span> <span class="nv">email</span><span class="o">=</span><span class="s2">&quot;your_email@ua.edu&quot;</span><span class="p">;</span> <span class="nv">mailto</span><span class="o">=</span><span class="s2">&quot;&amp;mailto=&quot;</span><span class="nv">$email</span><span class="p">;</span> <span class="nv">issn</span><span class="o">=</span><span class="s2">&quot;1471-2105&quot;</span><span class="p">;</span> <span class="nv">journal_works2014</span><span class="o">=</span><span class="s2">&quot;/works?filter=from-pub-date:2014,until-pub-date:2014&amp;select=DOI&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="request-doi-data-from-crossref-api">
+<h4>Request DOI data from crossref API<a class="headerlink" href="#request-doi-data-from-crossref-api" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>curl -s <span class="nv">$jbase_url$issn$journal_works2014$mailto</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+  <span class="s2">&quot;status&quot;</span>: <span class="s2">&quot;ok&quot;</span>,
+  <span class="s2">&quot;message-type&quot;</span>: <span class="s2">&quot;work-list&quot;</span>,
+  <span class="s2">&quot;message-version&quot;</span>: <span class="s2">&quot;1.0.0&quot;</span>,
+  <span class="s2">&quot;message&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;facets&quot;</span>: <span class="o">{}</span>,
+    <span class="s2">&quot;total-results&quot;</span>: <span class="m">619</span>,
+    <span class="s2">&quot;items&quot;</span>: <span class="o">[</span>
+      <span class="o">{</span>
+        <span class="s2">&quot;DOI&quot;</span>: <span class="s2">&quot;10.1186/1471-2105-15-84&quot;</span>
+      <span class="o">}</span>,
+      <span class="o">{</span>
+     <span class="s2">&quot;DOI&quot;</span>: <span class="s2">&quot;10.1186/1471-2105-15-94&quot;</span>
+      <span class="o">}</span>,
+      <span class="o">{</span>
+        <span class="s2">&quot;DOI&quot;</span>: <span class="s2">&quot;10.1186/1471-2105-15-172&quot;</span>
+      <span class="o">}</span>,
+      <span class="o">{</span>
+        <span class="s2">&quot;DOI&quot;</span>: <span class="s2">&quot;10.1186/1471-2105-15-106&quot;</span>
+      <span class="o">}</span>,
+      <span class="o">{</span>
+        <span class="s2">&quot;DOI&quot;</span>: <span class="s2">&quot;10.1186/1471-2105-15-s9-s12&quot;</span>
+
+    ...
+    ...
+
+      <span class="o">}</span>,
+      <span class="o">{</span>
+        <span class="s2">&quot;DOI&quot;</span>: <span class="s2">&quot;10.1186/1471-2105-15-266&quot;</span>
+      <span class="o">}</span>
+    <span class="o">]</span>,
+    <span class="s2">&quot;items-per-page&quot;</span>: <span class="m">20</span>,
+    <span class="s2">&quot;query&quot;</span>: <span class="o">{</span>
+      <span class="s2">&quot;start-index&quot;</span>: <span class="m">0</span>,
+      <span class="s2">&quot;search-terms&quot;</span>: null
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>By default, 20 results are displayed. Crossref allows up to 1000 returned results using the rows parameter.
+To get all 619 results, we can increase the number of returned rows and save the json output to a file:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">rows</span><span class="o">=</span><span class="s2">&quot;&amp;rows=700&quot;</span>
+curl <span class="nv">$jbase_url$issn$journal_works2014$rows$mailto</span> &gt; dois_save.json
+</pre></div>
+</div>
+</div>
+<div class="section" id="extract-dois">
+<h4>Extract DOIs<a class="headerlink" href="#extract-dois" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat dois_save.json <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;items&quot;][].DOI&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;10.1186/1471-2105-15-84&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-94&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-172&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-106&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-s9-s12&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-33&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-s10-p33&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-161&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-278&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-147&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-s13-s3&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-254&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-s10-p24&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-s10-p6&quot;</span>
+<span class="s2">&quot;10.1186/s12859-014-0411-1&quot;</span>
+...
+...
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat dois_save.json <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;items&quot;][].DOI&#39;</span> <span class="p">|</span> wc -l
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">619</span>
+</pre></div>
+</div>
+<p><strong>What if we have more than 1000 results in a single query?</strong></p>
+<p>For example, if we wanted the DOIs from BMC Bioinformatics for years 2014 through 2016, we see that there are 1772 DOIs:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">journal_works2014_2016</span><span class="o">=</span><span class="s2">&quot;/works?filter=from-pub-date:2014,until-pub-date:2016&amp;select=DOI&quot;</span>
+curl -s <span class="nv">$jbase_url$issn$journal_works2014_2016$mailto</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;total-results&quot;]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">1772</span>
+</pre></div>
+</div>
+<p>An additional parameter that we can use with crossref API is called “offset”. The offset option allows us to select sets of records and define a starting position (e.g., the first 1000, and then the second set of up to 1000.)</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">rows</span><span class="o">=</span><span class="s2">&quot;&amp;rows=1000&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">numResults</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$jbase_url$issn$journal_works2014_2016$mailto</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;total-results&quot;]&#39;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="nv">$numResults</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">1772</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="o">((</span> <span class="nv">n</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span> n &lt; numResults<span class="p">;</span> <span class="nv">n</span><span class="o">+=</span><span class="m">1000</span><span class="o">))</span><span class="p">;</span> <span class="k">do</span>
+  curl -s <span class="nv">$jbase_url$issn$journal_works2014_2016$rows</span><span class="s2">$&quot;&amp;offset=&quot;</span><span class="nv">$n$mailto</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;message&quot;][&quot;items&quot;][].DOI&#39;</span> &gt;&gt; dois_save2.txt
+  sleep <span class="m">1</span><span class="p">;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>head dois_save2.txt
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;10.1186/1471-2105-15-84&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-94&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-16-s15-p11&quot;</span>
+<span class="s2">&quot;10.1186/s12859-016-1335-8&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-172&quot;</span>
+<span class="s2">&quot;10.1186/s12859-015-0538-8&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-106&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-16-s15-p20&quot;</span>
+<span class="s2">&quot;10.1186/1471-2105-15-s9-s12&quot;</span>
+<span class="s2">&quot;10.1186/s12859-016-1202-7&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat dois_save2.txt <span class="p">|</span> wc -l
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">1772</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
