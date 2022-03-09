@@ -22,6 +22,14 @@ can be found in the GitHub repository:
    for demonstration purposes and credited to the individual scholarly APIs.
  
 
-If you reuse the code, attribution would be appreciated, please cite this resource as follows:
+If you reuse the code, attribution would be appreciated. Please cite this resource with the following information:
 
-TBD
+- Author Name
+- Title of Cookbook page
+- Title of resource (i.e., The University of Alabama Libraries Scholarly API Cookbook)
+- Date
+- Link to Cookbook: `<https://ualibweb.github.io/UALIB_ScholarlyAPI_Cookbook/>`_
+
+Here is an example:
+
+Scalfani, V.F. Scopus API in Python, The University of Alabama Libraries Scholarly API Cookbook, 2022, `<https://ualibweb.github.io/UALIB_ScholarlyAPI_Cookbook/>`_
