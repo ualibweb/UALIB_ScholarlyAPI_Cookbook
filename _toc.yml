@@ -26,7 +26,15 @@ parts:
       - file: content/scripts/python/python_worldbank
       - file: content/scripts/shell/shell_worldbank
       - file: content/scripts/matlab/matlab_worldbank
-      - file: content/scripts/mathematica/mathematica_worldbank     
+      - file: content/scripts/mathematica/mathematica_worldbank
+  - caption: HUMANITIES
+    chapters:
+    - file: content/scripts/A_overview/chronam_overview
+      sections:
+      - file: content/scripts/python/python_chronam
+      - file: content/scripts/shell/shell_chronam
+      - file: content/scripts/matlab/matlab_chronam
+      - file: content/scripts/mathematica/mathematica_chronam     
   - caption: SCIENTIFIC
     chapters:
     - file: content/scripts/A_overview/casc_overview
@@ -35,12 +43,12 @@ parts:
       - file: content/scripts/shell/shell_casc
       - file: content/scripts/matlab/matlab_casc
       - file: content/scripts/mathematica/mathematica_casc    
-    - file: content/scripts/A_overview/ev_overview
+    - file: content/scripts/A_overview/pubchem_overview
       sections:
-      - file: content/scripts/python/python_ev
-      - file: content/scripts/shell/shell_ev
-      - file: content/scripts/matlab/matlab_ev
-      - file: content/scripts/mathematica/mathematica_ev
+      - file: content/scripts/python/python_pubchem
+      - file: content/scripts/shell/shell_pubchem
+      - file: content/scripts/matlab/matlab_pubchem
+      - file: content/scripts/mathematica/mathematica_pubchem
     - file: content/scripts/A_overview/pubmed_overview
       sections:
       - file: content/scripts/python/python_pubmed

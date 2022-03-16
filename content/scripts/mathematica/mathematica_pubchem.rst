@@ -1,7 +1,7 @@
-...in Matlab
+...in Mathematica
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
 
-Engineering Village API in Matlab
+PubChem API in Mathematica
 ***************************************
