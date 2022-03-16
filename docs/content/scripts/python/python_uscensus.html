@@ -477,6 +477,28 @@
   <a class="reference internal nav-link" href="#u-s-census-data-api-in-python">
    U.S. Census Data API in Python
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#api-key-information">
+     API Key Information
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-population-estimates-of-counties-by-state">
+     1. Get population estimates of counties by state
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-population-estimates-over-a-range-of-years">
+     2. Get population estimates over a range of years
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-population-change">
+     3. Plot Population Change
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -493,7 +515,534 @@
 <h1>…in Python<a class="headerlink" href="#in-python" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="u-s-census-data-api-in-python">
 <h2>U.S. Census Data API in Python<a class="headerlink" href="#u-s-census-data-api-in-python" title="Permalink to this headline">¶</a></h2>
-<p>by TBD</p>
+<p>by Avery Fernandez</p>
+<p><strong>U.S. Census API documentation:</strong> <a class="reference external" href="https://www.census.gov/data/developers/about.html">https://www.census.gov/data/developers/about.html</a></p>
+<p><strong>U.S. Census Data Discovery Tool</strong>: <a class="reference external" href="https://api.census.gov/data.html">https://api.census.gov/data.html</a></p>
+<p>These recipe examples were tested on March 16, 2022.</p>
+<p>See also the <a class="reference external" href="https://www.census.gov/data/developers/about/terms-of-service.html">U.S. Census API Terms of Service</a></p>
+<p><strong>Attribution</strong>: <em>This tutorial uses the Census Bureau Data API but is not endorsed or certified by the Census Bureau.</em></p>
+<div class="section" id="api-key-information">
+<h3>API Key Information<a class="headerlink" href="#api-key-information" title="Permalink to this headline">¶</a></h3>
+<p>While an API key is not required to use the U.S. Census Data API, you may consider registering for an API key as the API is limited to 500 calls a day without a key. Sign up can be found here: <a class="reference external" href="https://api.census.gov/data/key_signup.html">https://api.census.gov/data/key_signup.html</a></p>
+<p>This tutorial does not use an API key:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, if you want to add in your API Key, save the API key to a file <code class="docutils literal notranslate"><span class="pre">api_key</span></code> and run the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">api_key</span> <span class="kn">import</span> <span class="n">key</span>
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-population-estimates-of-counties-by-state">
+<h3>1. Get population estimates of counties by state<a class="headerlink" href="#get-population-estimates-of-counties-by-state" title="Permalink to this headline">¶</a></h3>
+<p><em>Note: includes Washington, D.C. and Puerto Rico</em></p>
+<p>First, import several libraries:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For obtaining data from the Census API, it is helpful to first obtain a list of state IDs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define root Census API</span>
+<span class="n">api</span> <span class="o">=</span> <span class="s1">&#39;https://api.census.gov/data/&#39;</span>
+
+<span class="c1"># define api url for the state ids</span>
+<span class="c1"># we will use the Population Estimates from 2019 dataset:</span>
+<span class="c1"># https://api.census.gov/data/2019/pep/population/examples.html</span>
+
+<span class="n">state_ids</span> <span class="o">=</span> <span class="n">api</span> <span class="o">+</span> <span class="s2">&quot;2019/pep/population?get=NAME&amp;for=state:*&quot;</span> <span class="o">+</span> <span class="n">key</span>
+
+<span class="c1"># read the url and import JSON data</span>
+<span class="n">state_ids</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">state_ids</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">state_ids</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>53
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">state_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span> <span class="c1"># show first 10</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;NAME&#39;, &#39;state&#39;],
+ [&#39;Alabama&#39;, &#39;01&#39;],
+ [&#39;Alaska&#39;, &#39;02&#39;],
+ [&#39;Arizona&#39;, &#39;04&#39;],
+ [&#39;Arkansas&#39;, &#39;05&#39;],
+ [&#39;California&#39;, &#39;06&#39;],
+ [&#39;Colorado&#39;, &#39;08&#39;],
+ [&#39;Delaware&#39;, &#39;10&#39;],
+ [&#39;District of Columbia&#39;, &#39;11&#39;],
+ [&#39;Idaho&#39;, &#39;16&#39;]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># remove heading</span>
+<span class="n">state_ids</span> <span class="o">=</span> <span class="n">state_ids</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">state_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;Alabama&#39;, &#39;01&#39;],
+ [&#39;Alaska&#39;, &#39;02&#39;],
+ [&#39;Arizona&#39;, &#39;04&#39;],
+ [&#39;Arkansas&#39;, &#39;05&#39;],
+ [&#39;California&#39;, &#39;06&#39;],
+ [&#39;Colorado&#39;, &#39;08&#39;],
+ [&#39;Delaware&#39;, &#39;10&#39;],
+ [&#39;District of Columbia&#39;, &#39;11&#39;],
+ [&#39;Idaho&#39;, &#39;16&#39;],
+ [&#39;Connecticut&#39;, &#39;09&#39;]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can loop through each state and pull their individual population data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract out ids from the list to create a dictionary of state ids</span>
+<span class="k">for</span> <span class="n">states</span> <span class="ow">in</span> <span class="n">state_ids</span><span class="p">:</span> <span class="c1"># loops through the list of states</span>
+    <span class="n">stateName</span> <span class="o">=</span> <span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># grabs the name of the state</span>
+    <span class="c1"># grabs the name of each county and their population</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span> <span class="o">+</span> <span class="s2">&quot;2019/pep/population?get=NAME,POP&amp;for=county:*&amp;in=state:&quot;</span><span class="o">+</span><span class="n">states</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># creates lists to add the populations and counties</span>
+    <span class="n">counties</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">countyPopulation</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">county</span> <span class="ow">in</span> <span class="n">request</span><span class="p">:</span> <span class="c1"># loops through the json data, extracting the county name and their population</span>
+        <span class="n">counties</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">county</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stateName</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">)])</span> <span class="c1"># adds the county&#39;s name and deletes the state name from the end of the county string</span>
+        <span class="n">countyPopulation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">county</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;nan&#39;</span><span class="p">))</span> <span class="c1"># adds the county&#39;s population</span>
+    <span class="c1"># converts the name of the state into a variable and stores the county data into the given name for easy reference</span>
+    <span class="nb">globals</span><span class="p">()[</span><span class="n">stateName</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">counties</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">countyPopulation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">counties</span><span class="p">))}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># show data for Alabama</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">Alabama</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;Autauga County&#39;: 55869,
+ &#39;Baldwin County&#39;: 223234,
+ &#39;Barbour County&#39;: 24686,
+ &#39;Bibb County&#39;: 22394,
+ &#39;Blount County&#39;: 57826,
+ &#39;Bullock County&#39;: 10101,
+ &#39;Butler County&#39;: 19448,
+ &#39;Calhoun County&#39;: 113605,
+ &#39;Chambers County&#39;: 33254,
+ &#39;Cherokee County&#39;: 26196,
+ &#39;Chilton County&#39;: 44428,
+ &#39;Choctaw County&#39;: 12589,
+ &#39;Clarke County&#39;: 23622,
+ &#39;Clay County&#39;: 13235,
+ &#39;Cleburne County&#39;: 14910,
+ &#39;Coffee County&#39;: 52342,
+ &#39;Colbert County&#39;: 55241,
+ &#39;Conecuh County&#39;: 12067,
+ &#39;Coosa County&#39;: 10663,
+ &#39;Covington County&#39;: 37049,
+ &#39;Crenshaw County&#39;: 13772,
+ &#39;Cullman County&#39;: 83768,
+ &#39;Dale County&#39;: 49172,
+ &#39;Dallas County&#39;: 37196,
+ &#39;DeKalb County&#39;: 71513,
+ &#39;Elmore County&#39;: 81209,
+ &#39;Escambia County&#39;: 36633,
+ &#39;Etowah County&#39;: 102268,
+ &#39;Fayette County&#39;: 16302,
+ &#39;Franklin County&#39;: 31362,
+ &#39;Geneva County&#39;: 26271,
+ &#39;Greene County&#39;: 8111,
+ &#39;Hale County&#39;: 14651,
+ &#39;Henry County&#39;: 17205,
+ &#39;Houston County&#39;: 105882,
+ &#39;Jackson County&#39;: 51626,
+ &#39;Jefferson County&#39;: 658573,
+ &#39;Lamar County&#39;: 13805,
+ &#39;Lauderdale County&#39;: 92729,
+ &#39;Lawrence County&#39;: 32924,
+ &#39;Lee County&#39;: 164542,
+ &#39;Limestone County&#39;: 98915,
+ &#39;Lowndes County&#39;: 9726,
+ &#39;Macon County&#39;: 18068,
+ &#39;Madison County&#39;: 372909,
+ &#39;Marengo County&#39;: 18863,
+ &#39;Marion County&#39;: 29709,
+ &#39;Marshall County&#39;: 96774,
+ &#39;Mobile County&#39;: 413210,
+ &#39;Monroe County&#39;: 20733,
+ &#39;Montgomery County&#39;: 226486,
+ &#39;Morgan County&#39;: 119679,
+ &#39;Perry County&#39;: 8923,
+ &#39;Pickens County&#39;: 19930,
+ &#39;Pike County&#39;: 33114,
+ &#39;Randolph County&#39;: 22722,
+ &#39;Russell County&#39;: 57961,
+ &#39;Shelby County&#39;: 217702,
+ &#39;St. Clair County&#39;: 89512,
+ &#39;Sumter County&#39;: 12427,
+ &#39;Talladega County&#39;: 79978,
+ &#39;Tallapoosa County&#39;: 40367,
+ &#39;Tuscaloosa County&#39;: 209355,
+ &#39;Walker County&#39;: 63521,
+ &#39;Washington County&#39;: 16326,
+ &#39;Wilcox County&#39;: 10373,
+ &#39;Winston County&#39;: 23629}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-population-estimates-over-a-range-of-years">
+<h3>2. Get population estimates over a range of years<a class="headerlink" href="#get-population-estimates-over-a-range-of-years" title="Permalink to this headline">¶</a></h3>
+<p>We can use similar code as before, but now loop through different population estimate datasets by year. Here are the specific APIs used:</p>
+<p>Vintage 2015 Population Estimates: <a class="reference external" href="https://api.census.gov/data/2015/pep/population/examples.html">https://api.census.gov/data/2015/pep/population/examples.html</a></p>
+<p>Vintage 2016 Population Estimates: <a class="reference external" href="https://api.census.gov/data/2016/pep/population/examples.html">https://api.census.gov/data/2016/pep/population/examples.html</a></p>
+<p>Vintage 2017 Population Estimates: <a class="reference external" href="https://api.census.gov/data/2017/pep/population/examples.html">https://api.census.gov/data/2017/pep/population/examples.html</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># first we must clear the global variables</span>
+<span class="k">for</span> <span class="n">states</span> <span class="ow">in</span> <span class="n">state_ids</span><span class="p">:</span>
+    <span class="n">stateName</span> <span class="o">=</span> <span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">del</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">stateName</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="nb">globals</span><span class="p">()[</span><span class="n">stateName</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">years</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">2018</span><span class="p">):</span> <span class="c1"># goes through datasets for 2015,2016,2017</span>
+    <span class="k">for</span> <span class="n">states</span> <span class="ow">in</span> <span class="n">state_ids</span><span class="p">:</span> <span class="c1"># using the state_ids from earlier</span>
+        <span class="n">stateName</span> <span class="o">=</span> <span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;/pep/population?get=GEONAME,POP&amp;for=county:*&amp;in=state:&quot;</span><span class="o">+</span><span class="n">states</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">counties</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">countyPopulation</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">county</span> <span class="ow">in</span> <span class="n">request</span><span class="p">:</span>
+            <span class="n">counties</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">county</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">countyPopulation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">county</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;nan&#39;</span><span class="p">))</span>
+        <span class="nb">globals</span><span class="p">()[</span><span class="n">stateName</span><span class="p">][</span><span class="n">years</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">counties</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">countyPopulation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">counties</span><span class="p">))}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># show Alabama data</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">Alabama</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{2015: {&#39;Autauga County&#39;: 55347,
+        &#39;Baldwin County&#39;: 203709,
+        &#39;Barbour County&#39;: 26489,
+        &#39;Bibb County&#39;: 22583,
+        &#39;Blount County&#39;: 57673,
+        &#39;Bullock County&#39;: 10696,
+        &#39;Butler County&#39;: 20154,
+        &#39;Calhoun County&#39;: 115620,
+        &#39;Chambers County&#39;: 34123,
+        &#39;Cherokee County&#39;: 25859,
+        &#39;Chilton County&#39;: 43943,
+        &#39;Choctaw County&#39;: 13170,
+        &#39;Clarke County&#39;: 24675,
+        &#39;Clay County&#39;: 13555,
+        &#39;Cleburne County&#39;: 15018,
+        &#39;Coffee County&#39;: 51211,
+        &#39;Colbert County&#39;: 54354,
+        &#39;Conecuh County&#39;: 12672,
+        &#39;Coosa County&#39;: 10724,
+        &#39;Covington County&#39;: 37835,
+        &#39;Crenshaw County&#39;: 13963,
+        &#39;Cullman County&#39;: 82005,
+        &#39;Dale County&#39;: 49565,
+        &#39;Dallas County&#39;: 41131,
+        &#39;DeKalb County&#39;: 71130,
+        &#39;Elmore County&#39;: 81468,
+        &#39;Escambia County&#39;: 37789,
+        &#39;Etowah County&#39;: 103057,
+        &#39;Fayette County&#39;: 16759,
+        &#39;Franklin County&#39;: 31696,
+        &#39;Geneva County&#39;: 26777,
+        &#39;Greene County&#39;: 8479,
+        &#39;Hale County&#39;: 15068,
+        &#39;Henry County&#39;: 17221,
+        &#39;Houston County&#39;: 104173,
+        &#39;Jackson County&#39;: 52419,
+        &#39;Jefferson County&#39;: 660367,
+        &#39;Lamar County&#39;: 13886,
+        &#39;Lauderdale County&#39;: 92596,
+        &#39;Lawrence County&#39;: 33115,
+        &#39;Lee County&#39;: 156993,
+        &#39;Limestone County&#39;: 91663,
+        &#39;Lowndes County&#39;: 10458,
+        &#39;Macon County&#39;: 19105,
+        &#39;Madison County&#39;: 353089,
+        &#39;Marengo County&#39;: 20028,
+        &#39;Marion County&#39;: 30168,
+        &#39;Marshall County&#39;: 94725,
+        &#39;Mobile County&#39;: 415395,
+        &#39;Monroe County&#39;: 21673,
+        &#39;Montgomery County&#39;: 226519,
+        &#39;Morgan County&#39;: 119565,
+        &#39;Perry County&#39;: 9652,
+        &#39;Pickens County&#39;: 20864,
+        &#39;Pike County&#39;: 33046,
+        &#39;Randolph County&#39;: 22696,
+        &#39;Russell County&#39;: 59660,
+        &#39;Shelby County&#39;: 208713,
+        &#39;St. Clair County&#39;: 87074,
+        &#39;Sumter County&#39;: 13103,
+        &#39;Talladega County&#39;: 80862,
+        &#39;Tallapoosa County&#39;: 40844,
+        &#39;Tuscaloosa County&#39;: 203976,
+        &#39;Walker County&#39;: 65294,
+        &#39;Washington County&#39;: 16804,
+        &#39;Wilcox County&#39;: 11059,
+        &#39;Winston County&#39;: 23877},
+ 2016: {&#39;Autauga County&#39;: 55416,
+        &#39;Baldwin County&#39;: 208563,
+        &#39;Barbour County&#39;: 25965,
+        &#39;Bibb County&#39;: 22643,
+        &#39;Blount County&#39;: 57704,
+        &#39;Bullock County&#39;: 10362,
+        &#39;Butler County&#39;: 19998,
+        &#39;Calhoun County&#39;: 114611,
+        &#39;Chambers County&#39;: 33843,
+        &#39;Cherokee County&#39;: 25725,
+        &#39;Chilton County&#39;: 43941,
+        &#39;Choctaw County&#39;: 12993,
+        &#39;Clarke County&#39;: 24392,
+        &#39;Clay County&#39;: 13492,
+        &#39;Cleburne County&#39;: 14924,
+        &#39;Coffee County&#39;: 51226,
+        &#39;Colbert County&#39;: 54216,
+        &#39;Conecuh County&#39;: 12395,
+        &#39;Coosa County&#39;: 10581,
+        &#39;Covington County&#39;: 37458,
+        &#39;Crenshaw County&#39;: 13913,
+        &#39;Cullman County&#39;: 82471,
+        &#39;Dale County&#39;: 49226,
+        &#39;Dallas County&#39;: 40008,
+        &#39;DeKalb County&#39;: 70900,
+        &#39;Elmore County&#39;: 81799,
+        &#39;Escambia County&#39;: 37728,
+        &#39;Etowah County&#39;: 102564,
+        &#39;Fayette County&#39;: 16546,
+        &#39;Franklin County&#39;: 31628,
+        &#39;Geneva County&#39;: 26614,
+        &#39;Greene County&#39;: 8422,
+        &#39;Hale County&#39;: 14952,
+        &#39;Henry County&#39;: 17164,
+        &#39;Houston County&#39;: 104056,
+        &#39;Jackson County&#39;: 52138,
+        &#39;Jefferson County&#39;: 659521,
+        &#39;Lamar County&#39;: 13918,
+        &#39;Lauderdale County&#39;: 92318,
+        &#39;Lawrence County&#39;: 33244,
+        &#39;Lee County&#39;: 158991,
+        &#39;Limestone County&#39;: 92753,
+        &#39;Lowndes County&#39;: 10358,
+        &#39;Macon County&#39;: 18963,
+        &#39;Madison County&#39;: 356967,
+        &#39;Marengo County&#39;: 19673,
+        &#39;Marion County&#39;: 29998,
+        &#39;Marshall County&#39;: 95157,
+        &#39;Mobile County&#39;: 414836,
+        &#39;Monroe County&#39;: 21530,
+        &#39;Montgomery County&#39;: 226349,
+        &#39;Morgan County&#39;: 119012,
+        &#39;Perry County&#39;: 9574,
+        &#39;Pickens County&#39;: 20324,
+        &#39;Pike County&#39;: 33286,
+        &#39;Randolph County&#39;: 22652,
+        &#39;Russell County&#39;: 58172,
+        &#39;Shelby County&#39;: 210622,
+        &#39;St. Clair County&#39;: 88019,
+        &#39;Sumter County&#39;: 13040,
+        &#39;Talladega County&#39;: 80103,
+        &#39;Tallapoosa County&#39;: 40727,
+        &#39;Tuscaloosa County&#39;: 206102,
+        &#39;Walker County&#39;: 64967,
+        &#39;Washington County&#39;: 16756,
+        &#39;Wilcox County&#39;: 10986,
+        &#39;Winston County&#39;: 23805},
+ 2017: {&#39;Autauga County&#39;: 55504,
+        &#39;Baldwin County&#39;: 212628,
+        &#39;Barbour County&#39;: 25270,
+        &#39;Bibb County&#39;: 22668,
+        &#39;Blount County&#39;: 58013,
+        &#39;Bullock County&#39;: 10309,
+        &#39;Butler County&#39;: 19825,
+        &#39;Calhoun County&#39;: 114728,
+        &#39;Chambers County&#39;: 33713,
+        &#39;Cherokee County&#39;: 25857,
+        &#39;Chilton County&#39;: 44067,
+        &#39;Choctaw County&#39;: 12945,
+        &#39;Clarke County&#39;: 24083,
+        &#39;Clay County&#39;: 13367,
+        &#39;Cleburne County&#39;: 14900,
+        &#39;Coffee County&#39;: 51874,
+        &#39;Colbert County&#39;: 54500,
+        &#39;Conecuh County&#39;: 12469,
+        &#39;Coosa County&#39;: 10754,
+        &#39;Covington County&#39;: 37092,
+        &#39;Crenshaw County&#39;: 13871,
+        &#39;Cullman County&#39;: 82755,
+        &#39;Dale County&#39;: 49226,
+        &#39;Dallas County&#39;: 39215,
+        &#39;DeKalb County&#39;: 71617,
+        &#39;Elmore County&#39;: 81677,
+        &#39;Escambia County&#39;: 37447,
+        &#39;Etowah County&#39;: 102755,
+        &#39;Fayette County&#39;: 16468,
+        &#39;Franklin County&#39;: 31495,
+        &#39;Geneva County&#39;: 26421,
+        &#39;Greene County&#39;: 8330,
+        &#39;Hale County&#39;: 14812,
+        &#39;Henry County&#39;: 17147,
+        &#39;Houston County&#39;: 104346,
+        &#39;Jackson County&#39;: 51909,
+        &#39;Jefferson County&#39;: 659197,
+        &#39;Lamar County&#39;: 13946,
+        &#39;Lauderdale County&#39;: 92538,
+        &#39;Lawrence County&#39;: 33049,
+        &#39;Lee County&#39;: 161604,
+        &#39;Limestone County&#39;: 94402,
+        &#39;Lowndes County&#39;: 10076,
+        &#39;Macon County&#39;: 18755,
+        &#39;Madison County&#39;: 361046,
+        &#39;Marengo County&#39;: 19375,
+        &#39;Marion County&#39;: 29833,
+        &#39;Marshall County&#39;: 95548,
+        &#39;Mobile County&#39;: 413955,
+        &#39;Monroe County&#39;: 21327,
+        &#39;Montgomery County&#39;: 226646,
+        &#39;Morgan County&#39;: 118818,
+        &#39;Perry County&#39;: 9339,
+        &#39;Pickens County&#39;: 20176,
+        &#39;Pike County&#39;: 33267,
+        &#39;Randolph County&#39;: 22670,
+        &#39;Russell County&#39;: 57045,
+        &#39;Shelby County&#39;: 213605,
+        &#39;St. Clair County&#39;: 88199,
+        &#39;Sumter County&#39;: 12687,
+        &#39;Talladega County&#39;: 80065,
+        &#39;Tallapoosa County&#39;: 40681,
+        &#39;Tuscaloosa County&#39;: 207811,
+        &#39;Walker County&#39;: 64058,
+        &#39;Washington County&#39;: 16531,
+        &#39;Wilcox County&#39;: 10719,
+        &#39;Winston County&#39;: 23722}}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plot-population-change">
+<h3>3. Plot Population Change<a class="headerlink" href="#plot-population-change" title="Permalink to this headline">¶</a></h3>
+<p>This data is based off the 2021 Population Estimates dataset:</p>
+<p><a class="reference external" href="https://api.census.gov/data/2021/pep/population/variables.html">https://api.census.gov/data/2021/pep/population/variables.html</a></p>
+<p>The percentage change in population is from July 1, 2020 to July 1, 2021 for states (includes Washington, D.C. and Puerto Rico)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span><span class="o">+</span><span class="s2">&quot;2021/pep/population?get=NAME,POP_2021,PPOPCHG_2021&amp;for=state:*&quot;</span><span class="o">+</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">request</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">request</span><span class="p">))</span> <span class="c1"># shows the size of data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>52
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span> <span class="c1"># shows first 10</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;Alabama&#39;, &#39;5039877&#39;, &#39;0.2999918604&#39;, &#39;01&#39;],
+ [&#39;Alaska&#39;, &#39;732673&#39;, &#39;0.0316749062&#39;, &#39;02&#39;],
+ [&#39;Arizona&#39;, &#39;7276316&#39;, &#39;1.3698828613&#39;, &#39;04&#39;],
+ [&#39;Arkansas&#39;, &#39;3025891&#39;, &#39;0.4534511286&#39;, &#39;05&#39;],
+ [&#39;California&#39;, &#39;39237836&#39;, &#39;-0.6630474360&#39;, &#39;06&#39;],
+ [&#39;Colorado&#39;, &#39;5812069&#39;, &#39;0.4799364073&#39;, &#39;08&#39;],
+ [&#39;Connecticut&#39;, &#39;3605597&#39;, &#39;0.1482392938&#39;, &#39;09&#39;],
+ [&#39;Delaware&#39;, &#39;1003384&#39;, &#39;1.1592057958&#39;, &#39;10&#39;],
+ [&#39;District of Columbia&#39;, &#39;670050&#39;, &#39;-2.9043911470&#39;, &#39;11&#39;],
+ [&#39;Florida&#39;, &#39;21781128&#39;, &#39;0.9791222337&#39;, &#39;12&#39;]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># prepare data for plotting</span>
+<span class="n">stateName</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">population</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">populationChange</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">states</span> <span class="ow">in</span> <span class="n">request</span><span class="p">:</span>
+    <span class="n">stateName</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">population</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">or</span> <span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+    <span class="n">populationChange</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;nan&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot data</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">populationChange</span><span class="p">,</span> <span class="n">stateName</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;states&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Population Change from 2020 to 2021&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;% Population Change&quot;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;States (including Washington DC and Puerto Rico)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/python_uscensus_22_0.png" src="../../../_images/python_uscensus_22_0.png" />
+</div>
+</div>
+</div>
 </div>
 </div>
 
