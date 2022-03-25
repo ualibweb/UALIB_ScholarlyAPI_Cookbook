@@ -516,6 +516,28 @@
   <a class="reference internal nav-link" href="#world-bank-api-in-unix-shell">
    World Bank API in Unix Shell
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#program-requirements">
+     Program requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-list-of-country-iso2codes-and-names">
+     1. Get list of country iso2Codes and names
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#compile-a-custom-indicator-dataset">
+     2. Compile a Custom Indicator Dataset
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-indicator-data">
+     3. Plot Indicator data
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -532,6 +554,315 @@
 <h1>…in Unix Shell<a class="headerlink" href="#in-unix-shell" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="world-bank-api-in-unix-shell">
 <h2>World Bank API in Unix Shell<a class="headerlink" href="#world-bank-api-in-unix-shell" title="Permalink to this headline">¶</a></h2>
+<p>by Avery Fernandez</p>
+<p>See the <a class="reference external" href="https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation">World Bank API documentation</a>.</p>
+<p>These recipe examples were tested on March 25, 2022 using GNOME Terminal in Ubuntu 18.04.</p>
+<div class="section" id="program-requirements">
+<h3>Program requirements<a class="headerlink" href="#program-requirements" title="Permalink to this headline">¶</a></h3>
+<p>In order to run this code, you will need to first install <a class="reference external" href="https://github.com/curl/curl">curl</a>, <a class="reference external" href="https://stedolan.github.io/jq/">jq</a>, and <a class="reference external" href="http://www.gnuplot.info/">gnuplot</a>. curl is used to request the data from the API, jq is used to parse the JSON data, and gnuplot is used to plot the data.</p>
+</div>
+<div class="section" id="get-list-of-country-iso2codes-and-names">
+<h3>1. Get list of country iso2Codes and names<a class="headerlink" href="#get-list-of-country-iso2codes-and-names" title="Permalink to this headline">¶</a></h3>
+<p>For obtaining data from the World Bank API, it is helpful to first obtain a list
+of country codes and names.</p>
+<p>First, define the root World Bank API and the API URL for obtaining country code data:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">api</span><span class="o">=</span><span class="s2">&quot;https://api.worldbank.org/v2/&quot;</span><span class="p">;</span> <span class="nv">country_url</span><span class="o">=</span><span class="nv">$api</span><span class="s2">$&quot;country/?format=json&amp;per_page=500&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">;</span></code> allows us to enter multiple variable assignments on one line and the <code class="docutils literal notranslate"><span class="pre">$</span></code> allows for variable expansion.</p>
+</div>
+<p>Next, request and save the JSON data from the World Bank API:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">country_data</span><span class="o">=</span><span class="k">$(</span>curl <span class="nv">$country_url</span><span class="k">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to instead quickly view a formatted output of the data, try the silent option (<code class="docutils literal notranslate"><span class="pre">-s</span></code>) in curl piped to jq as follows: <code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">-s</span> <span class="pre">$country_url</span> <span class="pre">|</span> <span class="pre">jq</span> <span class="pre">'.'</span></code></p>
+</div>
+<p>Get the length of the data:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="nv">$country_data</span> <span class="p">|</span> jq <span class="s1">&#39;.[1] | length&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">299</span>
+</pre></div>
+</div>
+<p>View the first element:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="nv">$country_data</span> <span class="p">|</span> jq <span class="s1">&#39;.[1][0]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+  <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;ABW&quot;</span>,
+  <span class="s2">&quot;iso2Code&quot;</span>: <span class="s2">&quot;AW&quot;</span>,
+  <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;Aruba&quot;</span>,
+  <span class="s2">&quot;region&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;LCN&quot;</span>,
+    <span class="s2">&quot;iso2code&quot;</span>: <span class="s2">&quot;ZJ&quot;</span>,
+    <span class="s2">&quot;value&quot;</span>: <span class="s2">&quot;Latin America &amp; Caribbean &quot;</span>
+  <span class="o">}</span>,
+  <span class="s2">&quot;adminregion&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;&quot;</span>,
+    <span class="s2">&quot;iso2code&quot;</span>: <span class="s2">&quot;&quot;</span>,
+    <span class="s2">&quot;value&quot;</span>: <span class="s2">&quot;&quot;</span>
+  <span class="o">}</span>,
+  <span class="s2">&quot;incomeLevel&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;HIC&quot;</span>,
+    <span class="s2">&quot;iso2code&quot;</span>: <span class="s2">&quot;XD&quot;</span>,
+    <span class="s2">&quot;value&quot;</span>: <span class="s2">&quot;High income&quot;</span>
+  <span class="o">}</span>,
+  <span class="s2">&quot;lendingType&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;LNX&quot;</span>,
+    <span class="s2">&quot;iso2code&quot;</span>: <span class="s2">&quot;XX&quot;</span>,
+    <span class="s2">&quot;value&quot;</span>: <span class="s2">&quot;Not classified&quot;</span>
+  <span class="o">}</span>,
+  <span class="s2">&quot;capitalCity&quot;</span>: <span class="s2">&quot;Oranjestad&quot;</span>,
+  <span class="s2">&quot;longitude&quot;</span>: <span class="s2">&quot;-70.0167&quot;</span>,
+  <span class="s2">&quot;latitude&quot;</span>: <span class="s2">&quot;12.5167&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Next, extract out the iso2codes from the country_data</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A country_iso2Code
+<span class="k">for</span> <span class="o">((</span> <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span> i &lt; <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$country_data</span> <span class="p">|</span> jq <span class="s1">&#39;.[1] | length&#39;</span><span class="k">)</span><span class="p">;</span> i++ <span class="o">))</span>
+<span class="k">do</span>
+  <span class="nv">country</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$country_data</span> <span class="p">|</span> jq <span class="s2">&quot;.[1][</span><span class="nv">$i</span><span class="s2">].name&quot;</span><span class="k">)</span><span class="p">;</span>
+  <span class="nv">iso</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$country_data</span> <span class="p">|</span> jq <span class="s2">&quot;.[1][</span><span class="nv">$i</span><span class="s2">].iso2Code&quot;</span><span class="k">)</span><span class="p">;</span>
+  <span class="nb">echo</span> <span class="nv">$iso</span><span class="s2">$&quot; : &quot;</span><span class="nv">$country</span><span class="p">;</span>
+  country_iso2Code<span class="o">[</span><span class="s2">&quot;</span><span class="nv">$iso</span><span class="s2">&quot;</span><span class="o">]=</span><span class="s2">&quot;</span><span class="nv">$country</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="k">done</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;AW&quot;</span> : <span class="s2">&quot;Aruba&quot;</span>
+<span class="s2">&quot;ZH&quot;</span> : <span class="s2">&quot;Africa Eastern and Southern&quot;</span>
+<span class="s2">&quot;AF&quot;</span> : <span class="s2">&quot;Afghanistan&quot;</span>
+<span class="s2">&quot;A9&quot;</span> : <span class="s2">&quot;Africa&quot;</span>
+<span class="s2">&quot;ZI&quot;</span> : <span class="s2">&quot;Africa Western and Central&quot;</span>
+<span class="s2">&quot;AO&quot;</span> : <span class="s2">&quot;Angola&quot;</span>
+<span class="s2">&quot;AL&quot;</span> : <span class="s2">&quot;Albania&quot;</span>
+<span class="s2">&quot;AD&quot;</span> : <span class="s2">&quot;Andorra&quot;</span>
+<span class="s2">&quot;1A&quot;</span> : <span class="s2">&quot;Arab World&quot;</span>
+<span class="s2">&quot;AE&quot;</span> : <span class="s2">&quot;United Arab Emirates&quot;</span>
+...
+...
+...
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">declare</span> <span class="pre">-A</span></code> creates an associative array; <code class="docutils literal notranslate"><span class="pre">country_iso2Code[&quot;$iso&quot;]=&quot;$country&quot;</span></code> stores the iso variable and corresponding country name.</p>
+</div>
+<p>Since we saved the iso2codes and country names in the associative array, <code class="docutils literal notranslate"><span class="pre">country_iso2code</span></code>, it is also possible to loop through and display the data as follows:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> isos <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="p">!country_iso2Code[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">do</span>
+  <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$isos</span><span class="s2"> - </span><span class="si">${</span><span class="nv">country_iso2Code</span><span class="p">[</span><span class="nv">$isos</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p><em>Output not shown here</em></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">!</span></code> selects individual indices of the associative array; <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> specifies all elements in the array.</p>
+</div>
+</div>
+<div class="section" id="compile-a-custom-indicator-dataset">
+<h3>2. Compile a Custom Indicator Dataset<a class="headerlink" href="#compile-a-custom-indicator-dataset" title="Permalink to this headline">¶</a></h3>
+<p>There are many available indicators: <a class="reference external" href="https://data.worldbank.org/indicator">https://data.worldbank.org/indicator</a></p>
+<p>We will select three indicators for this example:</p>
+<ol class="arabic simple">
+<li><p>Scientific and Technical Journal Article Data = <a class="reference external" href="https://data.worldbank.org/indicator/IP.JRN.ARTC.SC?view=chart">IP.JRN.ARTC.SC</a></p></li>
+<li><p>Patent Applications, residents = <a class="reference external" href="https://data.worldbank.org/indicator/IP.PAT.RESD?view=chart">IP.PAT.RESD</a></p></li>
+<li><p>GDP per capita (current US$) Code = <a class="reference external" href="https://data.worldbank.org/indicator/NY.GDP.PCAP.CD?view=chart">NY.GDP.PCAP.CD</a></p></li>
+</ol>
+<p>Note that these three selected indicators have a <a class="reference external" href="https://datacatalog.worldbank.org/public-licenses#cc-by">CC-BY 4.0 license</a>.</p>
+<p>We will compile this indicator data for the United States (US) and United Kingdom (GB).</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">indicators</span><span class="o">=(</span><span class="s1">&#39;IP.JRN.ARTC.SC&#39;</span> <span class="s1">&#39;IP.PAT.RESD&#39;</span> <span class="s1">&#39;NY.GDP.PCAP.CD&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Generate the web API URLs we need for U.S. and U.K. and retrieve the data.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">api</span><span class="o">=</span><span class="s2">&quot;https://api.worldbank.org/v2/&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A US_indicator_data
+<span class="k">for</span> indic <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">indicators</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+    US_indicator_data<span class="o">[</span><span class="nv">$indic</span><span class="o">]=</span><span class="k">$(</span>curl <span class="nv">$api</span><span class="s2">$&quot;country/US/indicator/&quot;</span><span class="nv">$indic</span><span class="s2">$&quot;/?format=json&amp;per_page=500&quot;</span><span class="k">)</span>
+    sleep <span class="m">1</span><span class="p">;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A UK_indicator_data
+<span class="k">for</span> indic <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">indicators</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+    UK_indicator_data<span class="o">[</span><span class="nv">$indic</span><span class="o">]=</span><span class="k">$(</span>curl <span class="nv">$api</span><span class="s2">$&quot;country/GB/indicator/&quot;</span><span class="nv">$indic</span><span class="s2">$&quot;/?format=json&amp;per_page=500&quot;</span><span class="k">)</span>
+    sleep <span class="m">1</span><span class="p">;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>Now we need to extract the data and compile for analysis.</p>
+<p>column 1: year</p>
+<p>column 2: Scientific and Technical Journal Article Data = <code class="docutils literal notranslate"><span class="pre">IP.JRN.ARTC.SC</span></code></p>
+<p>column 3: Patent Applications, residents = <code class="docutils literal notranslate"><span class="pre">IP.PAT.RESD</span></code></p>
+<p>column 4: GDP per capita (current US$) Code = <code class="docutils literal notranslate"><span class="pre">NY.GDP.PCAP.CD</span></code></p>
+<p>U.S. data extraction:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A US_data_JRN
+<span class="nb">declare</span> -A US_data_PAT
+<span class="nb">declare</span> -A US_data_NY
+<span class="k">for</span> <span class="o">((</span> <span class="nv">years</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span> years &lt; <span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">US_indicator_data</span><span class="p">[</span><span class="s1">&#39;IP.JRN.ARTC.SC&#39;</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.[1] | length&#39;</span><span class="k">)</span><span class="p">;</span> years++ <span class="o">))</span>
+<span class="k">do</span>
+  <span class="nv">year</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">US_indicator_data</span><span class="p">[</span><span class="s1">&#39;IP.JRN.ARTC.SC&#39;</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s2">&quot;.[1][</span><span class="nv">$years</span><span class="s2">].date&quot;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span><span class="k">)</span>
+  US_data_JRN<span class="o">[</span><span class="nv">$year</span><span class="o">]=</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">US_indicator_data</span><span class="p">[</span><span class="s1">&#39;IP.JRN.ARTC.SC&#39;</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s2">&quot;.[1][</span><span class="nv">$years</span><span class="s2">].value&quot;</span><span class="k">)</span>
+  US_data_PAT<span class="o">[</span><span class="nv">$year</span><span class="o">]=</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">US_indicator_data</span><span class="p">[</span><span class="s1">&#39;IP.PAT.RESD&#39;</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s2">&quot;.[1][</span><span class="nv">$years</span><span class="s2">].value&quot;</span><span class="k">)</span>
+  US_data_NY<span class="o">[</span><span class="nv">$year</span><span class="o">]=</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">US_indicator_data</span><span class="p">[</span><span class="s1">&#39;NY.GDP.PCAP.CD&#39;</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s2">&quot;.[1][</span><span class="nv">$years</span><span class="s2">].value&quot;</span><span class="k">)</span>
+<span class="k">done</span><span class="p">;</span>
+<span class="nb">echo</span> <span class="s1">$&#39;&quot;year&quot;,&quot;IP.JRN.ARTC.SC&quot;,&quot;IP.PAT.RESD&quot;,&quot;NY.GDP.PCAP.CD&quot;&#39;</span> &gt;&gt; US_data.csv
+<span class="k">for</span> years <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="p">!US_data_JRN[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">do</span>
+  <span class="nb">echo</span> <span class="nv">$years</span><span class="s2">$&quot;,&quot;</span><span class="si">${</span><span class="nv">US_data_JRN</span><span class="p">[</span><span class="nv">$years</span><span class="p">]</span><span class="si">}</span><span class="s2">$&quot;,&quot;</span><span class="si">${</span><span class="nv">US_data_PAT</span><span class="p">[</span><span class="nv">$years</span><span class="p">]</span><span class="si">}</span><span class="s2">$&quot;,&quot;</span><span class="si">${</span><span class="nv">US_data_NY</span><span class="p">[</span><span class="nv">$years</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> sed <span class="s1">&#39;s/null/NaN/g&#39;</span> &gt;&gt; US_data.csv
+<span class="k">done</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">sed</span> <span class="pre">'s/null/NaN/g'</span></code> is used to replace missing data with NaN.</p>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>head US_data.csv
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;year&quot;</span>,<span class="s2">&quot;IP.JRN.ARTC.SC&quot;</span>,<span class="s2">&quot;IP.PAT.RESD&quot;</span>,<span class="s2">&quot;NY.GDP.PCAP.CD&quot;</span>
+<span class="m">1979</span>,NaN,NaN,11674.1818666548
+<span class="m">1978</span>,NaN,NaN,10564.9482220275
+<span class="m">1973</span>,NaN,NaN,6726.35895596695
+<span class="m">1972</span>,NaN,NaN,6094.01798986165
+<span class="m">1971</span>,NaN,NaN,5609.38259952519
+<span class="m">1970</span>,NaN,NaN,5234.2966662115
+<span class="m">1977</span>,NaN,NaN,9452.57651914511
+<span class="m">1976</span>,NaN,NaN,8592.25353727612
+<span class="m">1975</span>,NaN,NaN,7801.45666356443
+</pre></div>
+</div>
+<p>U.K. Data extraction:</p>
+<p>column 1: year</p>
+<p>column 2: Scientific and Technical Journal Article Data = <code class="docutils literal notranslate"><span class="pre">IP.JRN.ARTC.SC</span></code></p>
+<p>column 3: Patent Applications, residents = <code class="docutils literal notranslate"><span class="pre">IP.PAT.RESD</span></code></p>
+<p>column 4: GDP per capita (current US$) Code = <code class="docutils literal notranslate"><span class="pre">NY.GDP.PCAP.CD</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A UK_data_JRN
+<span class="nb">declare</span> -A UK_data_PAT
+<span class="nb">declare</span> -A UK_data_NY
+<span class="k">for</span> <span class="o">((</span> <span class="nv">years</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span> years &lt; <span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">UK_indicator_data</span><span class="p">[</span><span class="s1">&#39;IP.JRN.ARTC.SC&#39;</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.[1] | length&#39;</span><span class="k">)</span><span class="p">;</span> years++ <span class="o">))</span>
+<span class="k">do</span>
+  <span class="nv">year</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">UK_indicator_data</span><span class="p">[</span><span class="s1">&#39;IP.JRN.ARTC.SC&#39;</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s2">&quot;.[1][</span><span class="nv">$years</span><span class="s2">].date&quot;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span><span class="k">)</span>
+  UK_data_JRN<span class="o">[</span><span class="nv">$year</span><span class="o">]=</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">UK_indicator_data</span><span class="p">[</span><span class="s1">&#39;IP.JRN.ARTC.SC&#39;</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s2">&quot;.[1][</span><span class="nv">$years</span><span class="s2">].value&quot;</span><span class="k">)</span>
+  UK_data_PAT<span class="o">[</span><span class="nv">$year</span><span class="o">]=</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">UK_indicator_data</span><span class="p">[</span><span class="s1">&#39;IP.PAT.RESD&#39;</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s2">&quot;.[1][</span><span class="nv">$years</span><span class="s2">].value&quot;</span><span class="k">)</span>
+  UK_data_NY<span class="o">[</span><span class="nv">$year</span><span class="o">]=</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">UK_indicator_data</span><span class="p">[</span><span class="s1">&#39;NY.GDP.PCAP.CD&#39;</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq <span class="s2">&quot;.[1][</span><span class="nv">$years</span><span class="s2">].value&quot;</span><span class="k">)</span>
+<span class="k">done</span><span class="p">;</span>
+<span class="nb">echo</span> <span class="s1">$&#39;&quot;year&quot;,&quot;IP.JRN.ARTC.SC&quot;,&quot;IP.PAT.RESD&quot;,&quot;NY.GDP.PCAP.CD&quot;&#39;</span> &gt;&gt; UK_data.csv
+<span class="k">for</span> years <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="p">!UK_data_JRN[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">do</span>
+  <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$years</span><span class="s2">&quot;$&quot;,&quot;</span><span class="si">${</span><span class="nv">UK_data_JRN</span><span class="p">[</span><span class="nv">$years</span><span class="p">]</span><span class="si">}</span><span class="s2">$&quot;,&quot;</span><span class="si">${</span><span class="nv">UK_data_PAT</span><span class="p">[</span><span class="nv">$years</span><span class="p">]</span><span class="si">}</span><span class="s2">$&quot;,&quot;</span><span class="si">${</span><span class="nv">UK_data_NY</span><span class="p">[</span><span class="nv">$years</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> sed <span class="s1">&#39;s/null/NaN/g&#39;</span> &gt;&gt; UK_data.csv
+<span class="k">done</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">sed</span> <span class="pre">'s/null/NaN/g'</span></code> is used to replace missing data with NaN.</p>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>tail UK_data.csv
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">2003</span>,75564.08,20426,34487.4675722539
+<span class="m">1984</span>,NaN,19093,8179.19444064991
+<span class="m">2000</span>,77244.9,22050,28223.0675706515
+<span class="m">1985</span>,NaN,19672,8652.21654247593
+<span class="m">2001</span>,73779.92,21423,27806.4488245133
+<span class="m">1988</span>,NaN,20536,15987.1680775688
+<span class="m">1989</span>,NaN,19732,16239.2821960944
+<span class="m">2008</span>,91357.74,16523,47549.3486286006
+<span class="m">2009</span>,93803.37,15985,38952.2110262455
+<span class="m">2020</span>,NaN,NaN,41059.1688090547
+</pre></div>
+</div>
+</div>
+<div class="section" id="plot-indicator-data">
+<h3>3. Plot Indicator data<a class="headerlink" href="#plot-indicator-data" title="Permalink to this headline">¶</a></h3>
+<p>Create a line plot of US/UK Number of Scientific and Technical Journal Articles and Patents by year.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>awk -F<span class="s1">&#39;,&#39;</span> <span class="s1">&#39;{ print $1&quot;,&quot;$2+$3&quot;,&quot;$4; }&#39;</span> US_data.csv <span class="p">|</span> sort -t<span class="s2">&quot;,&quot;</span> -k1n,1 &gt; US_sorted.csv
+awk -F<span class="s1">&#39;,&#39;</span> <span class="s1">&#39;{ print $1&quot;,&quot;$2+$3&quot;,&quot;$4; }&#39;</span> UK_data.csv <span class="p">|</span> sort -t<span class="s2">&quot;,&quot;</span> -k1n,1 &gt; UK_sorted.csv
+sed -i <span class="s2">&quot;1s/.*/&#39;year&#39;,&#39;US Articles and Patents&#39;,&#39;US GDP&#39;/&quot;</span> US_sorted.csv
+sed -i <span class="s2">&quot;1s/.*/&#39;year&#39;,&#39;UK Articles and Patents&#39;,&#39;UK GDP&#39;/&quot;</span> UK_sorted.csv
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">awk</span></code> is combining the second column and third column into a single column; <code class="docutils literal notranslate"><span class="pre">sort</span></code> is to sort the data by the year; <code class="docutils literal notranslate"><span class="pre">sed</span></code> is to change the first row to accurately name the columns.</p>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>head US_sorted.csv
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;year&#39;</span>,<span class="s1">&#39;US Articles and Patents&#39;</span>,<span class="s1">&#39;US GDP&#39;</span>
+<span class="m">1960</span>,nan,3007.12344537862
+<span class="m">1961</span>,nan,3066.56286916615
+<span class="m">1962</span>,nan,3243.84307754988
+<span class="m">1963</span>,nan,3374.51517105082
+<span class="m">1964</span>,nan,3573.94118474743
+<span class="m">1965</span>,nan,3827.52710972039
+<span class="m">1966</span>,nan,4146.31664631665
+<span class="m">1967</span>,nan,4336.42658722171
+<span class="m">1968</span>,nan,4695.92339043178
+</pre></div>
+</div>
+<p>Plot the data as an ascii plot:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gnuplot -e <span class="s2">&quot;set datafile separator &#39;,&#39;; \</span>
+<span class="s2">set datafile missing NaN; \</span>
+<span class="s2">set key outside; \</span>
+<span class="s2">set key autotitle columnhead; \</span>
+<span class="s2">set term dumb size 130, 30; \</span>
+<span class="s2">set xrange [2000:2018]; \</span>
+<span class="s2">set ylabel &#39;First Y Units&#39;; \</span>
+<span class="s2">set xlabel &#39;Time&#39;; \</span>
+<span class="s2">set title &#39;US and UK data&#39;; \</span>
+<span class="s2">set y2tics nomirror; \</span>
+<span class="s2">set ytics nomirror; \</span>
+<span class="s2">set size 1,1; \</span>
+<span class="s2">plot &#39;US_sorted.csv&#39; using 1:2 with lines axis x1y1, &#39;&#39; using 1:3 with lines axis x1y2, \</span>
+<span class="s2">&#39;UK_sorted.csv&#39; using 1:2 with lines axis x1y1, &#39;&#39; using 1:3 with lines axis x1y2&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>                              US and UK data
+
+<span class="m">800000</span> +--------------------------------------------------------------+ <span class="m">65000</span>
+       <span class="p">|</span>      +      +      +      +      +      +      +      +      <span class="p">|</span>         <span class="s1">&#39;US Articles and Patents&#39;</span> *******
+       <span class="p">|</span>                                           *****************##<span class="p">|</span>                          <span class="s1">&#39;US GDP&#39;</span> <span class="c1">#######</span>
+<span class="m">700000</span> <span class="p">|</span>-+                                      ***              <span class="c1">###+-| 60000   &#39;UK Articles and Patents&#39; $$$$$$$</span>
+       <span class="p">|</span>                                 *******              <span class="c1">###     |                          &#39;UK GDP&#39; %%%%%%%</span>
+       <span class="p">|</span>                      ***********                 <span class="c1">####        |</span>
+<span class="m">600000</span> <span class="p">|</span>-+             *******                         <span class="c1">###          +-| 55000</span>
+       <span class="p">|</span>            ***                            <span class="c1">####               |</span>
+       <span class="p">|</span>        ****            %%%             <span class="c1">###                   |</span>
+<span class="m">500000</span> <span class="p">|</span>********               %            <span class="c1">####                    +-| 50000</span>
+       <span class="p">|</span>                      %####%########            %%%%          <span class="p">|</span>
+<span class="m">400000</span> <span class="p">|</span>-+                 <span class="c1">##%      %                 %%    %       +-| 45000</span>
+       <span class="p">|</span>               <span class="c1">####%%        %             %%%       %        |</span>
+       <span class="p">|</span>             <span class="c1">##%%%%          %       %%%%%%           %     %%|</span>
+<span class="m">300000</span> <span class="p">|</span>-+         <span class="c1">##%%               %    %%                  %%%%%+-| 40000</span>
+       <span class="p">|</span>        <span class="c1">### %                  %%%%                           |</span>
+       <span class="p">|</span><span class="c1">########    %                                                 |</span>
+<span class="m">200000</span> <span class="p">|</span>-+         %                                                +-<span class="p">|</span> <span class="m">35000</span>
+       <span class="p">|</span>         %%                                                   <span class="p">|</span>
+       <span class="p">|</span>       %%                                                     <span class="p">|</span>
+<span class="m">100000</span> <span class="p">|</span><span class="nv">$$$$</span>$%%<span class="nv">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</span>$<span class="p">|</span> <span class="m">30000</span>
+       <span class="p">|</span>%%%%%                                                         <span class="p">|</span>
+       <span class="p">|</span>      +      +      +      +      +      +      +      +      <span class="p">|</span>
+     <span class="m">0</span> +--------------------------------------------------------------+ <span class="m">25000</span>
+      <span class="m">2000</span>   <span class="m">2002</span>   <span class="m">2004</span>   <span class="m">2006</span>   <span class="m">2008</span>   <span class="m">2010</span>   <span class="m">2012</span>   <span class="m">2014</span>   <span class="m">2016</span>   <span class="m">2018</span>
+                                    Time
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
