@@ -2,6 +2,14 @@
 format: jb-book
 root: content/about/introduction
 parts:
+  - caption: ARTICLE FULL-TEXT
+    chapters:
+    - file: content/scripts/A_overview/SDirect_overview
+      sections:
+      - file: content/scripts/python/python_SDirect
+      - file: content/scripts/shell/shell_SDirect
+      - file: content/scripts/matlab/matlab_SDirect
+      - file: content/scripts/mathematica/mathematica_SDirect
   - caption: BIBLIOGRAPHIC/GENERAL
     chapters:
     - file: content/scripts/A_overview/crossref_overview
