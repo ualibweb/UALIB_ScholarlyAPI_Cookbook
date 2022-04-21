@@ -555,6 +555,96 @@
   <a class="reference internal nav-link" href="#crossref-api-in-matlab">
    Crossref API in Matlab
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-crossref-api-call">
+     1. Basic crossref API call
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#setup-api-parameters">
+       Setup API parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#request-data-from-crossref-api">
+       Request data from crossref API
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#select-some-specific-data">
+       Select some specific data
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#crossref-api-call-with-a-loop">
+     2. Crossref API call with a Loop
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Setup API parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#create-a-list-of-dois">
+       Create a list of DOIs
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#request-metadata-for-each-doi-from-crossref-api-and-save-to-a-structure">
+       Request metadata for each DOI from Crossref API and save to a structure
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id2">
+       Select some specific data
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#crossref-api-call-for-journal-information">
+     3. Crossref API call for journal information
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id3">
+       Setup API parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#request-journal-data-from-crossref-api">
+       Request journal data from crossref API
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#crossref-api-get-article-dois-for-a-journal">
+     4. Crossref API - Get article DOIs for a journal
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id4">
+       Setup API Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#request-doi-data-from-crossref-api">
+       Request DOI data from crossref API
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#extract-dois">
+       Extract DOIs
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -571,6 +661,398 @@
 <h1>…in Matlab<a class="headerlink" href="#in-matlab" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="crossref-api-in-matlab">
 <h2>Crossref API in Matlab<a class="headerlink" href="#crossref-api-in-matlab" title="Permalink to this headline">¶</a></h2>
+<p>by Anastasia Ramig</p>
+<p><strong>Crossref API documentation:</strong> <a class="reference external" href="https://api.crossref.org/swagger-ui/index.html">https://api.crossref.org/swagger-ui/index.html</a></p>
+<p>These recipe examples were tested on April 21, 2022 in MATLAB R2021a.</p>
+<p><em>From our testing, we have found that the crossref metadata across publishers and even journals can vary considerably. As a result, it can be easier to work with one journal at a time when using the crossref API (e.g., particularly when trying to extract selected data from records).</em></p>
+<div class="section" id="basic-crossref-api-call">
+<h3>1. Basic crossref API call<a class="headerlink" href="#basic-crossref-api-call" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="setup-api-parameters">
+<h4>Setup API parameters<a class="headerlink" href="#setup-api-parameters" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">base_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://api.crossref.org/works/&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% the base url for api calls</span><span class="w"></span>
+<span class="n">email</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;your_email@ua.edu&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% change this to your email</span><span class="w"></span>
+<span class="n">mailto</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;?mailto=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">email</span><span class="p">;</span><span class="w"></span>
+<span class="n">options</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">weboptions</span><span class="p">(</span><span class="s">&#39;Timeout&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span><span class="w"></span>
+<span class="n">doi</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;10.1186/1758-2946-4-12&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% example</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="request-data-from-crossref-api">
+<h4>Request data from crossref API<a class="headerlink" href="#request-data-from-crossref-api" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">api_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">base_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">doi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mailto</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">api_data</span><span class="p">.</span><span class="n">message</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="w">               </span><span class="n">indexed</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">       </span><span class="n">reference_count</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="w"></span>
+<span class="w">             </span><span class="n">publisher</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Springer Science and Business Media LLC&#39;</span><span class="w"></span>
+<span class="w">                 </span><span class="n">issue</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1&#39;</span><span class="w"></span>
+<span class="w">               </span><span class="nb">license</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="n">content_domain</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w"> </span><span class="n">short_container_title</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;J Cheminform&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="w">       </span><span class="n">published_print</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">                   </span><span class="n">DOI</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;10.1186/1758-2946-4-12&#39;</span><span class="w"></span>
+<span class="w">                  </span><span class="nb">type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;journal-article&#39;</span><span class="w"></span>
+<span class="w">               </span><span class="n">created</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">                </span><span class="n">source</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Crossref&#39;</span><span class="w"></span>
+<span class="n">is_referenced_by_count</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
+<span class="w">                 </span><span class="nb">title</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;The Molecule Cloud - compact visualization of large collections of molecules&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="n">prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;10.1186&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="nb">volume</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;4&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="n">author</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">                </span><span class="n">member</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;297&#39;</span><span class="w"></span>
+<span class="w">      </span><span class="n">published_online</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">             </span><span class="n">reference</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="mi">16</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">cell</span><span class="p">}</span><span class="w"></span>
+<span class="w">       </span><span class="n">container_title</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;Journal of Cheminformatics&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="n">original_title</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+<span class="w">              </span><span class="n">language</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;en&#39;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">link</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">             </span><span class="n">deposited</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">                 </span><span class="n">score</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">              </span><span class="n">resource</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">              </span><span class="nb">subtitle</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+<span class="w">           </span><span class="n">short_title</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+<span class="w">                </span><span class="n">issued</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">      </span><span class="n">references_count</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="w"></span>
+<span class="w">         </span><span class="n">journal_issue</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="n">alternative_id</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;336&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="w">                   </span><span class="n">URL</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;http://dx.doi.org/10.1186/1758-2946-4-12&#39;</span><span class="w"></span>
+<span class="w">              </span><span class="n">relation</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">                  </span><span class="n">ISSN</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;1758-2946&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="w">             </span><span class="n">issn_type</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">               </span><span class="n">subject</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="mi">4</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">cell</span><span class="p">}</span><span class="w"></span>
+<span class="w">             </span><span class="n">published</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="n">article_number</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;12&#39;</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="select-some-specific-data">
+<h4>Select some specific data<a class="headerlink" href="#select-some-specific-data" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Get Journal title</span><span class="w"></span>
+<span class="n">api_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">container_title</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">cell</span><span class="w"> </span><span class="n">array</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="s">&#39;Journal of Cheminformatics&#39;</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Get article title</span><span class="w"></span>
+<span class="n">api_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">title</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">cell</span><span class="w"> </span><span class="n">array</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="s">&#39;The Molecule Cloud - compact visualization of large collections of molecules&#39;</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Get article author names</span><span class="w"></span>
+<span class="n">names</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="n">api_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">author</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">given</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="n">api_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">author</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">family</span><span class="p">);</span><span class="w"></span>
+<span class="n">names</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="n">api_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">author</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">given</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="n">api_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">author</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">family</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">names</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">{[</span><span class="s">&quot;Peter Ertl&quot;</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="s">&quot;Bernhard Rohde&quot;</span><span class="p">]}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% get the bibliography references</span><span class="w"></span>
+<span class="n">bib_refs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">length</span><span class="p">(</span><span class="n">api_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">reference</span><span class="p">));</span><span class="w"> </span><span class="c">% pre-allocate a cell array</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">api_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">reference</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">bib_refs</span><span class="p">{</span><span class="n">ref</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">api_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">reference</span><span class="p">{</span><span class="n">ref</span><span class="p">}.</span><span class="n">unstructured</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="c">%% display the first few references</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">bib_refs</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">Column</span><span class="w"> </span><span class="s">1</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Martin E, Ertl P, Hunt P, Duca J, Lewis R: Gazing into the crystal ball; the future of com…&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Column</span><span class="w"> </span><span class="s">2</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Langdon SR, Brown N, Blagg J: Scaffold diversity of exemplified medicinal chemistry space.…&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Column</span><span class="w"> </span><span class="s">3</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Blum LC, Reymond J-C: 970 Million druglike small molecules for virtual screening in the ch…&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Column</span><span class="w"> </span><span class="s">4</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Dubois J, Bourg S, Vrain C, Morin-Allory L: Collections of compounds - how to deal with th…&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Column</span><span class="w"> </span><span class="s">5</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Medina-Franco JL, Martinez-Mayorga K, Giulianotti MA, Houghten RA, Pinilla C: Visualizatio…&#39;</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="crossref-api-call-with-a-loop">
+<h3>2. Crossref API call with a Loop<a class="headerlink" href="#crossref-api-call-with-a-loop" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Setup API parameters<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">base_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://api.crossref.org/works/&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% the base url for api calls</span><span class="w"></span>
+<span class="n">email</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;your_email@ua.edu&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% change this to your email</span><span class="w"></span>
+<span class="n">mailto</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;?mailto=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">email</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-list-of-dois">
+<h4>Create a list of DOIs<a class="headerlink" href="#create-a-list-of-dois" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Create a list of DOIs</span><span class="w"></span>
+<span class="n">doi_list</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;10.1021/acsomega.1c03250&quot;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="s">&quot;10.1021/acsomega.1c05512&quot;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="s">&quot;10.1021/acsomega.8b01647&quot;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="s">&quot;10.1021/acsomega.1c04287&quot;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="s">&quot;10.1021/acsomega.8b01834&quot;</span><span class="p">];</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="request-metadata-for-each-doi-from-crossref-api-and-save-to-a-structure">
+<h4>Request metadata for each DOI from Crossref API and save to a structure<a class="headerlink" href="#request-metadata-for-each-doi-from-crossref-api-and-save-to-a-structure" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% get data for each of the dois in the list</span><span class="w"></span>
+<span class="n">doi_metadata</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">;</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">doi</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">doi_list</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">doi_metadata</span><span class="p">.</span><span class="n">doi</span><span class="p">{</span><span class="n">doi</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w">  </span><span class="nb">webread</span><span class="p">(</span><span class="n">base_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">doi_list</span><span class="p">(</span><span class="n">doi</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mailto</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">pause</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">doi_metadata</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">doi_metadata</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">fields</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">doi</span><span class="p">:</span><span class="w"> </span><span class="p">{[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w">  </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w">  </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w">  </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w">  </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h4>Select some specific data<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Create a table of information</span><span class="w"></span>
+<span class="n">message_array</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">doi_metadata</span><span class="p">.</span><span class="n">doi</span><span class="p">));</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">doi_metadata</span><span class="p">.</span><span class="n">doi</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">message_array</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">doi_metadata</span><span class="p">.</span><span class="n">doi</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">};</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">message_table</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell2table</span><span class="p">(</span><span class="n">message_array</span><span class="p">);</span><span class="w"></span>
+<span class="n">message_table</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">rows2vars</span><span class="p">(</span><span class="n">message_table</span><span class="p">);</span><span class="w"></span>
+<span class="n">message_table</span><span class="p">.</span><span class="n">OriginalVariableNames</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span><span class="w"></span>
+<span class="c">%% Get article titles</span><span class="w"></span>
+<span class="n">titles</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">height</span><span class="p">(</span><span class="n">message_table</span><span class="p">));</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">height</span><span class="p">(</span><span class="n">message_table</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">message</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">message_table</span><span class="p">.</span><span class="n">Var1</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="n">message</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">titles</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">title</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">titles</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">Column</span><span class="w"> </span><span class="s">1</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Navigating into the Chemical Space of Monoamine Oxidase Inhibitors by Artificial Intellige…&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Column</span><span class="w"> </span><span class="s">2</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Impact of Artificial Intelligence on Compound Discovery, Design, and Synthesis&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Column</span><span class="w"> </span><span class="s">3</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;How Precise Are Our Quantitative Structure–Activity Relationship Derived Predictions for N…&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Column</span><span class="w"> </span><span class="s">4</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Applying Neuromorphic Computing Simulation in Band Gap Prediction and Chemical Reaction Cl…&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Column</span><span class="w"> </span><span class="s">5</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;QSPR Modeling of the Refractive Index for Diverse Polymers Using 2D Descriptors&#39;</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="crossref-api-call-for-journal-information">
+<h3>3. Crossref API call for journal information<a class="headerlink" href="#crossref-api-call-for-journal-information" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h4>Setup API parameters<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">jbase_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://api.crossref.org/journals/&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% the base url for api calls</span><span class="w"></span>
+<span class="n">email</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;your_email@ua.edu&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% change this to your email</span><span class="w"></span>
+<span class="n">mailto</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;?mailto=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">email</span><span class="p">;</span><span class="w"></span>
+<span class="n">issn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;1471-2105&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% issn for the journal BMC Bioinformatics</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="request-journal-data-from-crossref-api">
+<h4>Request journal data from crossref API<a class="headerlink" href="#request-journal-data-from-crossref-api" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">jour_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">jbase_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">issn</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mailto</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">jour_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">fields</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="n">status</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ok&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="n">message_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;journal&#39;</span><span class="w"></span>
+<span class="w"> </span><span class="n">message_version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1.0.0&#39;</span><span class="w"></span>
+<span class="w">         </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% get subjects</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">({</span><span class="n">jour_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">subjects</span><span class="p">.</span><span class="n">name</span><span class="p">})</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">Columns</span><span class="w"> </span><span class="s">1</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">3</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Applied Mathematics&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;Computer Science Applications&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;Molecular Biology&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">4</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">5</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Biochemistry&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;Structural Biology&#39;</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="crossref-api-get-article-dois-for-a-journal">
+<h3>4. Crossref API - Get article DOIs for a journal<a class="headerlink" href="#crossref-api-get-article-dois-for-a-journal" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h4>Setup API Parameters<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">jbase_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://api.crossref.org/journals/&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% the base url for api calls</span><span class="w"></span>
+<span class="n">email</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;your_email@ua.edu&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% Change this to be your email</span><span class="w"></span>
+<span class="n">mailto</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;&amp;mailto=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">email</span><span class="p">;</span><span class="w"></span>
+<span class="n">options</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">weboptions</span><span class="p">(</span><span class="s">&#39;Timeout&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">);</span><span class="w"></span>
+<span class="n">issn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;1471-2105&quot;</span><span class="p">;</span><span class="w">  </span><span class="c">%% issn for the journal BMC Bioinformatics</span><span class="w"></span>
+<span class="n">journal_works2014</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;/works?filter=from-pub-date:2014,until-pub-date:2014&amp;select=DOI&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% query to get DOIs for 2014</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="request-doi-data-from-crossref-api">
+<h4>Request DOI data from crossref API<a class="headerlink" href="#request-doi-data-from-crossref-api" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">doi_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">jbase_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">issn</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">journal_works2014</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mailto</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">doi_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">fields</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="n">status</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ok&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="n">message_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;work-list&#39;</span><span class="w"></span>
+<span class="w"> </span><span class="n">message_version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1.0.0&#39;</span><span class="w"></span>
+<span class="w">         </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">doi_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">total_results</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"></span>
+<span class="w">   </span><span class="mi">619</span><span class="w"></span>
+</pre></div>
+</div>
+<p>By default, 20 results are returned. Crossref allows up to 1000 returned results using the rows parameter. To get all 619 results, we can increase the number of returned rows.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;&amp;rows=700&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="nb">weboptions</span><span class="p">(</span><span class="s">&#39;Timeout&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">);</span><span class="w"></span>
+<span class="n">doi_data_all</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">jbase_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">issn</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">journal_works2014</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rows</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mailto</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="extract-dois">
+<h4>Extract DOIs<a class="headerlink" href="#extract-dois" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">dois_list</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">doi_data_all</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">items</span><span class="p">.</span><span class="n">DOI</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">dois_list</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span>×<span class="mi">619</span><span class="w"> </span><span class="nb">cell</span><span class="w"></span>
+<span class="s">&#39;10.1186/1471-2105-15-158&#39;</span><span class="w">    </span><span class="s">&#39;10.1186/1471-2105-15-106&#39;</span><span class="w">    </span><span class="s">&#39;10.1186/1471-2105-15-268&#39;</span><span class="w">    </span><span class="s">&#39;10.1186/1471-2105-15-248&#39;</span><span class="w"> </span><span class="k">...</span><span class="w"></span>
+</pre></div>
+</div>
+<p>What if we have more than 1000 results in a single query? For example, if we wanted the DOIs from BMC Bioinformatics for years 2014 through 2016?</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">jbase_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://api.crossref.org/journals/&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% the base url for api calls</span><span class="w"></span>
+<span class="n">email</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;your_email@ua.edu&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% Change this to be your email</span><span class="w"></span>
+<span class="n">mailto</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;&amp;mailto=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">email</span><span class="p">;</span><span class="w"></span>
+<span class="n">options</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">weboptions</span><span class="p">(</span><span class="s">&#39;Timeout&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">);</span><span class="w"></span>
+<span class="n">issn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;1471-2105&quot;</span><span class="p">;</span><span class="w">  </span><span class="c">%% issn for the journal BMC Bioinformatics</span><span class="w"></span>
+<span class="n">journal_works2014_2016</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;/works?filter=from-pub-date:2014,until-pub-date:2016&amp;select=DOI&quot;</span><span class="p">;</span><span class="w"> </span><span class="c">%% query to get DOIs for 2014-2016</span><span class="w"></span>
+<span class="n">doi_data2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">jbase_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">issn</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">journal_works2014_2016</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mailto</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">doi_data2</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">total_results</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"></span>
+<span class="w">     </span><span class="mi">1772</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Here we see that the total results is over 1000 (total results: 1772). An additional parameter that we can use with crossref API is called “offset”. The offset option allows us to select sets of records and define a starting position (e.g., the first 1000, and then the second set of up to 1000).</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;&amp;rows=1000&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">numResults</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">doi_data</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">total_results</span><span class="p">;</span><span class="w"></span>
+<span class="n">doi_list2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">int16</span><span class="p">((</span><span class="n">numResults</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:(</span><span class="nb">int16</span><span class="p">((</span><span class="n">numResults</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">query</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">jbase_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">issn</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">journal_works2014_2016</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rows</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;&amp;offset=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">((</span><span class="mi">1000</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mailto</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">pause</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">doi_list2</span><span class="p">{</span><span class="n">n</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">query</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% concatenate the results into a cell array</span><span class="w"></span>
+<span class="n">doi_list3</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">doi_list2</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">}.</span><span class="n">message</span><span class="p">.</span><span class="n">items</span><span class="p">;</span><span class="w"> </span><span class="n">doi_list2</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">}.</span><span class="n">message</span><span class="p">.</span><span class="n">items</span><span class="p">];</span><span class="w"></span>
+<span class="nb">length</span><span class="p">(</span><span class="n">doi_list3</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"></span>
+<span class="w">     </span><span class="mi">1772</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%  Show index results 1000-1020</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="nb">struct2cell</span><span class="p">(</span><span class="n">doi_list3</span><span class="p">(</span><span class="mi">1000</span><span class="p">:</span><span class="mi">1020</span><span class="p">)))</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">Columns</span><span class="w"> </span><span class="s">1</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">2</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/1471-2105-15-139&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-015-0768-9&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">3</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">4</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/1471-2105-15-s6-s1&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;10.1186/1471-2105-15-157&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">5</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">6</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-016-1246-8&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-016-1155-x&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">7</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">8</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-014-0381-3&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-015-0725-7&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">9</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">10</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-015-0465-8&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-014-0426-7&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">11</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">12</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-016-1326-9&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-015-0636-7&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">13</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">14</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/1471-2105-15-136&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-015-0789-4&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">15</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">16</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/1471-2105-15-164&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;10.1186/1471-2105-15-121&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">17</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">18</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-016-1272-6&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;10.1186/1471-2105-15-s13-s2&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">19</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">20</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-015-0451-1&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-016-0929-5&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Column</span><span class="w"> </span><span class="s">21</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;10.1186/s12859-016-1254-8&#39;</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
