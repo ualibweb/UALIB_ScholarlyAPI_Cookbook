@@ -555,6 +555,77 @@
   <a class="reference internal nav-link" href="#pubchem-api-in-python">
    PubChem API in Python
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setup">
+     Setup
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubchem-similarity">
+     1. PubChem Similarity
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#get-compound-image">
+       Get compound image
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#retrieve-inchi-and-smiles">
+       Retrieve InChI and SMILES
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#perform-a-similarity-search">
+       Perform a Similarity Search
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#retrieve-identifier-and-property-data">
+       Retrieve Identifier and Property Data
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#data-table">
+       Data Table
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#retrieve-images-of-compounds-from-similarity-search">
+       Retrieve Images of Compounds from Similarity Search
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubchem-smarts-search">
+     2. PubChem SMARTS Search
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#define-smarts-queries">
+       Define SMARTS queries
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#perform-a-smarts-query-search">
+       Perform a SMARTS query search
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Retrieve Identifier and Property Data
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#retrieve-images-of-cid-compounds-from-smarts-search">
+       Retrieve Images of CID Compounds from SMARTS Search
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -571,6 +642,520 @@
 <h1>…in Python<a class="headerlink" href="#in-python" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="pubchem-api-in-python">
 <h2>PubChem API in Python<a class="headerlink" href="#pubchem-api-in-python" title="Permalink to this headline">¶</a></h2>
+<p>by Avery Fernandez</p>
+<p><strong>PubChem API Documentation</strong>: <a class="reference external" href="https://pubchemdocs.ncbi.nlm.nih.gov/programmatic-access">https://pubchemdocs.ncbi.nlm.nih.gov/programmatic-access</a></p>
+<p>These recipe examples were tested on May 16, 2022.</p>
+<p><strong>Attribution:</strong> This tutorial was adapted from supporting information in:</p>
+<p><strong>Scalfani, V. F.</strong>; Ralph, S. C. Alshaikh, A. A.; Bara, J. E. Programmatic Compilation of Chemical Data and Literature From PubChem Using Matlab. <em>Chemical Engineering Education</em>, <strong>2020</strong>, <em>54</em>, 230. <a class="reference external" href="https://doi.org/10.18260/2-1-370.660-115508">https://doi.org/10.18260/2-1-370.660-115508</a> and <a class="reference external" href="https://github.com/vfscalfani/MATLAB-cheminformatics">https://github.com/vfscalfani/MATLAB-cheminformatics</a>)</p>
+<div class="section" id="setup">
+<h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
+<p>First, import libraries:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define the PubChem PUG-REST API base URL:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="o">=</span> <span class="s1">&#39;https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="pubchem-similarity">
+<h3>1. PubChem Similarity<a class="headerlink" href="#pubchem-similarity" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="get-compound-image">
+<h4>Get compound image<a class="headerlink" href="#get-compound-image" title="Permalink to this headline">¶</a></h4>
+<p>We can search for a compound and display an image, for example: 1-Butyl-3-methyl-imidazolium; CID = 2734162</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Request PNG from PubChem and save file</span>
+<span class="n">compoundID</span> <span class="o">=</span> <span class="s2">&quot;2734162&quot;</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span> <span class="o">+</span> <span class="s1">&#39;/cid/&#39;</span> <span class="o">+</span> <span class="n">compoundID</span> <span class="o">+</span> <span class="s2">&quot;/PNG&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;2734162.png&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display compound PNG with Matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="k">as</span> <span class="nn">mpimg</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;2734162.png&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/python_pubchem_11_0.png" src="../../../_images/python_pubchem_11_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="retrieve-inchi-and-smiles">
+<h4>Retrieve InChI and SMILES<a class="headerlink" href="#retrieve-inchi-and-smiles" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span> <span class="o">+</span> <span class="s1">&#39;cid/&#39;</span> <span class="o">+</span> <span class="n">compoundID</span> <span class="o">+</span> <span class="s1">&#39;/property/inchi,IsomericSMILES/JSON&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;PropertyTable&#39;: {&#39;Properties&#39;: [{&#39;CID&#39;: 2734162,
+                                   &#39;InChI&#39;: &#39;InChI=1S/C8H15N2/c1-3-4-5-10-7-6-9(2)8-10/h6-8H,3-5H2,1-2H3/q+1&#39;,
+                                   &#39;IsomericSMILES&#39;: &#39;CCCCN1C=C[N+](=C1)C&#39;}]}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract InChI</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">&quot;PropertyTable&quot;</span><span class="p">][</span><span class="s2">&quot;Properties&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;InChI&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;InChI=1S/C8H15N2/c1-3-4-5-10-7-6-9(2)8-10/h6-8H,3-5H2,1-2H3/q+1&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract Isomeric SMILES</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">&quot;PropertyTable&quot;</span><span class="p">][</span><span class="s2">&quot;Properties&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;IsomericSMILES&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;CCCCN1C=C[N+](=C1)C&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="perform-a-similarity-search">
+<h4>Perform a Similarity Search<a class="headerlink" href="#perform-a-similarity-search" title="Permalink to this headline">¶</a></h4>
+<p>We will use the PubChem API to perform a Fingerprint Tanimoto Similarity Search (SS).</p>
+<p>(2D Tanimoto threshold 95% to 1-Butyl-3-methyl-imidazolium; CID = 2734162)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="o">=</span> <span class="s1">&#39;https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/&#39;</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span> <span class="o">+</span> <span class="s2">&quot;fastsimilarity_2d/cid/&quot;</span> <span class="o">+</span> <span class="n">compoundID</span> <span class="o">+</span> <span class="s2">&quot;/cids/JSON?Threshold=95&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">idList</span> <span class="o">=</span> <span class="n">request</span><span class="p">[</span><span class="s2">&quot;IdentifierList&quot;</span><span class="p">][</span><span class="s2">&quot;CID&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the above request value, you can adjust to the desired Tanimoto threshold (i.e., 97, 90, etc.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">idList</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>297
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># display first 25</span>
+<span class="n">idList</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">25</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[529334,
+ 304622,
+ 118785,
+ 61347,
+ 12971008,
+ 11448496,
+ 11424151,
+ 11171745,
+ 11160028,
+ 2734236,
+ 2734162,
+ 2734161,
+ 11245926,
+ 53384410,
+ 11788435,
+ 5245884,
+ 2734168,
+ 139254006,
+ 91983981,
+ 87560886,
+ 87559770,
+ 11448364,
+ 10537570,
+ 10154187,
+ 141109628]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="retrieve-identifier-and-property-data">
+<h4>Retrieve Identifier and Property Data<a class="headerlink" href="#retrieve-identifier-and-property-data" title="Permalink to this headline">¶</a></h4>
+<p>Get the following data for the retrieved CIDs (idList): InChI, Isomeric SMILES, MW, Heavy Atom Count, Rotable Bond Count, and Charge</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="o">=</span> <span class="s1">&#39;https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/&#39;</span>
+<span class="n">compoundDictionary</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">cid</span> <span class="ow">in</span> <span class="n">idList</span><span class="p">:</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span> <span class="o">+</span> <span class="s1">&#39;cid/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/property/InChI,IsomericSMILES,MolecularWeight,HeavyAtomCount,RotatableBondCount,Charge/JSON&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">compoundDictionary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s2">&quot;PropertyTable&quot;</span><span class="p">][</span><span class="s2">&quot;Properties&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">compoundDictionary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>297
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">compoundDictionary</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;CID&#39;: 529334,
+  &#39;Charge&#39;: 0,
+  &#39;HeavyAtomCount&#39;: 10,
+  &#39;InChI&#39;: &#39;InChI=1S/C8H14N2/c1-2-3-4-6-10-7-5-9-8-10/h5,7-8H,2-4,6H2,1H3&#39;,
+  &#39;IsomericSMILES&#39;: &#39;CCCCCN1C=CN=C1&#39;,
+  &#39;MolecularWeight&#39;: &#39;138.21&#39;,
+  &#39;RotatableBondCount&#39;: 4},
+ {&#39;CID&#39;: 304622,
+  &#39;Charge&#39;: 0,
+  &#39;HeavyAtomCount&#39;: 10,
+  &#39;InChI&#39;: &#39;InChI=1S/C8H14N2/c1-3-4-6-10-7-5-9-8(10)2/h5,7H,3-4,6H2,1-2H3&#39;,
+  &#39;IsomericSMILES&#39;: &#39;CCCCN1C=CN=C1C&#39;,
+  &#39;MolecularWeight&#39;: &#39;138.21&#39;,
+  &#39;RotatableBondCount&#39;: 3},
+ {&#39;CID&#39;: 118785,
+  &#39;Charge&#39;: 0,
+  &#39;HeavyAtomCount&#39;: 8,
+  &#39;InChI&#39;: &#39;InChI=1S/C6H10N2/c1-2-4-8-5-3-7-6-8/h3,5-6H,2,4H2,1H3&#39;,
+  &#39;IsomericSMILES&#39;: &#39;CCCN1C=CN=C1&#39;,
+  &#39;MolecularWeight&#39;: &#39;110.16&#39;,
+  &#39;RotatableBondCount&#39;: 2},
+ {&#39;CID&#39;: 61347,
+  &#39;Charge&#39;: 0,
+  &#39;HeavyAtomCount&#39;: 9,
+  &#39;InChI&#39;: &#39;InChI=1S/C7H12N2/c1-2-3-5-9-6-4-8-7-9/h4,6-7H,2-3,5H2,1H3&#39;,
+  &#39;IsomericSMILES&#39;: &#39;CCCCN1C=CN=C1&#39;,
+  &#39;MolecularWeight&#39;: &#39;124.18&#39;,
+  &#39;RotatableBondCount&#39;: 3},
+ {&#39;CID&#39;: 12971008,
+  &#39;Charge&#39;: 0,
+  &#39;HeavyAtomCount&#39;: 10,
+  &#39;InChI&#39;: &#39;InChI=1S/C7H13N2.HI/c1-3-4-9-6-5-8(2)7-9;/h5-7H,3-4H2,1-2H3;1H/q+1;/p-1&#39;,
+  &#39;IsomericSMILES&#39;: &#39;CCCN1C=C[N+](=C1)C.[I-]&#39;,
+  &#39;MolecularWeight&#39;: &#39;252.10&#39;,
+  &#39;RotatableBondCount&#39;: 2}]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="data-table">
+<h4>Data Table<a class="headerlink" href="#data-table" title="Permalink to this headline">¶</a></h4>
+<p>We can display the dictionary as a data table, but we will only do this for the first 25:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># numbers in print statement indicate amount of space used</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;8}</span><span class="s2"> </span><span class="si">{:&lt;16}</span><span class="s2"> </span><span class="si">{:&lt;35}</span><span class="s2"> </span><span class="si">{:&lt;40}</span><span class="s2"> </span><span class="si">{:&lt;18}</span><span class="s2"> </span><span class="si">{:&lt;4}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;CID&quot;</span><span class="p">,</span> <span class="s2">&quot;Charge&quot;</span><span class="p">,</span> <span class="s2">&quot;HeavyAtomCount&quot;</span><span class="p">,</span> <span class="s2">&quot;InChI&quot;</span><span class="p">,</span> <span class="s2">&quot;IsomericSMILES&quot;</span><span class="p">,</span> <span class="s2">&quot;MolecularWeight&quot;</span><span class="p">,</span> <span class="s2">&quot;RotatableBondCount&quot;</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">compound</span> <span class="ow">in</span> <span class="n">compoundDictionary</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">25</span><span class="p">]:</span>
+    <span class="n">cid</span> <span class="o">=</span> <span class="n">compound</span><span class="p">[</span><span class="s2">&quot;CID&quot;</span><span class="p">]</span>
+    <span class="n">charge</span> <span class="o">=</span> <span class="n">compound</span><span class="p">[</span><span class="s2">&quot;Charge&quot;</span><span class="p">]</span>
+    <span class="n">heavyAtom</span> <span class="o">=</span> <span class="n">compound</span><span class="p">[</span><span class="s2">&quot;HeavyAtomCount&quot;</span><span class="p">]</span>
+    <span class="n">inchi</span> <span class="o">=</span> <span class="n">compound</span><span class="p">[</span><span class="s2">&quot;InChI&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">30</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span> <span class="c1"># only display first 30 characters of InChI</span>
+    <span class="n">isomeric</span> <span class="o">=</span> <span class="n">compound</span><span class="p">[</span><span class="s2">&quot;IsomericSMILES&quot;</span><span class="p">]</span>
+    <span class="n">molecular</span> <span class="o">=</span> <span class="n">compound</span><span class="p">[</span><span class="s2">&quot;MolecularWeight&quot;</span><span class="p">]</span>
+    <span class="n">rotatable</span> <span class="o">=</span> <span class="n">compound</span><span class="p">[</span><span class="s2">&quot;RotatableBondCount&quot;</span><span class="p">]</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;8}</span><span class="s2"> </span><span class="si">{:&lt;16}</span><span class="s2"> </span><span class="si">{:&lt;35}</span><span class="s2"> </span><span class="si">{:&lt;40}</span><span class="s2"> </span><span class="si">{:&lt;18}</span><span class="s2"> </span><span class="si">{:&lt;4}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cid</span><span class="p">,</span> <span class="n">charge</span><span class="p">,</span> <span class="n">heavyAtom</span><span class="p">,</span> <span class="n">inchi</span><span class="p">,</span> <span class="n">isomeric</span><span class="p">,</span> <span class="n">molecular</span><span class="p">,</span> <span class="n">rotatable</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CID        Charge   HeavyAtomCount   InChI                               IsomericSMILES                           MolecularWeight    RotatableBondCount 
+529334     0        10               InChI=1S/C8H14N2/c1-2-3-4-6-10...   CCCCCN1C=CN=C1                           138.21             4    
+304622     0        10               InChI=1S/C8H14N2/c1-3-4-6-10-7...   CCCCN1C=CN=C1C                           138.21             3    
+118785     0        8                InChI=1S/C6H10N2/c1-2-4-8-5-3-...   CCCN1C=CN=C1                             110.16             2    
+61347      0        9                InChI=1S/C7H12N2/c1-2-3-5-9-6-...   CCCCN1C=CN=C1                            124.18             3    
+12971008   0        10               InChI=1S/C7H13N2.HI/c1-3-4-9-6...   CCCN1C=C[N+](=C1)C.[I-]                  252.10             2    
+11448496   0        11               InChI=1S/C8H15N2.HI/c1-3-4-5-1...   CCCCN1C=C[N+](=C1)C.[I-]                 266.12             3    
+11424151   0        13               InChI=1S/C8H15N2.CHNS/c1-3-4-5...   CCCCN1C=C[N+](=C1)C.C(#N)[S-]            197.30             3    
+11171745   0        15               InChI=1S/C8H15N2.C2N3/c1-3-4-5...   CCCCN1C=C[N+](=C1)C.C(=[N-])=NC#N        205.26             3    
+11160028   0        10               InChI=1S/C7H13N2.BrH/c1-3-4-9-...   CCCN1C=C[N+](=C1)C.[Br-]                 205.10             2    
+2734236    0        11               InChI=1S/C8H15N2.BrH/c1-3-4-5-...   CCCCN1C=C[N+](=C1)C.[Br-]                219.12             3    
+2734162    1        10               InChI=1S/C8H15N2/c1-3-4-5-10-7...   CCCCN1C=C[N+](=C1)C                      139.22             3    
+2734161    0        11               InChI=1S/C8H15N2.ClH/c1-3-4-5-...   CCCCN1C=C[N+](=C1)C.[Cl-]                174.67             3    
+11245926   0        13               InChI=1S/C8H15N2.Br2.BrH/c1-3-...   CCCCN1C=C[N+](=C1)C.[Br-].BrBr           378.93             3    
+53384410   0        13               InChI=1S/C8H15N2.Br3/c1-3-4-5-...   CCCCN1C=C[N+](=C1)C.Br[Br-]Br            378.93             3    
+11788435   0        11               InChI=1S/C8H15N2.H2O/c1-3-4-5-...   CCCCN1C=C[N+](=C1)C.[OH-]                156.23             3    
+5245884    1        9                InChI=1S/C7H13N2/c1-3-4-9-6-5-...   CCCN1C=C[N+](=C1)C                       125.19             2    
+2734168    1        11               InChI=1S/C9H17N2/c1-4-5-6-11-8...   CCCCN1C=C[N+](=C1C)C                     153.24             3    
+139254006  0        12               InChI=1S/C9H15N2.HI/c1-3-5-6-1...   CCCC[N+]1=CN(C=C1)C=C.[I-]               278.13             4    
+91983981   -2       13               InChI=1S/C8H15N2.3BrH/c1-3-4-5...   CCCCN1C=C[N+](=C1)C.[Br-].[Br-].[Br-]    378.93             3    
+87560886   0        12               InChI=1S/C9H15N2.BrH/c1-3-5-6-...   CCCC[N+]1=CN(C=C1)C=C.[Br-]              231.13             4    
+87559770   0        12               InChI=1S/C9H15N2.ClH/c1-3-5-6-...   CCCC[N+]1=CN(C=C1)C=C.[Cl-]              186.68             4    
+11448364   0        14               InChI=1S/C11H21N2.BrH/c1-3-5-7...   CCCCN1C=C[N+](=C1)CCCC.[Br-]             261.20             6    
+10537570   1        11               InChI=1S/C9H17N2/c1-3-4-5-6-11...   CCCCCN1C=C[N+](=C1)C                     153.24             4    
+10154187   0        10               InChI=1S/C7H13N2.ClH/c1-3-4-9-...   CCCN1C=C[N+](=C1)C.[Cl-]                 160.64             2    
+141109628  0        10               InChI=1S/C7H11FN2/c1-2-3-5-10-...   CCCCN1C=CN=C1F                           142.17             3    
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="retrieve-images-of-compounds-from-similarity-search">
+<h4>Retrieve Images of Compounds from Similarity Search<a class="headerlink" href="#retrieve-images-of-compounds-from-similarity-search" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we will only do this for the first five:</span>
+<span class="n">api</span> <span class="o">=</span> <span class="s2">&quot;https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/&quot;</span>
+<span class="k">for</span> <span class="n">cid</span> <span class="ow">in</span> <span class="n">idList</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span> <span class="o">+</span> <span class="s2">&quot;cid/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/PNG&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>529334
+</pre></div>
+</div>
+<img alt="../../../_images/python_pubchem_30_1.png" src="../../../_images/python_pubchem_30_1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>304622
+</pre></div>
+</div>
+<img alt="../../../_images/python_pubchem_30_3.png" src="../../../_images/python_pubchem_30_3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>118785
+</pre></div>
+</div>
+<img alt="../../../_images/python_pubchem_30_5.png" src="../../../_images/python_pubchem_30_5.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>61347
+</pre></div>
+</div>
+<img alt="../../../_images/python_pubchem_30_7.png" src="../../../_images/python_pubchem_30_7.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12971008
+</pre></div>
+</div>
+<img alt="../../../_images/python_pubchem_30_9.png" src="../../../_images/python_pubchem_30_9.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="pubchem-smarts-search">
+<h3>2. PubChem SMARTS Search<a class="headerlink" href="#pubchem-smarts-search" title="Permalink to this headline">¶</a></h3>
+<p>Search for chemical structures from a SMARTS substructure query.</p>
+<div class="section" id="define-smarts-queries">
+<h4>Define SMARTS queries<a class="headerlink" href="#define-smarts-queries" title="Permalink to this headline">¶</a></h4>
+<p>View pattern syntax at: <a class="reference external" href="https://smartsview.zbh.uni-hamburg.de/">https://smartsview.zbh.uni-hamburg.de/</a></p>
+<p>Note: These are vinyl imidazolium substructure searches</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smartsQ</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;[CR0H2][n+]1[cH1][cH1]n([CR0H1]=[CR0H2])[cH1]1&quot;</span><span class="p">,</span><span class="s2">&quot;[CR0H2][n+]1[cH1][cH1]n([CR0H2][CR0H1]=[CR0H2])[cH1]1&quot;</span><span class="p">,</span><span class="s2">&quot;[CR0H2][n+]1[cH1][cH1]n([CR0H2][CR0H2][CR0H1]=[CR0H2])[cH1]1&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Add your own SMARTS queries to customize. You can add as many as desired within a list</p>
+</div>
+<div class="section" id="perform-a-smarts-query-search">
+<h4>Perform a SMARTS query search<a class="headerlink" href="#perform-a-smarts-query-search" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="o">=</span> <span class="s2">&quot;https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/&quot;</span>
+<span class="n">combinedList</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">smarts</span> <span class="ow">in</span> <span class="n">smartsQ</span><span class="p">:</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span> <span class="o">+</span> <span class="s2">&quot;fastsubstructure/smarts/&quot;</span> <span class="o">+</span> <span class="n">smarts</span> <span class="o">+</span> <span class="s2">&quot;/cids/JSON&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">combinedList</span> <span class="o">+=</span> <span class="n">request</span><span class="p">[</span><span class="s2">&quot;IdentifierList&quot;</span><span class="p">][</span><span class="s2">&quot;CID&quot;</span><span class="p">]</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">combinedList</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>830
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">combinedList</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">25</span><span class="p">])</span> <span class="c1"># display 25</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[121235111,
+ 86657882,
+ 46178576,
+ 24766550,
+ 139254006,
+ 132274871,
+ 129853306,
+ 129853221,
+ 129850195,
+ 87560886,
+ 87559770,
+ 87327009,
+ 59435292,
+ 141478618,
+ 141176071,
+ 139241369,
+ 138404213,
+ 138373746,
+ 135377330,
+ 135361018,
+ 132427329,
+ 132275640,
+ 129862663,
+ 129850437,
+ 129850146]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h4>Retrieve Identifier and Property Data<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smartsList</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">cid</span> <span class="ow">in</span> <span class="n">combinedList</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]:</span> <span class="c1"># demo for first 5 CIDs</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span> <span class="o">+</span> <span class="s2">&quot;cid/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/property/InChI,CanonicalSMILES,MolecularWeight,IUPACName,HeavyAtomCount,CovalentUnitCount,Charge/JSON&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">smartsList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s2">&quot;PropertyTable&quot;</span><span class="p">][</span><span class="s2">&quot;Properties&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">smartsList</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;CID&#39;: 121235111,
+  &#39;CanonicalSMILES&#39;: &#39;CC[N+]1=CN(C=C1)C=C.C(F)(F)(F)S(=O)(=O)[N-]S(=O)(=O)C(F)(F)F&#39;,
+  &#39;Charge&#39;: 0,
+  &#39;CovalentUnitCount&#39;: 2,
+  &#39;HeavyAtomCount&#39;: 24,
+  &#39;IUPACName&#39;: &#39;bis(trifluoromethylsulfonyl)azanide;1-ethenyl-3-ethylimidazol-3-ium&#39;,
+  &#39;InChI&#39;: &#39;InChI=1S/C7H11N2.C2F6NO4S2/c1-3-8-5-6-9(4-2)7-8;3-1(4,5)14(10,11)9-15(12,13)2(6,7)8/h3,5-7H,1,4H2,2H3;/q+1;-1&#39;,
+  &#39;MolecularWeight&#39;: &#39;403.3&#39;},
+ {&#39;CID&#39;: 86657882,
+  &#39;CanonicalSMILES&#39;: &#39;CCCCCCCC[N+]1=CN(C=C1)C=C.[Br-]&#39;,
+  &#39;Charge&#39;: 0,
+  &#39;CovalentUnitCount&#39;: 2,
+  &#39;HeavyAtomCount&#39;: 16,
+  &#39;IUPACName&#39;: &#39;1-ethenyl-3-octylimidazol-3-ium;bromide&#39;,
+  &#39;InChI&#39;: &#39;InChI=1S/C13H23N2.BrH/c1-3-5-6-7-8-9-10-15-12-11-14(4-2)13-15;/h4,11-13H,2-3,5-10H2,1H3;1H/q+1;/p-1&#39;,
+  &#39;MolecularWeight&#39;: &#39;287.24&#39;},
+ {&#39;CID&#39;: 46178576,
+  &#39;CanonicalSMILES&#39;: &#39;CCCCCCCCCCCCCCCC[N+]1=CN(C=C1)C=C.[Br-]&#39;,
+  &#39;Charge&#39;: 0,
+  &#39;CovalentUnitCount&#39;: 2,
+  &#39;HeavyAtomCount&#39;: 24,
+  &#39;IUPACName&#39;: &#39;1-ethenyl-3-hexadecylimidazol-3-ium;bromide&#39;,
+  &#39;InChI&#39;: &#39;InChI=1S/C21H39N2.BrH/c1-3-5-6-7-8-9-10-11-12-13-14-15-16-17-18-23-20-19-22(4-2)21-23;/h4,19-21H,2-3,5-18H2,1H3;1H/q+1;/p-1&#39;,
+  &#39;MolecularWeight&#39;: &#39;399.5&#39;},
+ {&#39;CID&#39;: 24766550,
+  &#39;CanonicalSMILES&#39;: &#39;CCCC[N+]1=CN(C=C1)C=C.C(F)(F)(F)S(=O)(=O)[N-]S(=O)(=O)C(F)(F)F&#39;,
+  &#39;Charge&#39;: 0,
+  &#39;CovalentUnitCount&#39;: 2,
+  &#39;HeavyAtomCount&#39;: 26,
+  &#39;IUPACName&#39;: &#39;bis(trifluoromethylsulfonyl)azanide;1-butyl-3-ethenylimidazol-1-ium&#39;,
+  &#39;InChI&#39;: &#39;InChI=1S/C9H15N2.C2F6NO4S2/c1-3-5-6-11-8-7-10(4-2)9-11;3-1(4,5)14(10,11)9-15(12,13)2(6,7)8/h4,7-9H,2-3,5-6H2,1H3;/q+1;-1&#39;,
+  &#39;MolecularWeight&#39;: &#39;431.4&#39;},
+ {&#39;CID&#39;: 139254006,
+  &#39;CanonicalSMILES&#39;: &#39;CCCC[N+]1=CN(C=C1)C=C.[I-]&#39;,
+  &#39;Charge&#39;: 0,
+  &#39;CovalentUnitCount&#39;: 2,
+  &#39;HeavyAtomCount&#39;: 12,
+  &#39;IUPACName&#39;: &#39;1-butyl-3-ethenylimidazol-1-ium;iodide&#39;,
+  &#39;InChI&#39;: &#39;InChI=1S/C9H15N2.HI/c1-3-5-6-11-8-7-10(4-2)9-11;/h4,7-9H,2-3,5-6H2,1H3;1H/q+1;/p-1&#39;,
+  &#39;MolecularWeight&#39;: &#39;278.13&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="retrieve-images-of-cid-compounds-from-smarts-search">
+<h4>Retrieve Images of CID Compounds from SMARTS Search<a class="headerlink" href="#retrieve-images-of-cid-compounds-from-smarts-search" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="o">=</span> <span class="s2">&quot;https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/&quot;</span>
+<span class="k">for</span> <span class="n">cid</span> <span class="ow">in</span> <span class="n">combinedList</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span> <span class="o">+</span> <span class="s2">&quot;cid/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/PNG&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>121235111
+</pre></div>
+</div>
+<img alt="../../../_images/python_pubchem_44_1.png" src="../../../_images/python_pubchem_44_1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>86657882
+</pre></div>
+</div>
+<img alt="../../../_images/python_pubchem_44_3.png" src="../../../_images/python_pubchem_44_3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>46178576
+</pre></div>
+</div>
+<img alt="../../../_images/python_pubchem_44_5.png" src="../../../_images/python_pubchem_44_5.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>24766550
+</pre></div>
+</div>
+<img alt="../../../_images/python_pubchem_44_7.png" src="../../../_images/python_pubchem_44_7.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>139254006
+</pre></div>
+</div>
+<img alt="../../../_images/python_pubchem_44_9.png" src="../../../_images/python_pubchem_44_9.png" />
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
