@@ -2,6 +2,7 @@
 
 title: Scholarly API Cookbook
 author: The University of Alabama Libraries
+copyright: "2022"
 logo: images/UALIB_logo.png
 
 # Force re-execution of notebooks on each build.
@@ -33,3 +34,5 @@ html:
 launch_buttons:
   colab_url: ""
   binderhub_url: ""
+  jupyterhub_url: ""
+

@@ -78,29 +78,31 @@ choose one language over the other.
 
 For good luck, let's add ``Hello World!`` in each programming language:
 
-.. tabbed:: Python
+.. tab-set::
 
-   .. code-block:: python
+   .. tab-item:: Python
 
-      >>> print("Hello World!")
+      .. code-block:: python
 
-.. tabbed:: Unix Shell
+         >>> print("Hello World!")
 
-   .. code-block:: shell
+   .. tab-item:: Unix Shell
 
-      $ echo "Hello World!"
+      .. code-block:: shell
 
-.. tabbed:: Matlab
+         $ echo "Hello World!"
 
-   .. code-block:: matlab
+   .. tab-item:: Matlab
 
-      >> disp("Hello World!")
+      .. code-block:: matlab
 
-.. tabbed:: Mathematica
+         >> disp("Hello World!")
 
-   .. code-block:: mathematica
+   .. tab-item:: Mathematica
 
-      In[1]:= Print["Hello World!"]
+      .. code-block:: mathematica
+
+         In[1]:= Print["Hello World!"]
 
 
 What about Video Tutorials?
