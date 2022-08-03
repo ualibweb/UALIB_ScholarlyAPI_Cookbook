@@ -673,6 +673,40 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#pubmed-api-in-python">
    PubMed API in Python
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-pubmed-api-call">
+     1. Basic PubMed API call
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#request-data-using-a-loop">
+     2. Request data using a Loop
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-calls-with-requests-parameters">
+     3. PubMed API Calls with Requests &amp; Parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-metadata-visualization">
+     4. PubMed API metadata visualization
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-topic-sortpubdate-field">
+       Frequency of topic sortpubdate field
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-publication-for-an-author-search">
+       Frequency of publication for an author search
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -697,6 +731,40 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#pubmed-api-in-python">
    PubMed API in Python
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-pubmed-api-call">
+     1. Basic PubMed API call
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#request-data-using-a-loop">
+     2. Request data using a Loop
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-calls-with-requests-parameters">
+     3. PubMed API Calls with Requests &amp; Parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-metadata-visualization">
+     4. PubMed API metadata visualization
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-topic-sortpubdate-field">
+       Frequency of topic sortpubdate field
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-publication-for-an-author-search">
+       Frequency of publication for an author search
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -712,7 +780,964 @@ title="Print to PDF"
 <h1>…in Python<a class="headerlink" href="#in-python" title="Permalink to this headline">#</a></h1>
 <section id="pubmed-api-in-python">
 <h2>PubMed API in Python<a class="headerlink" href="#pubmed-api-in-python" title="Permalink to this headline">#</a></h2>
-<p>by TBD</p>
+<p>by Avery Fernandez</p>
+<p>These recipe examples were tested on August 3, 2022.</p>
+<p><strong>NCBI Entrez Programming Utilities documentation:</strong> <a class="reference external" href="https://www.ncbi.nlm.nih.gov/books/NBK25501/">https://www.ncbi.nlm.nih.gov/books/NBK25501/</a></p>
+<p><strong>Please see NCBI’s Data Usage Policies and Disclaimers:</strong> <a class="reference external" href="https://www.ncbi.nlm.nih.gov/home/about/policies/">https://www.ncbi.nlm.nih.gov/home/about/policies/</a></p>
+<section id="basic-pubmed-api-call">
+<h3>1. Basic PubMed API call<a class="headerlink" href="#basic-pubmed-api-call" title="Permalink to this headline">#</a></h3>
+<p>First, import libraries needed to pull data from the API:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For calling individual articles and publications, we will need to use this api url.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">summary</span> <span class="o">=</span> <span class="s1">&#39;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&amp;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The article we are requesting has PubMed ID: 27933103</p>
+<p><strong>retmode</strong> in the web API URL specifies the file format, in this example, we will use json.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">summary</span><span class="o">+</span><span class="s1">&#39;id=27933103&amp;retmode=json&#39;</span>
+<span class="n">data_call</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">data_call</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;header&#39;: {&#39;type&#39;: &#39;esummary&#39;, &#39;version&#39;: &#39;0.3&#39;},
+ &#39;result&#39;: {&#39;27933103&#39;: {&#39;articleids&#39;: [{&#39;idtype&#39;: &#39;pubmed&#39;,
+                                         &#39;idtypen&#39;: 1,
+                                         &#39;value&#39;: &#39;27933103&#39;},
+                                        {&#39;idtype&#39;: &#39;doi&#39;,
+                                         &#39;idtypen&#39;: 3,
+                                         &#39;value&#39;: &#39;10.1186/s13321-016-0181-z&#39;},
+                                        {&#39;idtype&#39;: &#39;pii&#39;,
+                                         &#39;idtypen&#39;: 4,
+                                         &#39;value&#39;: &#39;181&#39;},
+                                        {&#39;idtype&#39;: &#39;pmc&#39;,
+                                         &#39;idtypen&#39;: 8,
+                                         &#39;value&#39;: &#39;PMC5122160&#39;},
+                                        {&#39;idtype&#39;: &#39;rid&#39;,
+                                         &#39;idtypen&#39;: 8,
+                                         &#39;value&#39;: &#39;27933103&#39;},
+                                        {&#39;idtype&#39;: &#39;eid&#39;,
+                                         &#39;idtypen&#39;: 8,
+                                         &#39;value&#39;: &#39;27933103&#39;},
+                                        {&#39;idtype&#39;: &#39;pmcid&#39;,
+                                         &#39;idtypen&#39;: 5,
+                                         &#39;value&#39;: &#39;pmc-id: PMC5122160;&#39;}],
+                         &#39;attributes&#39;: [&#39;Has Abstract&#39;],
+                         &#39;authors&#39;: [{&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Scalfani VF&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Williams AJ&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Tkachenko V&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Karapetyan K&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Pshenichnov A&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Hanson RM&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Liddie JM&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Bara JE&#39;}],
+                         &#39;availablefromurl&#39;: &#39;&#39;,
+                         &#39;bookname&#39;: &#39;&#39;,
+                         &#39;booktitle&#39;: &#39;&#39;,
+                         &#39;chapter&#39;: &#39;&#39;,
+                         &#39;doccontriblist&#39;: [],
+                         &#39;docdate&#39;: &#39;&#39;,
+                         &#39;doctype&#39;: &#39;citation&#39;,
+                         &#39;edition&#39;: &#39;&#39;,
+                         &#39;elocationid&#39;: &#39;&#39;,
+                         &#39;epubdate&#39;: &#39;2016 Nov 23&#39;,
+                         &#39;essn&#39;: &#39;1758-2946&#39;,
+                         &#39;fulljournalname&#39;: &#39;Journal of cheminformatics&#39;,
+                         &#39;history&#39;: [{&#39;date&#39;: &#39;2016/08/15 00:00&#39;,
+                                      &#39;pubstatus&#39;: &#39;received&#39;},
+                                     {&#39;date&#39;: &#39;2016/11/16 00:00&#39;,
+                                      &#39;pubstatus&#39;: &#39;accepted&#39;},
+                                     {&#39;date&#39;: &#39;2016/12/10 06:00&#39;,
+                                      &#39;pubstatus&#39;: &#39;entrez&#39;},
+                                     {&#39;date&#39;: &#39;2016/12/10 06:00&#39;,
+                                      &#39;pubstatus&#39;: &#39;pubmed&#39;},
+                                     {&#39;date&#39;: &#39;2016/12/10 06:01&#39;,
+                                      &#39;pubstatus&#39;: &#39;medline&#39;}],
+                         &#39;issn&#39;: &#39;&#39;,
+                         &#39;issue&#39;: &#39;&#39;,
+                         &#39;lang&#39;: [&#39;eng&#39;],
+                         &#39;lastauthor&#39;: &#39;Bara JE&#39;,
+                         &#39;locationlabel&#39;: &#39;&#39;,
+                         &#39;medium&#39;: &#39;&#39;,
+                         &#39;nlmuniqueid&#39;: &#39;101516718&#39;,
+                         &#39;pages&#39;: &#39;66&#39;,
+                         &#39;pmcrefcount&#39;: 7,
+                         &#39;pubdate&#39;: &#39;2016&#39;,
+                         &#39;publisherlocation&#39;: &#39;&#39;,
+                         &#39;publishername&#39;: &#39;&#39;,
+                         &#39;pubstatus&#39;: &#39;258&#39;,
+                         &#39;pubtype&#39;: [&#39;Journal Article&#39;],
+                         &#39;recordstatus&#39;: &#39;PubMed&#39;,
+                         &#39;references&#39;: [],
+                         &#39;reportnumber&#39;: &#39;&#39;,
+                         &#39;sortfirstauthor&#39;: &#39;Scalfani VF&#39;,
+                         &#39;sortpubdate&#39;: &#39;2016/11/23 00:00&#39;,
+                         &#39;sorttitle&#39;: &#39;programmatic conversion of crystal &#39;
+                                      &#39;structures into 3d printable files &#39;
+                                      &#39;using jmol&#39;,
+                         &#39;source&#39;: &#39;J Cheminform&#39;,
+                         &#39;srccontriblist&#39;: [],
+                         &#39;srcdate&#39;: &#39;&#39;,
+                         &#39;title&#39;: &#39;Programmatic conversion of crystal &#39;
+                                  &#39;structures into 3D printable files using &#39;
+                                  &#39;Jmol.&#39;,
+                         &#39;uid&#39;: &#39;27933103&#39;,
+                         &#39;vernaculartitle&#39;: &#39;&#39;,
+                         &#39;volume&#39;: &#39;8&#39;},
+            &#39;uids&#39;: [&#39;27933103&#39;]}}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Data extraction: Let us try to extract the authors of the paper</p>
+<ol class="simple">
+<li><p>Index to where the authors are stored</p></li>
+<li><p>Create a loop to get authors</p></li>
+<li><p>pull the author names</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">data_call</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;27933103&quot;</span><span class="p">][</span><span class="s2">&quot;authors&quot;</span><span class="p">]</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;authtype&#39;: &#39;Author&#39;, &#39;clusterid&#39;: &#39;&#39;, &#39;name&#39;: &#39;Scalfani VF&#39;},
+ {&#39;authtype&#39;: &#39;Author&#39;, &#39;clusterid&#39;: &#39;&#39;, &#39;name&#39;: &#39;Williams AJ&#39;},
+ {&#39;authtype&#39;: &#39;Author&#39;, &#39;clusterid&#39;: &#39;&#39;, &#39;name&#39;: &#39;Tkachenko V&#39;},
+ {&#39;authtype&#39;: &#39;Author&#39;, &#39;clusterid&#39;: &#39;&#39;, &#39;name&#39;: &#39;Karapetyan K&#39;},
+ {&#39;authtype&#39;: &#39;Author&#39;, &#39;clusterid&#39;: &#39;&#39;, &#39;name&#39;: &#39;Pshenichnov A&#39;},
+ {&#39;authtype&#39;: &#39;Author&#39;, &#39;clusterid&#39;: &#39;&#39;, &#39;name&#39;: &#39;Hanson RM&#39;},
+ {&#39;authtype&#39;: &#39;Author&#39;, &#39;clusterid&#39;: &#39;&#39;, &#39;name&#39;: &#39;Liddie JM&#39;},
+ {&#39;authtype&#39;: &#39;Author&#39;, &#39;clusterid&#39;: &#39;&#39;, &#39;name&#39;: &#39;Bara JE&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 2</span>
+<span class="n">authorRange</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_call</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;27933103&quot;</span><span class="p">][</span><span class="s2">&quot;authors&quot;</span><span class="p">]))</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">authorRange</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>range(0, 8)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 3</span>
+<span class="k">for</span> <span class="n">authors</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_call</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;27933103&quot;</span><span class="p">][</span><span class="s2">&quot;authors&quot;</span><span class="p">])):</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">data_call</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;27933103&quot;</span><span class="p">][</span><span class="s2">&quot;authors&quot;</span><span class="p">][</span><span class="n">authors</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Scalfani VF&#39;
+&#39;Williams AJ&#39;
+&#39;Tkachenko V&#39;
+&#39;Karapetyan K&#39;
+&#39;Pshenichnov A&#39;
+&#39;Hanson RM&#39;
+&#39;Liddie JM&#39;
+&#39;Bara JE&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="request-data-using-a-loop">
+<h3>2. Request data using a Loop<a class="headerlink" href="#request-data-using-a-loop" title="Permalink to this headline">#</a></h3>
+<p>First, create a list of PubMed IDs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">34813985</span><span class="p">,</span> <span class="mi">34813932</span><span class="p">,</span> <span class="mi">34813684</span><span class="p">,</span> <span class="mi">34813661</span><span class="p">,</span> <span class="mi">34813372</span><span class="p">,</span> <span class="mi">34813140</span><span class="p">,</span> <span class="mi">34813072</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get each id</span>
+<span class="k">for</span> <span class="n">ids</span> <span class="ow">in</span> <span class="n">idList</span><span class="p">:</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>34813985
+34813932
+34813684
+34813661
+34813372
+34813140
+34813072
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we have a way to print each id in a loop, but we need to store it, instead of printing. One way to achieve this with python is by using dictionaries. Python dictionaries work by storing a value and associating it with a specific key. We can establish dictionaries two ways. The first is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="s2">&quot;something&quot;</span><span class="p">}</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;something&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is great, but it doesn’t allow us to store new data.</p>
+<p>So let’s try the second way:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;something&quot;</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;something&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can go about acquiring the data from PubMed and saving the data in a dictionary, called multiPapers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">multiPapers</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">ids</span> <span class="ow">in</span> <span class="n">idList</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">summary</span><span class="o">+</span><span class="s1">&#39;id=&#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&amp;retmode=json&#39;</span>
+    <span class="n">multiPapers</span><span class="p">[</span><span class="n">ids</span><span class="p">]</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># add a delay between API calls</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">multiPapers</span><span class="p">[</span><span class="mi">34813985</span><span class="p">])</span> <span class="c1"># view first one</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;header&#39;: {&#39;type&#39;: &#39;esummary&#39;, &#39;version&#39;: &#39;0.3&#39;},
+ &#39;result&#39;: {&#39;34813985&#39;: {&#39;articleids&#39;: [{&#39;idtype&#39;: &#39;pubmed&#39;,
+                                         &#39;idtypen&#39;: 1,
+                                         &#39;value&#39;: &#39;34813985&#39;},
+                                        {&#39;idtype&#39;: &#39;pii&#39;,
+                                         &#39;idtypen&#39;: 4,
+                                         &#39;value&#39;: &#39;S0143-4160(21)00154-8&#39;},
+                                        {&#39;idtype&#39;: &#39;doi&#39;,
+                                         &#39;idtypen&#39;: 3,
+                                         &#39;value&#39;: &#39;10.1016/j.ceca.2021.102500&#39;},
+                                        {&#39;idtype&#39;: &#39;pmc&#39;,
+                                         &#39;idtypen&#39;: 8,
+                                         &#39;value&#39;: &#39;PMC8752506&#39;},
+                                        {&#39;idtype&#39;: &#39;mid&#39;,
+                                         &#39;idtypen&#39;: 8,
+                                         &#39;value&#39;: &#39;NIHMS1760117&#39;},
+                                        {&#39;idtype&#39;: &#39;rid&#39;,
+                                         &#39;idtypen&#39;: 8,
+                                         &#39;value&#39;: &#39;34813985&#39;},
+                                        {&#39;idtype&#39;: &#39;eid&#39;,
+                                         &#39;idtypen&#39;: 8,
+                                         &#39;value&#39;: &#39;34813985&#39;},
+                                        {&#39;idtype&#39;: &#39;pmcid&#39;,
+                                         &#39;idtypen&#39;: 5,
+                                         &#39;value&#39;: &#39;pmc-id: &#39;
+                                                  &#39;PMC8752506;manuscript-id: &#39;
+                                                  &#39;NIHMS1760117;embargo-date: &#39;
+                                                  &#39;2023/01/01;&#39;}],
+                         &#39;attributes&#39;: [&#39;Has Abstract&#39;],
+                         &#39;authors&#39;: [{&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Fernández-Morales JC&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Xia Y&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Renzo TJ&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Zhang XH&#39;},
+                                     {&#39;authtype&#39;: &#39;Author&#39;,
+                                      &#39;clusterid&#39;: &#39;&#39;,
+                                      &#39;name&#39;: &#39;Morad M&#39;}],
+                         &#39;availablefromurl&#39;: &#39;&#39;,
+                         &#39;bookname&#39;: &#39;&#39;,
+                         &#39;booktitle&#39;: &#39;&#39;,
+                         &#39;chapter&#39;: &#39;&#39;,
+                         &#39;doccontriblist&#39;: [],
+                         &#39;docdate&#39;: &#39;&#39;,
+                         &#39;doctype&#39;: &#39;citation&#39;,
+                         &#39;edition&#39;: &#39;&#39;,
+                         &#39;elocationid&#39;: &#39;doi: 10.1016/j.ceca.2021.102500&#39;,
+                         &#39;epubdate&#39;: &#39;2021 Nov 8&#39;,
+                         &#39;essn&#39;: &#39;1532-1991&#39;,
+                         &#39;fulljournalname&#39;: &#39;Cell calcium&#39;,
+                         &#39;history&#39;: [{&#39;date&#39;: &#39;2021/08/04 00:00&#39;,
+                                      &#39;pubstatus&#39;: &#39;received&#39;},
+                                     {&#39;date&#39;: &#39;2021/11/02 00:00&#39;,
+                                      &#39;pubstatus&#39;: &#39;revised&#39;},
+                                     {&#39;date&#39;: &#39;2021/11/04 00:00&#39;,
+                                      &#39;pubstatus&#39;: &#39;accepted&#39;},
+                                     {&#39;date&#39;: &#39;2023/01/01 00:00&#39;,
+                                      &#39;pubstatus&#39;: &#39;pmc-release&#39;},
+                                     {&#39;date&#39;: &#39;2021/11/24 06:00&#39;,
+                                      &#39;pubstatus&#39;: &#39;pubmed&#39;},
+                                     {&#39;date&#39;: &#39;2022/02/01 06:00&#39;,
+                                      &#39;pubstatus&#39;: &#39;medline&#39;},
+                                     {&#39;date&#39;: &#39;2021/11/23 20:17&#39;,
+                                      &#39;pubstatus&#39;: &#39;entrez&#39;}],
+                         &#39;issn&#39;: &#39;0143-4160&#39;,
+                         &#39;issue&#39;: &#39;&#39;,
+                         &#39;lang&#39;: [&#39;eng&#39;],
+                         &#39;lastauthor&#39;: &#39;Morad M&#39;,
+                         &#39;locationlabel&#39;: &#39;&#39;,
+                         &#39;medium&#39;: &#39;&#39;,
+                         &#39;nlmuniqueid&#39;: &#39;8006226&#39;,
+                         &#39;pages&#39;: &#39;102500&#39;,
+                         &#39;pmcrefcount&#39;: 2,
+                         &#39;pubdate&#39;: &#39;2022 Jan&#39;,
+                         &#39;publisherlocation&#39;: &#39;&#39;,
+                         &#39;publishername&#39;: &#39;&#39;,
+                         &#39;pubstatus&#39;: &#39;256&#39;,
+                         &#39;pubtype&#39;: [&#39;Journal Article&#39;],
+                         &#39;recordstatus&#39;: &#39;PubMed - indexed for MEDLINE&#39;,
+                         &#39;references&#39;: [],
+                         &#39;reportnumber&#39;: &#39;&#39;,
+                         &#39;sortfirstauthor&#39;: &#39;Fernández-Morales JC&#39;,
+                         &#39;sortpubdate&#39;: &#39;2022/01/01 00:00&#39;,
+                         &#39;sorttitle&#39;: &#39;mutation in ryr2 fkbp binding site &#39;
+                                      &#39;alters ca sup 2 sup signaling modestly &#39;
+                                      &#39;but increases arrhythmogenesis in human &#39;
+                                      &#39;stem cells derived cardiomyocytes&#39;,
+                         &#39;source&#39;: &#39;Cell Calcium&#39;,
+                         &#39;srccontriblist&#39;: [],
+                         &#39;srcdate&#39;: &#39;&#39;,
+                         &#39;title&#39;: &#39;Mutation in RyR2-FKBP Binding site alters &#39;
+                                  &#39;Ca&lt;sup&gt;2+&lt;/sup&gt; signaling modestly but &#39;
+                                  &#39;increases &quot;arrhythmogenesis&quot; in human stem &#39;
+                                  &#39;cells derived cardiomyocytes.&#39;,
+                         &#39;uid&#39;: &#39;34813985&#39;,
+                         &#39;vernaculartitle&#39;: &#39;&#39;,
+                         &#39;volume&#39;: &#39;101&#39;},
+            &#39;uids&#39;: [&#39;34813985&#39;]}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get title for each journal</span>
+<span class="k">for</span> <span class="n">ids</span> <span class="ow">in</span> <span class="n">idList</span><span class="p">:</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">multiPapers</span><span class="p">[</span><span class="n">ids</span><span class="p">][</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">ids</span><span class="p">)][</span><span class="s2">&quot;source&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Cell Calcium&#39;
+&#39;Methods&#39;
+&#39;FEBS J&#39;
+&#39;Dev Growth Differ&#39;
+&#39;CRISPR J&#39;
+&#39;Chembiochem&#39;
+&#39;Methods Mol Biol&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pubmed-api-calls-with-requests-parameters">
+<h3>3. PubMed API Calls with Requests &amp; Parameters<a class="headerlink" href="#pubmed-api-calls-with-requests-parameters" title="Permalink to this headline">#</a></h3>
+<p>For searching for articles using search term(s), we will need to use this api url:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">search</span> <span class="o">=</span> <span class="s1">&#39;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&amp;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>when searching through the articles, we are given a few of ways of filtering the data.</p>
+<p>A list of all the available parameters for these requests can be found in the official NCBI documentation: <a class="reference external" href="https://www.ncbi.nlm.nih.gov/books/NBK25499/">https://www.ncbi.nlm.nih.gov/books/NBK25499/</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">=&lt;</span><span class="n">database</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>we will be using the pubmed database</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">term</span><span class="o">=&lt;</span><span class="n">searchQuery</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>we can use term to search data, just make sure to replace spaces with +</p>
+<p>We can, for example, use a query to search PubMed, such as “neuroscience intervention learning”:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">search</span><span class="o">+</span><span class="s2">&quot;term=neuroscience+intervention+learning&amp;retmode=json&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;esearchresult&#39;: {&#39;count&#39;: &#39;19286&#39;,
+                   &#39;idlist&#39;: [&#39;35917919&#39;,
+                              &#39;35916866&#39;,
+                              &#39;35914440&#39;,
+                              &#39;35911084&#39;,
+                              &#39;35910354&#39;,
+                              &#39;35910307&#39;,
+                              &#39;35910264&#39;,
+                              &#39;35910196&#39;,
+                              &#39;35910192&#39;,
+                              &#39;35909217&#39;,
+                              &#39;35908308&#39;,
+                              &#39;35908254&#39;,
+                              &#39;35907374&#39;,
+                              &#39;35905809&#39;,
+                              &#39;35905111&#39;,
+                              &#39;35904092&#39;,
+                              &#39;35903787&#39;,
+                              &#39;35903114&#39;,
+                              &#39;35899379&#39;,
+                              &#39;35899205&#39;],
+                   &#39;querytranslation&#39;: &#39;(&quot;neurosciences&quot;[MeSH Terms] OR &#39;
+                                       &#39;&quot;neurosciences&quot;[All Fields] OR &#39;
+                                       &#39;&quot;neuroscience&quot;[All Fields]) AND &#39;
+                                       &#39;(&quot;methods&quot;[MeSH Terms] OR &#39;
+                                       &#39;&quot;methods&quot;[All Fields] OR &#39;
+                                       &#39;&quot;intervention&quot;[All Fields]) AND &#39;
+                                       &#39;(&quot;learning&quot;[MeSH Terms] OR &#39;
+                                       &#39;&quot;learning&quot;[All Fields])&#39;,
+                   &#39;retmax&#39;: &#39;20&#39;,
+                   &#39;retstart&#39;: &#39;0&#39;,
+                   &#39;translationset&#39;: [{&#39;from&#39;: &#39;intervention&#39;,
+                                       &#39;to&#39;: &#39;&quot;methods&quot;[MeSH Terms] OR &#39;
+                                             &#39;&quot;methods&quot;[All Fields] OR &#39;
+                                             &#39;&quot;intervention&quot;[All Fields]&#39;},
+                                      {&#39;from&#39;: &#39;learning&#39;,
+                                       &#39;to&#39;: &#39;&quot;learning&quot;[MeSH Terms] OR &#39;
+                                             &#39;&quot;learning&quot;[All Fields]&#39;},
+                                      {&#39;from&#39;: &#39;neuroscience&#39;,
+                                       &#39;to&#39;: &#39;&quot;neurosciences&quot;[MeSH Terms] OR &#39;
+                                             &#39;&quot;neurosciences&quot;[All Fields] OR &#39;
+                                             &#39;&quot;neuroscience&quot;[All Fields]&#39;}],
+                   &#39;translationstack&#39;: [{&#39;count&#39;: &#39;23909&#39;,
+                                         &#39;explode&#39;: &#39;Y&#39;,
+                                         &#39;field&#39;: &#39;MeSH Terms&#39;,
+                                         &#39;term&#39;: &#39;&quot;neurosciences&quot;[MeSH Terms]&#39;},
+                                        {&#39;count&#39;: &#39;126074&#39;,
+                                         &#39;explode&#39;: &#39;N&#39;,
+                                         &#39;field&#39;: &#39;All Fields&#39;,
+                                         &#39;term&#39;: &#39;&quot;neurosciences&quot;[All Fields]&#39;},
+                                        &#39;OR&#39;,
+                                        {&#39;count&#39;: &#39;412113&#39;,
+                                         &#39;explode&#39;: &#39;N&#39;,
+                                         &#39;field&#39;: &#39;All Fields&#39;,
+                                         &#39;term&#39;: &#39;&quot;neuroscience&quot;[All Fields]&#39;},
+                                        &#39;OR&#39;,
+                                        &#39;GROUP&#39;,
+                                        {&#39;count&#39;: &#39;719232&#39;,
+                                         &#39;explode&#39;: &#39;Y&#39;,
+                                         &#39;field&#39;: &#39;MeSH Terms&#39;,
+                                         &#39;term&#39;: &#39;&quot;methods&quot;[MeSH Terms]&#39;},
+                                        {&#39;count&#39;: &#39;8878078&#39;,
+                                         &#39;explode&#39;: &#39;N&#39;,
+                                         &#39;field&#39;: &#39;All Fields&#39;,
+                                         &#39;term&#39;: &#39;&quot;methods&quot;[All Fields]&#39;},
+                                        &#39;OR&#39;,
+                                        {&#39;count&#39;: &#39;774317&#39;,
+                                         &#39;explode&#39;: &#39;N&#39;,
+                                         &#39;field&#39;: &#39;All Fields&#39;,
+                                         &#39;term&#39;: &#39;&quot;intervention&quot;[All Fields]&#39;},
+                                        &#39;OR&#39;,
+                                        &#39;GROUP&#39;,
+                                        &#39;AND&#39;,
+                                        {&#39;count&#39;: &#39;424580&#39;,
+                                         &#39;explode&#39;: &#39;Y&#39;,
+                                         &#39;field&#39;: &#39;MeSH Terms&#39;,
+                                         &#39;term&#39;: &#39;&quot;learning&quot;[MeSH Terms]&#39;},
+                                        {&#39;count&#39;: &#39;527556&#39;,
+                                         &#39;explode&#39;: &#39;N&#39;,
+                                         &#39;field&#39;: &#39;All Fields&#39;,
+                                         &#39;term&#39;: &#39;&quot;learning&quot;[All Fields]&#39;},
+                                        &#39;OR&#39;,
+                                        &#39;GROUP&#39;,
+                                        &#39;AND&#39;,
+                                        &#39;GROUP&#39;]},
+ &#39;header&#39;: {&#39;type&#39;: &#39;esearch&#39;, &#39;version&#39;: &#39;0.3&#39;}}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The number of returned IDs can be adjusted with the retmax paramater:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">search</span><span class="o">+</span><span class="s2">&quot;term=neuroscience+intervention+learning&amp;retmax=25&amp;retmode=json&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="c1"># pprint(data) # show all data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;esearchresult&quot;</span><span class="p">][</span><span class="s2">&quot;idlist&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;35917919&#39;,
+ &#39;35916866&#39;,
+ &#39;35914440&#39;,
+ &#39;35911084&#39;,
+ &#39;35910354&#39;,
+ &#39;35910307&#39;,
+ &#39;35910264&#39;,
+ &#39;35910196&#39;,
+ &#39;35910192&#39;,
+ &#39;35909217&#39;,
+ &#39;35908308&#39;,
+ &#39;35908254&#39;,
+ &#39;35907374&#39;,
+ &#39;35905809&#39;,
+ &#39;35905111&#39;,
+ &#39;35904092&#39;,
+ &#39;35903787&#39;,
+ &#39;35903114&#39;,
+ &#39;35899379&#39;,
+ &#39;35899205&#39;,
+ &#39;35899035&#39;,
+ &#39;35897070&#39;,
+ &#39;35895686&#39;,
+ &#39;35895611&#39;,
+ &#39;35895472&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;esearchresult&quot;</span><span class="p">][</span><span class="s2">&quot;idlist&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also use the query to search for an author.</p>
+<p>we will add <code class="docutils literal notranslate"><span class="pre">[au]</span></code> after the name to specify it is an author</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">search</span><span class="o">+</span><span class="s2">&quot;term=Darwin[au]&amp;retmode=json&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="c1"># get a count of the results:</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;esearchresult&quot;</span><span class="p">][</span><span class="s2">&quot;count&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;591&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also sort results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usehistory</span><span class="o">=</span><span class="n">y</span>
+</pre></div>
+</div>
+<p>This allows us to store the data for it to be sorted in the same api call.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sort</span><span class="o">=</span><span class="n">pub</span><span class="o">+</span><span class="n">date</span>
+</pre></div>
+</div>
+<p>This will sort the ids by the publishing date.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">search</span><span class="o">+</span><span class="s2">&quot;term=Coral+Reefs&amp;retmode=json&amp;usehistory=y&amp;sort=pub+date&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;esearchresult&quot;</span><span class="p">][</span><span class="s2">&quot;idlist&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;35789026&#39;,
+ &#39;35640726&#39;,
+ &#39;35623566&#39;,
+ &#39;35739736&#39;,
+ &#39;35757879&#39;,
+ &#39;35757872&#39;,
+ &#39;35916134&#39;,
+ &#39;35881791&#39;,
+ &#39;35709940&#39;,
+ &#39;35075743&#39;,
+ &#39;35767228&#39;,
+ &#39;35490995&#39;,
+ &#39;35662355&#39;,
+ &#39;35593317&#39;,
+ &#39;35451154&#39;,
+ &#39;35106864&#39;,
+ &#39;35474114&#39;,
+ &#39;35444262&#39;,
+ &#39;35908086&#39;,
+ &#39;35914433&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compare to unsorted:</span>
+<span class="n">url</span> <span class="o">=</span> <span class="n">search</span><span class="o">+</span><span class="s2">&quot;term=Coral+Reefs&amp;retmode=json&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;esearchresult&quot;</span><span class="p">][</span><span class="s2">&quot;idlist&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;35916134&#39;,
+ &#39;35914433&#39;,
+ &#39;35912336&#39;,
+ &#39;35910778&#39;,
+ &#39;35908086&#39;,
+ &#39;35903994&#39;,
+ &#39;35902906&#39;,
+ &#39;35902758&#39;,
+ &#39;35901874&#39;,
+ &#39;35901124&#39;,
+ &#39;35901047&#39;,
+ &#39;35898942&#39;,
+ &#39;35898918&#39;,
+ &#39;35896607&#39;,
+ &#39;35895598&#39;,
+ &#39;35883230&#39;,
+ &#39;35881791&#39;,
+ &#39;35874430&#39;,
+ &#39;35873907&#39;,
+ &#39;35872442&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Searching based on publication types:</p>
+<p>we can do this by adding <strong>AND</strong> into the search</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">term</span><span class="o">=&lt;</span><span class="n">searchQuery</span><span class="o">&gt;+</span><span class="n">AND</span><span class="o">+</span><span class="nb">filter</span><span class="p">[</span><span class="n">filterType</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">[pt]</span></code> specifies that the filter type is publication type</p>
+<p>More filters can be found at <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/help/">https://pubmed.ncbi.nlm.nih.gov/help/</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">search</span><span class="o">+</span><span class="s2">&quot;term=stem+cells+AND+clinical+trial[pt]&amp;retmode=json&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;esearchresult&#39;: {&#39;count&#39;: &#39;6165&#39;,
+                   &#39;idlist&#39;: [&#39;35902979&#39;,
+                              &#39;35860245&#39;,
+                              &#39;35854356&#39;,
+                              &#39;35841057&#39;,
+                              &#39;35839786&#39;,
+                              &#39;35832072&#39;,
+                              &#39;35820718&#39;,
+                              &#39;35799191&#39;,
+                              &#39;35798714&#39;,
+                              &#39;35767439&#39;,
+                              &#39;35765103&#39;,
+                              &#39;35765085&#39;,
+                              &#39;35764638&#39;,
+                              &#39;35753607&#39;,
+                              &#39;35745176&#39;,
+                              &#39;35744082&#39;,
+                              &#39;35732348&#39;,
+                              &#39;35725652&#39;,
+                              &#39;35717989&#39;,
+                              &#39;35715872&#39;],
+                   &#39;querytranslation&#39;: &#39;(&quot;stem cells&quot;[MeSH Terms] OR &#39;
+                                       &#39;(&quot;stem&quot;[All Fields] AND &quot;cells&quot;[All &#39;
+                                       &#39;Fields]) OR &quot;stem cells&quot;[All Fields]) &#39;
+                                       &#39;AND clinical trial[pt]&#39;,
+                   &#39;retmax&#39;: &#39;20&#39;,
+                   &#39;retstart&#39;: &#39;0&#39;,
+                   &#39;translationset&#39;: [{&#39;from&#39;: &#39;stem cells&#39;,
+                                       &#39;to&#39;: &#39;&quot;stem cells&quot;[MeSH Terms] OR &#39;
+                                             &#39;(&quot;stem&quot;[All Fields] AND &#39;
+                                             &#39;&quot;cells&quot;[All Fields]) OR &quot;stem &#39;
+                                             &#39;cells&quot;[All Fields]&#39;}],
+                   &#39;translationstack&#39;: [{&#39;count&#39;: &#39;250452&#39;,
+                                         &#39;explode&#39;: &#39;Y&#39;,
+                                         &#39;field&#39;: &#39;MeSH Terms&#39;,
+                                         &#39;term&#39;: &#39;&quot;stem cells&quot;[MeSH Terms]&#39;},
+                                        {&#39;count&#39;: &#39;597273&#39;,
+                                         &#39;explode&#39;: &#39;N&#39;,
+                                         &#39;field&#39;: &#39;All Fields&#39;,
+                                         &#39;term&#39;: &#39;&quot;stem&quot;[All Fields]&#39;},
+                                        {&#39;count&#39;: &#39;4320297&#39;,
+                                         &#39;explode&#39;: &#39;N&#39;,
+                                         &#39;field&#39;: &#39;All Fields&#39;,
+                                         &#39;term&#39;: &#39;&quot;cells&quot;[All Fields]&#39;},
+                                        &#39;AND&#39;,
+                                        &#39;GROUP&#39;,
+                                        &#39;OR&#39;,
+                                        {&#39;count&#39;: &#39;316209&#39;,
+                                         &#39;explode&#39;: &#39;N&#39;,
+                                         &#39;field&#39;: &#39;All Fields&#39;,
+                                         &#39;term&#39;: &#39;&quot;stem cells&quot;[All Fields]&#39;},
+                                        &#39;OR&#39;,
+                                        &#39;GROUP&#39;,
+                                        {&#39;count&#39;: &#39;946832&#39;,
+                                         &#39;explode&#39;: &#39;Y&#39;,
+                                         &#39;field&#39;: &#39;pt&#39;,
+                                         &#39;term&#39;: &#39;clinical trial[pt]&#39;},
+                                        &#39;AND&#39;]},
+ &#39;header&#39;: {&#39;type&#39;: &#39;esearch&#39;, &#39;version&#39;: &#39;0.3&#39;}}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pubmed-api-metadata-visualization">
+<h3>4. PubMed API metadata visualization<a class="headerlink" href="#pubmed-api-metadata-visualization" title="Permalink to this headline">#</a></h3>
+<section id="frequency-of-topic-sortpubdate-field">
+<h4>Frequency of topic sortpubdate field<a class="headerlink" href="#frequency-of-topic-sortpubdate-field" title="Permalink to this headline">#</a></h4>
+<p>Extracting the sortpubdate field for a “hydrogel drug” search results, limited to publication type clinical trials:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">search</span><span class="o">+</span><span class="s2">&quot;term=hydrogel+drug+AND+clinical+trial[pt]&amp;sort=pub+date&amp;retmax=500&amp;retmode=json&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;esearchresult&quot;</span><span class="p">][</span><span class="s2">&quot;idlist&quot;</span><span class="p">]</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span> <span class="c1"># first 10</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;35556170&#39;,
+ &#39;35413602&#39;,
+ &#39;35041809&#39;,
+ &#39;34915741&#39;,
+ &#39;34695615&#39;,
+ &#39;35062896&#39;,
+ &#39;34433303&#39;,
+ &#39;34334720&#39;,
+ &#39;33290635&#39;,
+ &#39;34152880&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>294
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">####### this will take a few minutes.... #########</span>
+
+<span class="c1"># now loop through each IDs and get the sortpubdate field. </span>
+<span class="c1"># Note that this sortpubdate field may not necassarily be equivalent to a publication date</span>
+<span class="n">pubDates</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">summary</span><span class="o">+</span><span class="s2">&quot;id=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;&amp;retmode=json&quot;</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">pubDates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="nb">id</span><span class="p">][</span><span class="s2">&quot;sortpubdate&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">pubDates</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;2022/08/01&#39;,
+ &#39;2022/06/01&#39;,
+ &#39;2022/05/01&#39;,
+ &#39;2022/04/01&#39;,
+ &#39;2022/03/01&#39;,
+ &#39;2022/01/21&#39;,
+ &#39;2022/01/01&#39;,
+ &#39;2022/01/01&#39;,
+ &#39;2022/01/01&#39;,
+ &#39;2021/09/01&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pubDates</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>294
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that we have sortpubdates, if we want to visualize them in matplotlib, we have to convert it over to something it understands</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="k">for</span> <span class="n">dates</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pubDates</span><span class="p">)):</span>
+    <span class="n">pubDates</span><span class="p">[</span><span class="n">dates</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pubDates</span><span class="p">[</span><span class="n">dates</span><span class="p">],</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">pubDates</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[datetime.datetime(2022, 8, 1, 0, 0),
+ datetime.datetime(2022, 6, 1, 0, 0),
+ datetime.datetime(2022, 5, 1, 0, 0),
+ datetime.datetime(2022, 4, 1, 0, 0),
+ datetime.datetime(2022, 3, 1, 0, 0),
+ datetime.datetime(2022, 1, 21, 0, 0),
+ datetime.datetime(2022, 1, 1, 0, 0),
+ datetime.datetime(2022, 1, 1, 0, 0),
+ datetime.datetime(2022, 1, 1, 0, 0),
+ datetime.datetime(2021, 9, 1, 0, 0)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">pubDates</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="c1"># set_size specifies the size of the graph</span>
+<span class="c1"># Rotates and right-aligns the x labels so they don&#39;t crowd each other.</span>
+<span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">):</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/python_pubmed_47_0.png" src="../../../_images/python_pubmed_47_0.png" />
+</div>
+</div>
+</section>
+<section id="frequency-of-publication-for-an-author-search">
+<h4>Frequency of publication for an author search<a class="headerlink" href="#frequency-of-publication-for-an-author-search" title="Permalink to this headline">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">search</span><span class="o">+</span><span class="s2">&quot;term=Reed+LK[au]&amp;sort=pub+date&amp;retmax=500&amp;retmode=json&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;esearchresult&quot;</span><span class="p">][</span><span class="s2">&quot;idlist&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>54
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pubDates</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">summary</span><span class="o">+</span><span class="s2">&quot;id=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;&amp;retmode=json&quot;</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dateWithTime</span> <span class="o">=</span> <span class="n">request</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="nb">id</span><span class="p">][</span><span class="s2">&quot;sortpubdate&quot;</span><span class="p">]</span>
+    <span class="n">pubDates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="nb">id</span><span class="p">][</span><span class="s2">&quot;sortpubdate&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+    <span class="c1"># [0:10] used to only grab the date and leave out the time</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="k">for</span> <span class="n">dates</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pubDates</span><span class="p">)):</span>
+    <span class="n">pubDates</span><span class="p">[</span><span class="n">dates</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pubDates</span><span class="p">[</span><span class="n">dates</span><span class="p">],</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="c1"># pprint(pubDates)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">pubDates</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="c1"># Rotates and right-aligns the x labels so they don&#39;t crowd each other.</span>
+<span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">):</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/python_pubmed_53_0.png" src="../../../_images/python_pubmed_53_0.png" />
+</div>
+</div>
+</section>
+</section>
 </section>
 </section>
 
