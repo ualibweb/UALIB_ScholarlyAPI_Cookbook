@@ -662,6 +662,77 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#pubchem-api-in-unix-shell">
    PubChem API in Unix Shell
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#program-requirements">
+     Program requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setup">
+     1. Setup
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubchem-similarity">
+     2. PubChem Similarity
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#get-compound-image">
+       Get Compound Image
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#retrieve-inchi-and-smiles">
+       Retrieve InChI and SMILES
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#display-molecule-as-ascii-drawing">
+       Display Molecule as ASCII Drawing
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#perform-a-similarity-search">
+       Perform a Similarity Search
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#retrieve-identifier-and-property-data">
+       Retrieve Identifier and Property Data
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#retrieve-images-of-cid-compounds-from-similarity-search">
+       Retrieve Images of CID Compounds from Similarity Search
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubchem-smarts-search">
+     3. PubChem SMARTS Search
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#define-smarts-queries">
+       Define SMARTS queries
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#perform-a-smarts-query-search">
+       Perform a SMARTS query search
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Retrieve Identifier and Property Data
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -686,6 +757,77 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#pubchem-api-in-unix-shell">
    PubChem API in Unix Shell
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#program-requirements">
+     Program requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setup">
+     1. Setup
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubchem-similarity">
+     2. PubChem Similarity
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#get-compound-image">
+       Get Compound Image
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#retrieve-inchi-and-smiles">
+       Retrieve InChI and SMILES
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#display-molecule-as-ascii-drawing">
+       Display Molecule as ASCII Drawing
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#perform-a-similarity-search">
+       Perform a Similarity Search
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#retrieve-identifier-and-property-data">
+       Retrieve Identifier and Property Data
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#retrieve-images-of-cid-compounds-from-similarity-search">
+       Retrieve Images of CID Compounds from Similarity Search
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubchem-smarts-search">
+     3. PubChem SMARTS Search
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#define-smarts-queries">
+       Define SMARTS queries
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#perform-a-smarts-query-search">
+       Perform a SMARTS query search
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Retrieve Identifier and Property Data
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -701,6 +843,488 @@ title="Print to PDF"
 <h1>…in Unix Shell<a class="headerlink" href="#in-unix-shell" title="Permalink to this headline">#</a></h1>
 <section id="pubchem-api-in-unix-shell">
 <h2>PubChem API in Unix Shell<a class="headerlink" href="#pubchem-api-in-unix-shell" title="Permalink to this headline">#</a></h2>
+<p>by Avery Fernandez and Vincent Scalfani</p>
+<p>These recipe examples were tested on August 4, 2022 using GNOME Terminal (with Bash 4.4.20) in Ubuntu 18.04.</p>
+<p><strong>PubChem API Documentation</strong>: <a class="reference external" href="https://pubchemdocs.ncbi.nlm.nih.gov/programmatic-access">https://pubchemdocs.ncbi.nlm.nih.gov/programmatic-access</a></p>
+<p><strong>Attribution:</strong> This tutorial was adapted from supporting information in:</p>
+<p><strong>Scalfani, V. F.</strong>; Ralph, S. C. Alshaikh, A. A.; Bara, J. E. Programmatic Compilation of Chemical Data and Literature From PubChem Using Matlab. <em>Chemical Engineering Education</em>, <strong>2020</strong>, <em>54</em>, 230. <a class="reference external" href="https://doi.org/10.18260/2-1-370.660-115508">https://doi.org/10.18260/2-1-370.660-115508</a> and <a class="reference external" href="https://github.com/vfscalfani/MATLAB-cheminformatics">https://github.com/vfscalfani/MATLAB-cheminformatics</a>)</p>
+<section id="program-requirements">
+<h3>Program requirements<a class="headerlink" href="#program-requirements" title="Permalink to this headline">#</a></h3>
+<p>In order to run this code, you will need to first install <a class="reference external" href="https://github.com/curl/curl">curl</a>, and <a class="reference external" href="https://stedolan.github.io/jq/">jq</a>. curl is used to request the data from the API, and jq is used to parse the JSON data. In addition, if you want to be able to print the molecules as ASCII characters in your terminal, you will need to install <a class="reference external" href="https://www.rdkit.org/">RDKit</a> and download the <a class="reference external" href="https://github.com/vfscalfani/teletype_mols">print_mols</a> Python script.</p>
+</section>
+<section id="setup">
+<h3>1. Setup<a class="headerlink" href="#setup" title="Permalink to this headline">#</a></h3>
+<p>Define the PubChem PUG-REST API base URL:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">api</span><span class="o">=</span><span class="s2">&quot;https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="pubchem-similarity">
+<h3>2. PubChem Similarity<a class="headerlink" href="#pubchem-similarity" title="Permalink to this headline">#</a></h3>
+<section id="get-compound-image">
+<h4>Get Compound Image<a class="headerlink" href="#get-compound-image" title="Permalink to this headline">#</a></h4>
+<p>We can search for a compound and display an image, for example: 1-Butyl-3-methyl-imidazolium; CID = 2734162</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">compoundID</span><span class="o">=</span><span class="s2">&quot;2734162&quot;</span>
+curl -s <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;$&quot;cid/&quot;&quot;</span><span class="nv">$compoundID</span><span class="s2">&quot;$&quot;/PNG&quot;</span> -o CID_2734162.png
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The silent option <code class="docutils literal notranslate"><span class="pre">(-s)</span></code> for curl was used to hide the progress outputs.</p>
+</div>
+<p>If you want to open the PNG file in an image viewer program from your terminal, try <code class="docutils literal notranslate"><span class="pre">xdg-open</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>xdg-open CID_2734162.png
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<img alt="../../../_images/CID_2734162.png" src="../../../_images/CID_2734162.png" />
+</section>
+<section id="retrieve-inchi-and-smiles">
+<h4>Retrieve InChI and SMILES<a class="headerlink" href="#retrieve-inchi-and-smiles" title="Permalink to this headline">#</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;&quot;cid/&quot;&quot;</span><span class="nv">$compoundID</span><span class="s2">&quot;&quot;/property/inchi,IsomericSMILES/JSON&quot;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+  <span class="s2">&quot;PropertyTable&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;Properties&quot;</span>: <span class="o">[</span>
+      <span class="o">{</span>
+        <span class="s2">&quot;CID&quot;</span>: <span class="m">2734162</span>,
+        <span class="s2">&quot;IsomericSMILES&quot;</span>: <span class="s2">&quot;CCCCN1C=C[N+](=C1)C&quot;</span>,
+        <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C8H15N2/c1-3-4-5-10-7-6-9(2)8-10/h6-8H,3-5H2,1-2H3/q+1&quot;</span>
+      <span class="o">}</span>
+    <span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Now, extract out the InChI:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;PropertyTable&quot;][&quot;Properties&quot;][0][&quot;InChI&quot;]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;InChI=1S/C8H15N2/c1-3-4-5-10-7-6-9(2)8-10/h6-8H,3-5H2,1-2H3/q+1&quot;</span>
+</pre></div>
+</div>
+<p>And the IsomericSMILES:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;PropertyTable&quot;][&quot;Properties&quot;][0][&quot;IsomericSMILES&quot;]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;CCCCN1C=C[N+](=C1)C&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="display-molecule-as-ascii-drawing">
+<h4>Display Molecule as ASCII Drawing<a class="headerlink" href="#display-molecule-as-ascii-drawing" title="Permalink to this headline">#</a></h4>
+<p>We can use the extracted SMILES to generate an ASCII drawing within our terminal. First, we will extract the SMILES using <code class="docutils literal notranslate"><span class="pre">jq</span></code>, and then pipe the SMILES to a <a class="reference external" href="https://github.com/vfscalfani/teletype_mols">print_mols</a> Python script, which uses the cheminformatics program RDKit to parse the SMILES, compute drawing coordinates, and then print the molecule as ASCII characters:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;PropertyTable&quot;][&quot;Properties&quot;][0][&quot;IsomericSMILES&quot;]&#39;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span> <span class="p">|</span> python3 print_mols.py -
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>                                            C
+                                        *
+                                    C         *
+
+                                  *             N
+                                                      *
+C               C               N             *             C
+    *       *                         *
+        C           *       *               C
+
+                        C
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">tr</span> <span class="pre">-d</span> <span class="pre">'&quot;'</span></code> removes the quotes around the extracted SMILES; <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">print_mols.py</span> <span class="pre">-</span></code> prints the molecule.</p>
+</div>
+</section>
+<section id="perform-a-similarity-search">
+<h4>Perform a Similarity Search<a class="headerlink" href="#perform-a-similarity-search" title="Permalink to this headline">#</a></h4>
+<p>We will use the PubChem API to perform a Fingerprint Tanimoto Similarity Search.</p>
+<p>(2D Tanimoto threshold 95% to 1-Butyl-3-methyl-imidazolium; CID = 2734162)</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;$&quot;fastsimilarity_2d/cid/&quot;&quot;</span><span class="nv">$compoundID</span><span class="s2">&quot;$&quot;/cids/JSON?Threshold=95&quot;</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>In the above request value, you can adjust to the desired Tanimoto threshold (e.g., 97, 90, etc.)</p>
+<p>Let’s find the number of CID values returned and display the first 10 CIDs:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">length</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;IdentifierList&quot;][&quot;CID&quot;] | length&#39;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$length</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">283</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s2">&quot;.IdentifierList.CID[0:10]&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>
+  <span class="m">2734161</span>,
+  <span class="m">61347</span>,
+  <span class="m">529334</span>,
+  <span class="m">304622</span>,
+  <span class="m">118785</span>,
+  <span class="m">12971008</span>,
+  <span class="m">11448496</span>,
+  <span class="m">11424151</span>,
+  <span class="m">11171745</span>,
+  <span class="m">11160028</span>
+<span class="o">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Here is another approach to displaying the first 10 lines: <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">&quot;$request&quot;</span> <span class="pre">|</span> <span class="pre">jq</span> <span class="pre">'.[&quot;IdentifierList&quot;][&quot;CID&quot;]'</span> <span class="pre">|</span> <span class="pre">head</span> <span class="pre">-n10</span></code></p>
+</div>
+<p>Next, we will convert the CID identifier values into an array:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -a idList
+<span class="k">for</span> <span class="o">((</span> <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; length <span class="p">;</span> i++<span class="o">))</span><span class="p">;</span>
+<span class="k">do</span>
+  <span class="nv">idList</span><span class="o">+=(</span><span class="s2">&quot; </span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s2">&quot;.IdentifierList.CID[</span><span class="nv">$i</span><span class="s2">]&quot;</span><span class="k">)</span><span class="s2"> &quot;</span><span class="o">)</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>Display the first 10:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">idList</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">10</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">2734161</span>   <span class="m">61347</span>   <span class="m">529334</span>   <span class="m">304622</span>   <span class="m">118785</span>   <span class="m">12971008</span>   <span class="m">11448496</span>   <span class="m">11424151</span>   <span class="m">11171745</span>   <span class="m">11160028</span>
+</pre></div>
+</div>
+</section>
+<section id="retrieve-identifier-and-property-data">
+<h4>Retrieve Identifier and Property Data<a class="headerlink" href="#retrieve-identifier-and-property-data" title="Permalink to this headline">#</a></h4>
+<p>Get the following data for the retrieved CIDs (idList): InChI, Isomeric SMILES, MW, Heavy Atom Count, Rotable Bond Count, and Charge. As a test, we will only get data for the first 5 CIDs:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> id <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">idList</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">5</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+  <span class="nv">compound</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$id</span><span class="s2">&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/ //g&#39;</span><span class="k">)</span>
+  <span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;$&quot;cid/&quot;&quot;</span><span class="nv">$compound</span><span class="s2">&quot;$&quot;/property/InChI,IsomericSMILES,MolecularWeight,HeavyAtomCount,RotatableBondCount,Charge/JSON&quot;</span><span class="k">)</span>
+  <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;PropertyTable&quot;][&quot;Properties&quot;][0]&#39;</span>
+  sleep <span class="m">1</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+  <span class="s2">&quot;CID&quot;</span>: <span class="m">2734161</span>,
+  <span class="s2">&quot;MolecularWeight&quot;</span>: <span class="s2">&quot;174.67&quot;</span>,
+  <span class="s2">&quot;IsomericSMILES&quot;</span>: <span class="s2">&quot;CCCCN1C=C[N+](=C1)C.[Cl-]&quot;</span>,
+  <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C8H15N2.ClH/c1-3-4-5-10-7-6-9(2)8-10;/h6-8H,3-5H2,1-2H3;1H/q+1;/p-1&quot;</span>,
+  <span class="s2">&quot;Charge&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;RotatableBondCount&quot;</span>: <span class="m">3</span>,
+  <span class="s2">&quot;HeavyAtomCount&quot;</span>: <span class="m">11</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">&quot;CID&quot;</span>: <span class="m">61347</span>,
+  <span class="s2">&quot;MolecularWeight&quot;</span>: <span class="s2">&quot;124.18&quot;</span>,
+  <span class="s2">&quot;IsomericSMILES&quot;</span>: <span class="s2">&quot;CCCCN1C=CN=C1&quot;</span>,
+  <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C7H12N2/c1-2-3-5-9-6-4-8-7-9/h4,6-7H,2-3,5H2,1H3&quot;</span>,
+  <span class="s2">&quot;Charge&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;RotatableBondCount&quot;</span>: <span class="m">3</span>,
+ <span class="s2">&quot;HeavyAtomCount&quot;</span>: <span class="m">9</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">&quot;CID&quot;</span>: <span class="m">529334</span>,
+  <span class="s2">&quot;MolecularWeight&quot;</span>: <span class="s2">&quot;138.21&quot;</span>,
+  <span class="s2">&quot;IsomericSMILES&quot;</span>: <span class="s2">&quot;CCCCCN1C=CN=C1&quot;</span>,
+  <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C8H14N2/c1-2-3-4-6-10-7-5-9-8-10/h5,7-8H,2-4,6H2,1H3&quot;</span>,
+  <span class="s2">&quot;Charge&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;RotatableBondCount&quot;</span>: <span class="m">4</span>,
+  <span class="s2">&quot;HeavyAtomCount&quot;</span>: <span class="m">10</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">&quot;CID&quot;</span>: <span class="m">304622</span>,
+  <span class="s2">&quot;MolecularWeight&quot;</span>: <span class="s2">&quot;138.21&quot;</span>,
+  <span class="s2">&quot;IsomericSMILES&quot;</span>: <span class="s2">&quot;CCCCN1C=CN=C1C&quot;</span>,
+  <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C8H14N2/c1-3-4-6-10-7-5-9-8(10)2/h5,7H,3-4,6H2,1-2H3&quot;</span>,
+  <span class="s2">&quot;Charge&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;RotatableBondCount&quot;</span>: <span class="m">3</span>,
+  <span class="s2">&quot;HeavyAtomCount&quot;</span>: <span class="m">10</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">&quot;CID&quot;</span>: <span class="m">118785</span>,
+  <span class="s2">&quot;MolecularWeight&quot;</span>: <span class="s2">&quot;110.16&quot;</span>,
+  <span class="s2">&quot;IsomericSMILES&quot;</span>: <span class="s2">&quot;CCCN1C=CN=C1&quot;</span>,
+  <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C6H10N2/c1-2-4-8-5-3-7-6-8/h3,5-6H,2,4H2,1H3&quot;</span>,
+  <span class="s2">&quot;Charge&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;RotatableBondCount&quot;</span>: <span class="m">2</span>,
+  <span class="s2">&quot;HeavyAtomCount&quot;</span>: <span class="m">8</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">sed</span> <span class="pre">'s/</span> <span class="pre">//g'</span></code> removes the extra space before the CID values. <code class="docutils literal notranslate"><span class="pre">tr</span> <span class="pre">-d</span> <span class="pre">'</span> <span class="pre">'</span></code> should also work to remove the extra space.</p>
+</div>
+<p>We can modify the <code class="docutils literal notranslate"><span class="pre">jq</span></code> line to extract out specific data values such as the MolecularWeight:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> id <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">idList</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">5</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+  <span class="nv">compound</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$id</span><span class="s2">&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/ //g&#39;</span><span class="k">)</span>
+  <span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;$&quot;cid/&quot;&quot;</span><span class="nv">$compound</span><span class="s2">&quot;$&quot;/property/InChI,IsomericSMILES,MolecularWeight,HeavyAtomCount,RotatableBondCount,Charge/JSON&quot;</span><span class="k">)</span>
+  <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;PropertyTable&quot;][&quot;Properties&quot;][0][&quot;MolecularWeight&quot;]&#39;</span>
+  sleep <span class="m">1</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;174.67&quot;</span>
+<span class="s2">&quot;124.18&quot;</span>
+<span class="s2">&quot;138.21&quot;</span>
+<span class="s2">&quot;138.21&quot;</span>
+<span class="s2">&quot;110.16&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="retrieve-images-of-cid-compounds-from-similarity-search">
+<h4>Retrieve Images of CID Compounds from Similarity Search<a class="headerlink" href="#retrieve-images-of-cid-compounds-from-similarity-search" title="Permalink to this headline">#</a></h4>
+<p>We will get and save the PNG images for the first 5 compounds:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> id <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">idList</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">5</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+  <span class="nv">compound</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$id</span><span class="s2">&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/ //g&#39;</span><span class="k">)</span>
+  <span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;$&quot;cid/&quot;&quot;</span><span class="nv">$compound</span><span class="s2">&quot;$&quot;/PNG&quot;</span> -o <span class="s2">&quot;</span><span class="nv">$compound</span><span class="s2">&quot;$&quot;.png&quot;</span><span class="k">)</span>
+  sleep <span class="m">1</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ls
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">118785</span>.png  <span class="m">2734161</span>.png  <span class="m">304622</span>.png  <span class="m">529334</span>.png  <span class="m">61347</span>.png
+</pre></div>
+</div>
+<p>Finally, we can also visualize the compounds as ASCII drawings using the <a class="reference external" href="https://github.com/vfscalfani/teletype_mols">print_mols</a> Python script demonstrated above.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> id <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">idList</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">5</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+  <span class="nv">compound</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$id</span><span class="s2">&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/ //g&#39;</span><span class="k">)</span>
+  <span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;$&quot;cid/&quot;&quot;</span><span class="nv">$compound</span><span class="s2">&quot;$&quot;/property/IsomericSMILES/JSON&quot;</span><span class="k">)</span>
+  <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;PropertyTable&quot;][&quot;Properties&quot;][0][&quot;IsomericSMILES&quot;]&#39;</span> <span class="p">|</span>
+  tr -d <span class="s1">&#39;&quot;&#39;</span> <span class="p">|</span>
+  python3 print_mols.py -
+  sleep <span class="m">1</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>                                                            Cl
+
+                                C     *     C
+
+                                              *
+                                *
+                                                N     *     C
+
+C               C               N           *
+    *       *       *       *       *
+        C               C               C
+
+
+
+
+                                    C   *   N
+
+                                                *
+                                    *
+                                                    C
+
+C               C                   N           *
+    *       *         *         *       *
+        C                   C               C
+
+
+
+
+                                            C     *     N
+
+                                                          *
+                                            *
+                                                            C
+
+        C               C                   N           *
+    *       *       *         *         *       *
+C               C                   C               C
+
+
+
+
+                                            C
+
+
+                                            *
+        C               C
+
+    *       *       *         *             C
+                                        *     *
+C               C                   N           N
+
+                                    *
+                                              *
+                                    C
+                                        *
+                                            C
+
+
+
+
+                            C   *   N
+
+                                        *
+                            *
+                                            C
+
+        C                   N           *
+    *       *         *         *
+C               C                   C
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pubchem-smarts-search">
+<h3>3. PubChem SMARTS Search<a class="headerlink" href="#pubchem-smarts-search" title="Permalink to this headline">#</a></h3>
+<p>Search for chemical structures from a SMARTS substructure query.</p>
+<section id="define-smarts-queries">
+<h4>Define SMARTS queries<a class="headerlink" href="#define-smarts-queries" title="Permalink to this headline">#</a></h4>
+<p>View pattern syntax at: <a class="reference external" href="https://smartsview.zbh.uni-hamburg.de/">https://smartsview.zbh.uni-hamburg.de/</a></p>
+<p>Note: These are vinyl imidazolium substructure searches</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -a <span class="nv">smartsQ</span><span class="o">=(</span><span class="s2">&quot;[CR0H2][n+]1[cH1][cH1]n([CR0H1]=[CR0H2])[cH1]1&quot;</span> <span class="s2">&quot;[CR0H2][n+]1[cH1][cH1]n([CR0H2][CR0H1]=[CR0H2])[cH1]1&quot;</span> <span class="s2">&quot;[CR0H2][n+]1[cH1][cH1]n([CR0H2][CR0H2][CR0H1]=[CR0H2])[cH1]1&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Add your own SMARTS queries to customize. You can add as many as desired within an array.</p>
+</section>
+<section id="perform-a-smarts-query-search">
+<h4>Perform a SMARTS query search<a class="headerlink" href="#perform-a-smarts-query-search" title="Permalink to this headline">#</a></h4>
+<p>We will combine all data into a single array:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -a combinedA
+<span class="k">for</span> smarts <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">smartsQ</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+  <span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s -g <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;$&quot;fastsubstructure/smarts/&quot;&quot;</span><span class="nv">$smarts</span><span class="s2">&quot;$&quot;/cids/JSON&quot;</span><span class="k">)</span>
+  sleep <span class="m">1</span>
+  <span class="nv">length</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;IdentifierList&quot;][&quot;CID&quot;] | length&#39;</span><span class="k">)</span>
+  <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$length</span><span class="s2">&quot;</span>
+  <span class="k">for</span> <span class="o">((</span> <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; length <span class="p">;</span> i++<span class="o">))</span><span class="p">;</span>
+  <span class="k">do</span>
+    <span class="nv">combinedA</span><span class="o">+=(</span><span class="s2">&quot; </span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s2">&quot;.IdentifierList.CID[</span><span class="nv">$i</span><span class="s2">]&quot;</span> <span class="k">)</span><span class="s2"> &quot;</span><span class="o">)</span>
+  <span class="k">done</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">605</span>
+<span class="m">225</span>
+<span class="m">7</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">-g</span></code> option with curl prevents curl from interpreting the <code class="docutils literal notranslate"><span class="pre">[]</span></code> characters in the SMARTS patterns.</p>
+</div>
+<p>Get length of array:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${#</span><span class="nv">combinedA</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">837</span>
+</pre></div>
+</div>
+<p>Show the first 5 results:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">combinedA</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">5</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">121235111</span>   <span class="m">86657882</span>   <span class="m">46178576</span>   <span class="m">24766550</span>   <span class="m">139254006</span>
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h4>Retrieve Identifier and Property Data<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h4>
+<p>We will retrieve some property data for the first 5 CIDs:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> id <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">combinedA</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">5</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+  <span class="nv">compound</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$id</span><span class="s2">&quot;</span> <span class="p">|</span> tr -d <span class="s1">&#39; &#39;</span><span class="k">)</span>
+  <span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;$&quot;cid/&quot;&quot;</span><span class="nv">$compound</span><span class="s2">&quot;$&quot;/property/InChI,CanonicalSMILES,MolecularWeight,IUPACName,HeavyAtomCount,CovalentUnitCount,Charge/JSON&quot;</span><span class="k">)</span>
+  <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;PropertyTable&quot;][&quot;Properties&quot;][0]&#39;</span>
+  sleep <span class="m">1</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+  <span class="s2">&quot;CID&quot;</span>: <span class="m">121235111</span>,
+  <span class="s2">&quot;MolecularWeight&quot;</span>: <span class="s2">&quot;403.3&quot;</span>,
+  <span class="s2">&quot;CanonicalSMILES&quot;</span>: <span class="s2">&quot;CC[N+]1=CN(C=C1)C=C.C(F)(F)(F)S(=O)(=O)[N-]S(=O)(=O)C(F)(F)F&quot;</span>,
+  <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C7H11N2.C2F6NO4S2/c1-3-8-5-6-9(4-2)7-8;3-1(4,5)14(10,11)9-15(12,13)2(6,7)8/h3,5-7H,1,4H2,2H3;/q+1;-1&quot;</span>,
+  <span class="s2">&quot;IUPACName&quot;</span>: <span class="s2">&quot;bis(trifluoromethylsulfonyl)azanide;1-ethenyl-3-ethylimidazol-3-ium&quot;</span>,
+  <span class="s2">&quot;Charge&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;HeavyAtomCount&quot;</span>: <span class="m">24</span>,
+  <span class="s2">&quot;CovalentUnitCount&quot;</span>: <span class="m">2</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">&quot;CID&quot;</span>: <span class="m">86657882</span>,
+  <span class="s2">&quot;MolecularWeight&quot;</span>: <span class="s2">&quot;287.24&quot;</span>,
+  <span class="s2">&quot;CanonicalSMILES&quot;</span>: <span class="s2">&quot;CCCCCCCC[N+]1=CN(C=C1)C=C.[Br-]&quot;</span>,
+  <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C13H23N2.BrH/c1-3-5-6-7-8-9-10-15-12-11-14(4-2)13-15;/h4,11-13H,2-3,5-10H2,1H3;1H/q+1;/p-1&quot;</span>,
+  <span class="s2">&quot;IUPACName&quot;</span>: <span class="s2">&quot;1-ethenyl-3-octylimidazol-3-ium;bromide&quot;</span>,
+  <span class="s2">&quot;Charge&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;HeavyAtomCount&quot;</span>: <span class="m">16</span>,
+  <span class="s2">&quot;CovalentUnitCount&quot;</span>: <span class="m">2</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">&quot;CID&quot;</span>: <span class="m">46178576</span>,
+  <span class="s2">&quot;MolecularWeight&quot;</span>: <span class="s2">&quot;399.5&quot;</span>,
+  <span class="s2">&quot;CanonicalSMILES&quot;</span>: <span class="s2">&quot;CCCCCCCCCCCCCCCC[N+]1=CN(C=C1)C=C.[Br-]&quot;</span>,
+  <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C21H39N2.BrH/c1-3-5-6-7-8-9-10-11-12-13-14-15-16-17-18-23-20-19-22(4-2)21-23;/h4,19-21H,2-3,5-18H2,1H3;1H/q+1;/p-1&quot;</span>,
+  <span class="s2">&quot;IUPACName&quot;</span>: <span class="s2">&quot;1-ethenyl-3-hexadecylimidazol-3-ium;bromide&quot;</span>,
+  <span class="s2">&quot;Charge&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;HeavyAtomCount&quot;</span>: <span class="m">24</span>,
+  <span class="s2">&quot;CovalentUnitCount&quot;</span>: <span class="m">2</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">&quot;CID&quot;</span>: <span class="m">24766550</span>,
+  <span class="s2">&quot;MolecularWeight&quot;</span>: <span class="s2">&quot;431.4&quot;</span>,
+  <span class="s2">&quot;CanonicalSMILES&quot;</span>: <span class="s2">&quot;CCCC[N+]1=CN(C=C1)C=C.C(F)(F)(F)S(=O)(=O)[N-]S(=O)(=O)C(F)(F)F&quot;</span>,
+  <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C9H15N2.C2F6NO4S2/c1-3-5-6-11-8-7-10(4-2)9-11;3-1(4,5)14(10,11)9-15(12,13)2(6,7)8/h4,7-9H,2-3,5-6H2,1H3;/q+1;-1&quot;</span>,
+  <span class="s2">&quot;IUPACName&quot;</span>: <span class="s2">&quot;bis(trifluoromethylsulfonyl)azanide;1-butyl-3-ethenylimidazol-1-ium&quot;</span>,
+  <span class="s2">&quot;Charge&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;HeavyAtomCount&quot;</span>: <span class="m">26</span>,
+  <span class="s2">&quot;CovalentUnitCount&quot;</span>: <span class="m">2</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">&quot;CID&quot;</span>: <span class="m">139254006</span>,
+  <span class="s2">&quot;MolecularWeight&quot;</span>: <span class="s2">&quot;278.13&quot;</span>,
+  <span class="s2">&quot;CanonicalSMILES&quot;</span>: <span class="s2">&quot;CCCC[N+]1=CN(C=C1)C=C.[I-]&quot;</span>,
+  <span class="s2">&quot;InChI&quot;</span>: <span class="s2">&quot;InChI=1S/C9H15N2.HI/c1-3-5-6-11-8-7-10(4-2)9-11;/h4,7-9H,2-3,5-6H2,1H3;1H/q+1;/p-1&quot;</span>,
+  <span class="s2">&quot;IUPACName&quot;</span>: <span class="s2">&quot;1-butyl-3-ethenylimidazol-1-ium;iodide&quot;</span>,
+  <span class="s2">&quot;Charge&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;HeavyAtomCount&quot;</span>: <span class="m">12</span>,
+  <span class="s2">&quot;CovalentUnitCount&quot;</span>: <span class="m">2</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Get only the InChIs:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> id <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">combinedA</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">5</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+  <span class="nv">compound</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$id</span><span class="s2">&quot;</span> <span class="p">|</span> tr -d <span class="s1">&#39; &#39;</span><span class="k">)</span>
+  <span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;$&quot;cid/&quot;&quot;</span><span class="nv">$compound</span><span class="s2">&quot;$&quot;/property/InChI/JSON&quot;</span><span class="k">)</span>
+  <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;PropertyTable&quot;][&quot;Properties&quot;][0][&quot;InChI&quot;]&#39;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span>
+  sleep <span class="m">1</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">InChI</span><span class="o">=</span>1S/C7H11N2.C2F6NO4S2/c1-3-8-5-6-9<span class="o">(</span><span class="m">4</span>-2<span class="o">)</span><span class="m">7</span>-8<span class="p">;</span><span class="m">3</span>-1<span class="o">(</span><span class="m">4</span>,5<span class="o">)</span><span class="m">14</span><span class="o">(</span><span class="m">10</span>,11<span class="o">)</span><span class="m">9</span>-15<span class="o">(</span><span class="m">12</span>,13<span class="o">)</span><span class="m">2</span><span class="o">(</span><span class="m">6</span>,7<span class="o">)</span><span class="m">8</span>/h3,5-7H,1,4H2,2H3<span class="p">;</span>/q+1<span class="p">;</span>-1
+<span class="nv">InChI</span><span class="o">=</span>1S/C13H23N2.BrH/c1-3-5-6-7-8-9-10-15-12-11-14<span class="o">(</span><span class="m">4</span>-2<span class="o">)</span><span class="m">13</span>-15<span class="p">;</span>/h4,11-13H,2-3,5-10H2,1H3<span class="p">;</span>1H/q+1<span class="p">;</span>/p-1
+<span class="nv">InChI</span><span class="o">=</span>1S/C21H39N2.BrH/c1-3-5-6-7-8-9-10-11-12-13-14-15-16-17-18-23-20-19-22<span class="o">(</span><span class="m">4</span>-2<span class="o">)</span><span class="m">21</span>-23<span class="p">;</span>/h4,19-21H,2-3,5-18H2,1H3<span class="p">;</span>1H/q+1<span class="p">;</span>/p-1
+<span class="nv">InChI</span><span class="o">=</span>1S/C9H15N2.C2F6NO4S2/c1-3-5-6-11-8-7-10<span class="o">(</span><span class="m">4</span>-2<span class="o">)</span><span class="m">9</span>-11<span class="p">;</span><span class="m">3</span>-1<span class="o">(</span><span class="m">4</span>,5<span class="o">)</span><span class="m">14</span><span class="o">(</span><span class="m">10</span>,11<span class="o">)</span><span class="m">9</span>-15<span class="o">(</span><span class="m">12</span>,13<span class="o">)</span><span class="m">2</span><span class="o">(</span><span class="m">6</span>,7<span class="o">)</span><span class="m">8</span>/h4,7-9H,2-3,5-6H2,1H3<span class="p">;</span>/q+1<span class="p">;</span>-1
+<span class="nv">InChI</span><span class="o">=</span>1S/C9H15N2.HI/c1-3-5-6-11-8-7-10<span class="o">(</span><span class="m">4</span>-2<span class="o">)</span><span class="m">9</span>-11<span class="p">;</span>/h4,7-9H,2-3,5-6H2,1H3<span class="p">;</span>1H/q+1<span class="p">;</span>/p-1
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 </section>
 
