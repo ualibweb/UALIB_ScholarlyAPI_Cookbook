@@ -16,6 +16,10 @@ These recipe examples were tested on August 4, 2022 using GNOME Terminal (with B
 
 **Scalfani, V. F.**; Ralph, S. C. Alshaikh, A. A.; Bara, J. E. Programmatic Compilation of Chemical Data and Literature From PubChem Using Matlab. *Chemical Engineering Education*, **2020**, *54*, 230. https://doi.org/10.18260/2-1-370.660-115508 and https://github.com/vfscalfani/MATLAB-cheminformatics)
 
+.. note::
+  
+   This tutorial uses ``curl`` and ``jq`` for interacting with the PubChem API. You may also be interested in using the `NCBI EDirect command line program <https://www.ncbi.nlm.nih.gov/books/NBK179288/>`_. We have several tutorials for EDirect in our `EDirectChemInfo repository <https://github.com/ualibweb/EDirectChemInfo>`_.
+
 Program requirements
 =======================
 
