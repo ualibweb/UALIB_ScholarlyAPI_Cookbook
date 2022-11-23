@@ -662,6 +662,40 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#pubmed-api-in-matlab">
    PubMed API in Matlab
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-pubmed-api-call">
+     1. Basic PubMed API call
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#request-data-using-a-loop">
+     2. Request Data using a Loop
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-calls-with-requests-and-parameters">
+     3. PubMed API Calls with Requests and Parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-metadata-visualization">
+     4. PubMed API Metadata Visualization
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-topic-sortpubdate-field">
+       Frequency of Topic sortpubdate field
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-publication-for-an-author-search">
+       Frequency of Publication for an Author Search
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -686,6 +720,40 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#pubmed-api-in-matlab">
    PubMed API in Matlab
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-pubmed-api-call">
+     1. Basic PubMed API call
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#request-data-using-a-loop">
+     2. Request Data using a Loop
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-calls-with-requests-and-parameters">
+     3. PubMed API Calls with Requests and Parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-metadata-visualization">
+     4. PubMed API Metadata Visualization
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-topic-sortpubdate-field">
+       Frequency of Topic sortpubdate field
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-publication-for-an-author-search">
+       Frequency of Publication for an Author Search
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -701,6 +769,411 @@ title="Print to PDF"
 <h1>…in Matlab<a class="headerlink" href="#in-matlab" title="Permalink to this headline">#</a></h1>
 <section id="pubmed-api-in-matlab">
 <h2>PubMed API in Matlab<a class="headerlink" href="#pubmed-api-in-matlab" title="Permalink to this headline">#</a></h2>
+<p>by Anastasia Ramig</p>
+<p>These recipe examples were tested on November 23, 2022 in MATLAB R2022b.</p>
+<p><strong>NCBI Entrez Programming Utilities Documentation:</strong>
+<a class="reference external" href="https://www.ncbi.nlm.nih.gov/books/NBK25501/">https://www.ncbi.nlm.nih.gov/books/NBK25501/</a></p>
+<p><strong>Please see NCBI’s Data Usage Policies and Disclaimers:</strong>
+<a class="reference external" href="https://www.ncbi.nlm.nih.gov/home/about/policies/">https://www.ncbi.nlm.nih.gov/home/about/policies/</a></p>
+<section id="basic-pubmed-api-call">
+<h3>1. Basic PubMed API call<a class="headerlink" href="#basic-pubmed-api-call" title="Permalink to this headline">#</a></h3>
+<p>For calling individual articles and publications, we will need to use this API URL:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% set up the API parameters</span><span class="w"></span>
+<span class="nb">summary</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&amp;&quot;</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The article we are requesting has PubMed ID: 27933103.</p>
+<p><strong>retmode</strong> in the web API URL specifies the file format. In this example, we will use JSON.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% pull specific article data using its ID</span><span class="w"></span>
+<span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">summary</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;id=27933103&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">data_call</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% index to where the authors are stored</span><span class="w"></span>
+<span class="n">index</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">data_call</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">x27933103</span><span class="p">.</span><span class="n">authors</span><span class="p">;</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="mi">8</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">fields</span><span class="p">:</span><span class="w"></span>
+
+<span class="w"> </span><span class="n">name</span><span class="w"></span>
+<span class="w"> </span><span class="n">authtype</span><span class="w"></span>
+<span class="w"> </span><span class="n">clusterid</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% index to pull out the list of author names</span><span class="w"></span>
+<span class="n">names</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">index</span><span class="p">(:).</span><span class="n">name</span><span class="p">};</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">names</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">Columns</span><span class="w"> </span><span class="s">1</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">5</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Scalfani VF&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;Williams AJ&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;Tkachenko V&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;Karapetyan K&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;Pshenichnov A&#39;</span><span class="p">}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">6</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">8</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{</span><span class="s">&#39;Hanson RM&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;Liddie JM&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39;Bara JE&#39;</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="request-data-using-a-loop">
+<h3>2. Request Data using a Loop<a class="headerlink" href="#request-data-using-a-loop" title="Permalink to this headline">#</a></h3>
+<p>First, create a list of PubMed IDs:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create a list of PubMed IDs</span><span class="w"></span>
+<span class="n">idList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">34813985</span><span class="p">,</span><span class="w"> </span><span class="mi">34813932</span><span class="p">,</span><span class="w"> </span><span class="mi">34813684</span><span class="p">,</span><span class="w"> </span><span class="mi">34813661</span><span class="p">,</span><span class="w"> </span><span class="mi">34813372</span><span class="p">,</span><span class="w"> </span><span class="mi">34813140</span><span class="p">,</span><span class="w"> </span><span class="mi">34813072</span><span class="p">];</span><span class="w"></span>
+</pre></div>
+</div>
+<p>We will use map containers to store IDs and associated data. MATLAB map containers work by storing
+a value and associating it with a specific key. We can establish a map container using:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create an empty map container</span><span class="w"></span>
+<span class="n">map</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">containers.Map</span><span class="p">;</span><span class="w"></span>
+<span class="n">map</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">map</span><span class="w"> </span><span class="p">=</span><span class="w"></span>
+<span class="n">Map</span><span class="w"> </span><span class="s">with</span><span class="w"> </span><span class="s">properties:</span><span class="w"></span>
+
+<span class="w">      </span><span class="n">Count</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="n">KeyType</span><span class="p">:</span><span class="w"> </span><span class="nb">char</span><span class="w"></span>
+<span class="w">  </span><span class="n">ValueType</span><span class="p">:</span><span class="w"> </span><span class="nb">any</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create two structures and add each id and its corresponding search</span><span class="w"></span>
+<span class="n">multiPapersKeys</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">idList</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+<span class="n">multiPapersValues</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">idList</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">idList</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">summary</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;id=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="n">idList</span><span class="p">(</span><span class="nb">i</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">multiPapersKeys</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">idList</span><span class="p">(</span><span class="nb">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">multiPapersValues</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">pause</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create a container of the search results and index to a specific article</span><span class="w"></span>
+<span class="n">multiPapers</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">containers.Map</span><span class="p">(</span><span class="n">multiPapersKeys</span><span class="p">,</span><span class="w"> </span><span class="n">multiPapersValues</span><span class="p">);</span><span class="w"></span>
+<span class="n">multiPapers</span><span class="p">(</span><span class="mi">34813985</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">fields</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="n">header</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="n">result</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create a new set of ids that are formatted with &quot;x&quot; for indexing</span><span class="w"></span>
+<span class="n">xiSet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">idList</span><span class="p">),</span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">idList</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">xiSet</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idList</span><span class="p">(</span><span class="nb">i</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c">%% get the title for each journal</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">idList</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">idList</span><span class="p">(</span><span class="nb">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">displayResult</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">multiPapers</span><span class="p">(</span><span class="n">id</span><span class="p">).</span><span class="n">result</span><span class="p">.(</span><span class="n">xiSet</span><span class="p">{</span><span class="nb">i</span><span class="p">}).</span><span class="n">source</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">displayResult</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;Cell Calcium&#39;</span><span class="w"></span>
+<span class="n">displayResult</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;Methods&#39;</span><span class="w"></span>
+<span class="n">displayResult</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;FEBS J&#39;</span><span class="w"></span>
+<span class="n">displayResult</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;Dev Growth Differ&#39;</span><span class="w"></span>
+<span class="n">displayResult</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;CRISPR J&#39;</span><span class="w"></span>
+<span class="n">displayResult</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;Chembiochem&#39;</span><span class="w"></span>
+<span class="n">displayResult</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;Methods Mol Biol&#39;</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="pubmed-api-calls-with-requests-and-parameters">
+<h3>3. PubMed API Calls with Requests and Parameters<a class="headerlink" href="#pubmed-api-calls-with-requests-and-parameters" title="Permalink to this headline">#</a></h3>
+<p>For searching for articles using search term(s), we will need to use this API URL:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% set the search url for the API</span><span class="w"></span>
+<span class="n">search</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&amp;&quot;</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>When searching through articles, we are given a few ways of filtering the data.
+A list of all the available parameters for these requests can be found in the official NCBI documentation:</p>
+<p><a class="reference external" href="https://www.ncbi.nlm.nih.gov/books/NBK25499/">https://www.ncbi.nlm.nih.gov/books/NBK25499/</a></p>
+<p>We can specify the database by putting <strong>db=&lt;database&gt;</strong> into the URL. We will be using the PubMed database.
+We can also use term to search data by adding <strong>term=&lt;searchQuery&gt;</strong>. Just be sure to replace spaces with
+a + instead. We can, for example, use a query to search PubMed, such as “neuroscience intervention learning”:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% search the API</span><span class="w"></span>
+<span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">search</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;term=neuroscience+intervention+learning&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The number of returned IDs can be adjusted with the <strong>retmax</strong> parameter:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% limit the search to 25 articles and pull the list of ids</span><span class="w"></span>
+<span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">search</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;term=neuroscience+intervention+learning&amp;retmax=25&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">esearchresult</span><span class="p">.</span><span class="n">idlist</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s">&#39;36416175&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36415971&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36414247&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36414012&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36411719&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36411683&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36411673&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36409100&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36409046&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36408530&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36408399&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36408106&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36408061&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36405490&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36405191&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36405080&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36404677&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36404570&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36402843&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36402815&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36402739&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36402496&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36401545&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36399451&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36398842&#39;</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">length</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">esearchresult</span><span class="p">.</span><span class="n">idlist</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
+</pre></div>
+</div>
+<p>We can also use the query to search for an author. Add <strong>[au]</strong> after the name to specify it is an author.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% search articles by author name</span><span class="w"></span>
+<span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">search</span><span class="o">+</span><span class="s">&quot;term=Darwin[au]&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+<span class="n">data</span><span class="p">.</span><span class="n">esearchresult</span><span class="p">.</span><span class="n">count</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;603&#39;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>We can also sort results using <strong>usehistory=y</strong>. This allows us to store the data for it to be sorted in the same API call.
+The addition of <strong>sort=pub+date</strong> will sort IDs by the publishing date.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% perform a search that is sorted by publication date</span><span class="w"></span>
+<span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">search</span><span class="o">+</span><span class="s">&quot;term=Coral+Reefs&amp;retmode=json&amp;usehistory=y&amp;sort=pub+date&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">esearchresult</span><span class="p">.</span><span class="n">idlist</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s">&#39;35341677&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36252668&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36183766&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36181819&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36055494&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;35995149&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36409983&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36265239&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36179999&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36172974&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36168958&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36152066&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36150619&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36129389&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36106689&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36064010&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36054745&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;35998799&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;35980514&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;35718641&#39;</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% compare to unsorted</span><span class="w"></span>
+<span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">search</span><span class="o">+</span><span class="s">&quot;term=Coral+Reefs&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">esearchresult</span><span class="p">.</span><span class="n">idlist</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s">&#39;36416762&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36415309&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36413112&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36409983&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36406938&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36405638&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36401956&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36401815&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36399057&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36395713&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36395226&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36389413&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36385270&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36383546&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36382375&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36379970&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36379169&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36372339&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36371949&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;36371558&#39;</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>We can also search based on publication type by adding <strong>AND</strong> into the search in the term: <strong>term=&lt;searchQuery&gt;+AND+filter[filterType]</strong>.</p>
+<p><strong>[pt]</strong> specifies that the filter type is the publication type. More filters can be found at: <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/help/">https://pubmed.ncbi.nlm.nih.gov/help/</a>.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% search based on publication type</span><span class="w"></span>
+<span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">search</span><span class="o">+</span><span class="s">&quot;term=stem+cells+AND+clinical+trial[pt]&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">fields</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">header</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+<span class="w"> </span><span class="n">esearchresult</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span>×<span class="mi">1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="pubmed-api-metadata-visualization">
+<h3>4. PubMed API Metadata Visualization<a class="headerlink" href="#pubmed-api-metadata-visualization" title="Permalink to this headline">#</a></h3>
+<section id="frequency-of-topic-sortpubdate-field">
+<h4>Frequency of Topic sortpubdate field<a class="headerlink" href="#frequency-of-topic-sortpubdate-field" title="Permalink to this headline">#</a></h4>
+<p>Extracting the sortpubdate field for a “hydrogel drug” search results, limited to publication type clinical trials:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% perform a search using the term &quot;hydrogel drug&quot; and print the list of ids</span><span class="w"></span>
+<span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">search</span><span class="o">+</span><span class="s">&quot;term=hydrogel+drug+AND+clinical+trial[pt]&amp;sort=pub+date&amp;retmax=500&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+<span class="n">ids</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">esearchresult</span><span class="p">.</span><span class="n">idlist</span><span class="p">;</span><span class="w"></span>
+<span class="nb">length</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">299</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create a list of publication dates</span><span class="w"></span>
+<span class="n">pubDates</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">ids</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">summary</span><span class="o">+</span><span class="s">&quot;id=&quot;</span><span class="o">+</span><span class="nb">string</span><span class="p">(</span><span class="n">ids</span><span class="p">{</span><span class="nb">i</span><span class="p">})</span><span class="o">+</span><span class="s">&quot;&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">pause</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">idNew</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ids</span><span class="p">{</span><span class="nb">i</span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="n">pubDates</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="n">result</span><span class="p">.(</span><span class="n">idNew</span><span class="p">).</span><span class="n">sortpubdate</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">pubDates</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;2022/12/01 00:00&#39;</span><span class="w"></span>
+<span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;2022/10/19 00:00&#39;</span><span class="w"></span>
+<span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;2022/10/01 00:00&#39;</span><span class="w"></span>
+<span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;2022/10/01 00:00&#39;</span><span class="w"></span>
+<span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;2022/08/01 00:00&#39;</span><span class="w"></span>
+<span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;2022/06/01 00:00&#39;</span><span class="w"></span>
+<span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;2022/05/01 00:00&#39;</span><span class="w"></span>
+<span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;2022/04/01 00:00&#39;</span><span class="w"></span>
+<span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;2022/03/01 00:00&#39;</span><span class="w"></span>
+<span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;2022/01/21 00:00&#39;</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">length</span><span class="p">(</span><span class="n">pubDates</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">299</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% pull the year from each publication date</span><span class="w"></span>
+<span class="n">datesList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">pubDates</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">pubDates</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">datesList</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">str2double</span><span class="p">(</span><span class="n">pubDates</span><span class="p">{</span><span class="nb">i</span><span class="p">}(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">datesList</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">20</span><span class="p">))</span><span class="w"> </span><span class="c">%% show first 20</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">Columns</span><span class="w"> </span><span class="s">1</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">8</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">9</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">16</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">17</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">20</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% plot a histogram of the publications according to the decade in which they were published</span><span class="w"></span>
+<span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell2mat</span><span class="p">(</span><span class="n">datesList</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">figure</span><span class="p">;</span><span class="w"></span>
+<span class="n">f</span><span class="p">.</span><span class="n">Position</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">100</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="mi">540</span><span class="w"> </span><span class="mi">400</span><span class="p">];</span><span class="w"></span>
+<span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="nb">edges</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1980</span><span class="w"> </span><span class="mi">1985</span><span class="w"> </span><span class="mi">1990</span><span class="w"> </span><span class="mi">1995</span><span class="w"> </span><span class="mi">2000</span><span class="w"> </span><span class="mi">2005</span><span class="w"> </span><span class="mi">2010</span><span class="w"> </span><span class="mi">2015</span><span class="w"> </span><span class="mi">2020</span><span class="p">];</span><span class="w"></span>
+<span class="nb">histogram</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<img alt="../../../_images/matlab_pm_im0.png" src="../../../_images/matlab_pm_im0.png" />
+</section>
+<section id="frequency-of-publication-for-an-author-search">
+<h4>Frequency of Publication for an Author Search<a class="headerlink" href="#frequency-of-publication-for-an-author-search" title="Permalink to this headline">#</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% search all of the articles written by a certain author sorted by publication date</span><span class="w"></span>
+<span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">search</span><span class="o">+</span><span class="s">&quot;term=Reed+LK[au]&amp;sort=pub+date&amp;retmax=500&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+<span class="n">ids</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">esearchresult</span><span class="p">.</span><span class="n">idlist</span><span class="p">;</span><span class="w"></span>
+<span class="nb">length</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">55</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create a list of publication dates</span><span class="w"></span>
+<span class="n">pubDates</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">ids</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">summary</span><span class="o">+</span><span class="s">&quot;id=&quot;</span><span class="o">+</span><span class="nb">string</span><span class="p">(</span><span class="n">ids</span><span class="p">{</span><span class="nb">i</span><span class="p">})</span><span class="o">+</span><span class="s">&quot;&amp;retmode=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">request</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">pause</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">idNew</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ids</span><span class="p">{</span><span class="nb">i</span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="n">pubDates</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="n">result</span><span class="p">.(</span><span class="n">idNew</span><span class="p">).</span><span class="n">sortpubdate</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% pull the year from each publication date</span><span class="w"></span>
+<span class="n">datesList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">pubDates</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">pubDates</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">datesList</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">str2double</span><span class="p">(</span><span class="n">pubDates</span><span class="p">{</span><span class="nb">i</span><span class="p">}(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">datesList</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">20</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">Columns</span><span class="w"> </span><span class="s">1</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">8</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2022</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">9</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">16</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{[</span><span class="mi">2021</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2020</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2020</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2020</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2020</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2020</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2019</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2019</span><span class="p">]}</span><span class="w"></span>
+
+<span class="n">Columns</span><span class="w"> </span><span class="s">17</span><span class="w"> </span><span class="s">through</span><span class="w"> </span><span class="s">20</span><span class="w"></span>
+
+<span class="w"> </span><span class="p">{[</span><span class="mi">2019</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2018</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2018</span><span class="p">]}</span><span class="w">    </span><span class="p">{[</span><span class="mi">2018</span><span class="p">]}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% plot a histogram of the articles according to the decade in which they were published</span><span class="w"></span>
+<span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell2mat</span><span class="p">(</span><span class="n">datesList</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">figure</span><span class="p">;</span><span class="w"></span>
+<span class="n">f</span><span class="p">.</span><span class="n">Position</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">100</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="mi">540</span><span class="w"> </span><span class="mi">400</span><span class="p">];</span><span class="w"></span>
+<span class="nb">xticks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">([</span><span class="mi">1950</span><span class="w"> </span><span class="mi">1960</span><span class="w"> </span><span class="mi">1970</span><span class="w"> </span><span class="mi">1980</span><span class="w"> </span><span class="mi">1990</span><span class="w"> </span><span class="mi">2000</span><span class="w"> </span><span class="mi">2010</span><span class="w"> </span><span class="mi">2020</span><span class="p">]);</span><span class="w"></span>
+<span class="nb">histogram</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<img alt="../../../_images/matlab_pm_im1.png" src="../../../_images/matlab_pm_im1.png" />
+</section>
+</section>
 </section>
 </section>
 
