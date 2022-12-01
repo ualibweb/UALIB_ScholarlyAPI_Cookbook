@@ -662,6 +662,52 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#pubmed-api-in-unix-shell">
    PubMed API in Unix Shell
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#program-requirements">
+     Program requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-pubmed-api-call">
+     1. Basic PubMed API call
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#request-data-from-pubmed-api">
+       Request data from PubMed API
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#request-data-using-a-loop">
+     2. Request data using a Loop
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-calls-with-requests-and-parameters">
+     3. PubMed API Calls with Requests and Parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-metadata-visualization">
+     4. PubMed API Metadata Visualization
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-topic-sortpubdate-field">
+       Frequency of topic sortpubdate field
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-publication-for-an-author-search">
+       Frequency of publication for an author search
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -686,6 +732,52 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#pubmed-api-in-unix-shell">
    PubMed API in Unix Shell
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#program-requirements">
+     Program requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-pubmed-api-call">
+     1. Basic PubMed API call
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#request-data-from-pubmed-api">
+       Request data from PubMed API
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#request-data-using-a-loop">
+     2. Request data using a Loop
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-calls-with-requests-and-parameters">
+     3. PubMed API Calls with Requests and Parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pubmed-api-metadata-visualization">
+     4. PubMed API Metadata Visualization
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-topic-sortpubdate-field">
+       Frequency of topic sortpubdate field
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#frequency-of-publication-for-an-author-search">
+       Frequency of publication for an author search
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -701,6 +793,483 @@ title="Print to PDF"
 <h1>…in Unix Shell<a class="headerlink" href="#in-unix-shell" title="Permalink to this headline">#</a></h1>
 <section id="pubmed-api-in-unix-shell">
 <h2>PubMed API in Unix Shell<a class="headerlink" href="#pubmed-api-in-unix-shell" title="Permalink to this headline">#</a></h2>
+<p>by Avery Fernandez and Vincent Scalfani</p>
+<p>These recipe examples were tested on November 23, 2022 using GNOME Terminal in Ubuntu 18.04.</p>
+<p><strong>NCBI Entrez Programming Utilities documentation:</strong> <a class="reference external" href="https://www.ncbi.nlm.nih.gov/books/NBK25501/">https://www.ncbi.nlm.nih.gov/books/NBK25501/</a></p>
+<p><strong>Please see NCBI’s Data Usage Policies and Disclaimers:</strong> <a class="reference external" href="https://www.ncbi.nlm.nih.gov/home/about/policies/">https://www.ncbi.nlm.nih.gov/home/about/policies/</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This tutorial uses <code class="docutils literal notranslate"><span class="pre">curl</span></code> and <code class="docutils literal notranslate"><span class="pre">jq</span></code> for interacting with the PubChem API. You may also be interested in using the <a class="reference external" href="https://www.ncbi.nlm.nih.gov/books/NBK179288/">NCBI EDirect command line program</a>. We have workshop materials for EDirect with PubMed in our <a class="reference external" href="https://github.com/ualibweb/UALIB_Workshops">UALIB Workshops repository</a>.</p>
+</div>
+<section id="program-requirements">
+<h3>Program requirements<a class="headerlink" href="#program-requirements" title="Permalink to this headline">#</a></h3>
+<p>In order to run this code, you will need to first install <a class="reference external" href="https://github.com/curl/curl">curl</a>, <a class="reference external" href="https://stedolan.github.io/jq/">jq</a>, and <a class="reference external" href="http://www.gnuplot.info/">gnuplot</a>. curl is used to request the data from the API, jq is used to parse the JSON data, and gnuplot is used to plot the data.</p>
+</section>
+<section id="basic-pubmed-api-call">
+<h3>1. Basic PubMed API call<a class="headerlink" href="#basic-pubmed-api-call" title="Permalink to this headline">#</a></h3>
+<p>For calling individual articles and publications, we will need to use this API url:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">summary</span><span class="o">=</span><span class="s1">&#39;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&amp;&#39;</span>
+</pre></div>
+</div>
+<section id="request-data-from-pubmed-api">
+<h4>Request data from PubMed API<a class="headerlink" href="#request-data-from-pubmed-api" title="Permalink to this headline">#</a></h4>
+<p>The article we are requesting has PubMed ID: 27933103. <strong>retmode</strong> in the web API URL specifies the file format, in this example, we will use json.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">url</span><span class="o">=</span><span class="nv">$summary</span><span class="s1">$&#39;id=27933103&amp;retmode=json&#39;</span>
+<span class="nv">data_call</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$url</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="nv">$data_call</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span><span class="s2">&quot;header&quot;</span>:<span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="s2">&quot;esummary&quot;</span>,<span class="s2">&quot;version&quot;</span>:<span class="s2">&quot;0.3&quot;</span><span class="o">}</span>,<span class="s2">&quot;result&quot;</span>:<span class="o">{</span><span class="s2">&quot;uids&quot;</span>:<span class="o">[</span><span class="s2">&quot;27933103&quot;</span><span class="o">]</span>,<span class="s2">&quot;27933103&quot;</span>:<span class="o">{</span><span class="s2">&quot;uid&quot;</span>:<span class="s2">&quot;27933103&quot;</span>,<span class="s2">&quot;pubdate&quot;</span>:<span class="s2">&quot;2016&quot;</span>,<span class="s2">&quot;epubdate&quot;</span>:<span class="s2">&quot;2016 Nov 23&quot;</span>,<span class="s2">&quot;source&quot;</span>:<span class="s2">&quot;J Cheminform&quot;</span>,<span class="s2">&quot;authors&quot;</span>:<span class="o">[{</span><span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;Scalfani VF&quot;</span>,<span class="s2">&quot;authtype&quot;</span>:<span class="s2">&quot;Author&quot;</span>,<span class="s2">&quot;clusterid&quot;</span>:<span class="s2">&quot;&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;Williams AJ&quot;</span>,<span class="s2">&quot;authtype&quot;</span>:<span class="s2">&quot;Author&quot;</span>,<span class="s2">&quot;clusterid&quot;</span>:<span class="s2">&quot;&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;Tkachenko V&quot;</span>,<span class="s2">&quot;authtype&quot;</span>:<span class="s2">&quot;Author&quot;</span>,<span class="s2">&quot;clusterid&quot;</span>:<span class="s2">&quot;&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;Karapetyan K&quot;</span>,<span class="s2">&quot;authtype&quot;</span>:<span class="s2">&quot;Author&quot;</span>,<span class="s2">&quot;clusterid&quot;</span>:<span class="s2">&quot;&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;Pshenichnov A&quot;</span>,<span class="s2">&quot;authtype&quot;</span>:<span class="s2">&quot;Author&quot;</span>,<span class="s2">&quot;clusterid&quot;</span>:<span class="s2">&quot;&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;Hanson RM&quot;</span>,<span class="s2">&quot;authtype&quot;</span>:<span class="s2">&quot;Author&quot;</span>,<span class="s2">&quot;clusterid&quot;</span>:<span class="s2">&quot;&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;Liddie JM&quot;</span>,<span class="s2">&quot;authtype&quot;</span>:<span class="s2">&quot;Author&quot;</span>,<span class="s2">&quot;clusterid&quot;</span>:<span class="s2">&quot;&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;Bara JE&quot;</span>,<span class="s2">&quot;authtype&quot;</span>:<span class="s2">&quot;Author&quot;</span>,<span class="s2">&quot;clusterid&quot;</span>:<span class="s2">&quot;&quot;</span><span class="o">}]</span>,<span class="s2">&quot;lastauthor&quot;</span>:<span class="s2">&quot;Bara JE&quot;</span>,<span class="s2">&quot;title&quot;</span>:<span class="s2">&quot;Programmatic conversion of crystal structures into 3D printable files using Jmol.&quot;</span>,<span class="s2">&quot;sorttitle&quot;</span>:<span class="s2">&quot;programmatic conversion of crystal structures into 3d printable files using jmol&quot;</span>,<span class="s2">&quot;volume&quot;</span>:<span class="s2">&quot;8&quot;</span>,<span class="s2">&quot;issue&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;pages&quot;</span>:<span class="s2">&quot;66&quot;</span>,<span class="s2">&quot;lang&quot;</span>:<span class="o">[</span><span class="s2">&quot;eng&quot;</span><span class="o">]</span>,<span class="s2">&quot;nlmuniqueid&quot;</span>:<span class="s2">&quot;101516718&quot;</span>,<span class="s2">&quot;issn&quot;</span>:<span class="s2">&quot;1758-2946&quot;</span>,<span class="s2">&quot;essn&quot;</span>:<span class="s2">&quot;1758-2946&quot;</span>,<span class="s2">&quot;pubtype&quot;</span>:<span class="o">[</span><span class="s2">&quot;Journal Article&quot;</span><span class="o">]</span>,<span class="s2">&quot;recordstatus&quot;</span>:<span class="s2">&quot;PubMed&quot;</span>,<span class="s2">&quot;pubstatus&quot;</span>:<span class="s2">&quot;258&quot;</span>,<span class="s2">&quot;articleids&quot;</span>:<span class="o">[{</span><span class="s2">&quot;idtype&quot;</span>:<span class="s2">&quot;pubmed&quot;</span>,<span class="s2">&quot;idtypen&quot;</span>:1,<span class="s2">&quot;value&quot;</span>:<span class="s2">&quot;27933103&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;idtype&quot;</span>:<span class="s2">&quot;pmc&quot;</span>,<span class="s2">&quot;idtypen&quot;</span>:8,<span class="s2">&quot;value&quot;</span>:<span class="s2">&quot;PMC5122160&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;idtype&quot;</span>:<span class="s2">&quot;pmcid&quot;</span>,<span class="s2">&quot;idtypen&quot;</span>:5,<span class="s2">&quot;value&quot;</span>:<span class="s2">&quot;pmc-id: PMC5122160;&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;idtype&quot;</span>:<span class="s2">&quot;doi&quot;</span>,<span class="s2">&quot;idtypen&quot;</span>:3,<span class="s2">&quot;value&quot;</span>:<span class="s2">&quot;10.1186/s13321-016-0181-z&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;idtype&quot;</span>:<span class="s2">&quot;pii&quot;</span>,<span class="s2">&quot;idtypen&quot;</span>:4,<span class="s2">&quot;value&quot;</span>:<span class="s2">&quot;181&quot;</span><span class="o">}]</span>,<span class="s2">&quot;history&quot;</span>:<span class="o">[{</span><span class="s2">&quot;pubstatus&quot;</span>:<span class="s2">&quot;received&quot;</span>,<span class="s2">&quot;date&quot;</span>:<span class="s2">&quot;2016/08/15 00:00&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;pubstatus&quot;</span>:<span class="s2">&quot;accepted&quot;</span>,<span class="s2">&quot;date&quot;</span>:<span class="s2">&quot;2016/11/16 00:00&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;pubstatus&quot;</span>:<span class="s2">&quot;entrez&quot;</span>,<span class="s2">&quot;date&quot;</span>:<span class="s2">&quot;2016/12/10 06:00&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;pubstatus&quot;</span>:<span class="s2">&quot;pubmed&quot;</span>,<span class="s2">&quot;date&quot;</span>:<span class="s2">&quot;2016/12/10 06:00&quot;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&quot;pubstatus&quot;</span>:<span class="s2">&quot;medline&quot;</span>,<span class="s2">&quot;date&quot;</span>:<span class="s2">&quot;2016/12/10 06:01&quot;</span><span class="o">}]</span>,<span class="s2">&quot;references&quot;</span>:<span class="o">[]</span>,<span class="s2">&quot;attributes&quot;</span>:<span class="o">[</span><span class="s2">&quot;Has Abstract&quot;</span><span class="o">]</span>,<span class="s2">&quot;pmcrefcount&quot;</span>:33,<span class="s2">&quot;fulljournalname&quot;</span>:<span class="s2">&quot;Journal of cheminformatics&quot;</span>,<span class="s2">&quot;elocationid&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;doctype&quot;</span>:<span class="s2">&quot;citation&quot;</span>,<span class="s2">&quot;srccontriblist&quot;</span>:<span class="o">[]</span>,<span class="s2">&quot;booktitle&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;medium&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;edition&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;publisherlocation&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;publishername&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;srcdate&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;reportnumber&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;availablefromurl&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;locationlabel&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;doccontriblist&quot;</span>:<span class="o">[]</span>,<span class="s2">&quot;docdate&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;bookname&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;chapter&quot;</span>:<span class="s2">&quot;&quot;</span>,<span class="s2">&quot;sortpubdate&quot;</span>:<span class="s2">&quot;2016/11/23 00:00&quot;</span>,<span class="s2">&quot;sortfirstauthor&quot;</span>:<span class="s2">&quot;Scalfani VF&quot;</span>,<span class="s2">&quot;vernaculartitle&quot;</span>:<span class="s2">&quot;&quot;</span><span class="o">}}}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The silent option <code class="docutils literal notranslate"><span class="pre">(-s)</span></code> for curl was used to hide the progress outputs.</p>
+</div>
+<p>Let’s extract the authors of the paper:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="nv">$data_call</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;result&quot;][&quot;27933103&quot;][&quot;authors&quot;][][&quot;name&quot;]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Scalfani VF&quot;</span>
+<span class="s2">&quot;Williams AJ&quot;</span>
+<span class="s2">&quot;Tkachenko V&quot;</span>
+<span class="s2">&quot;Karapetyan K&quot;</span>
+<span class="s2">&quot;Pshenichnov A&quot;</span>
+<span class="s2">&quot;Hanson RM&quot;</span>
+<span class="s2">&quot;Liddie JM&quot;</span>
+<span class="s2">&quot;Bara JE&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="request-data-using-a-loop">
+<h3>2. Request data using a Loop<a class="headerlink" href="#request-data-using-a-loop" title="Permalink to this headline">#</a></h3>
+<p>First, create an array of PubMed IDs:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">idList</span><span class="o">=(</span><span class="s1">&#39;34813985&#39;</span> <span class="s1">&#39;34813932&#39;</span> <span class="s1">&#39;34813684&#39;</span> <span class="s1">&#39;34813661&#39;</span> <span class="s1">&#39;34813372&#39;</span> <span class="s1">&#39;34813140&#39;</span> <span class="s1">&#39;34813072&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>We can loop through the <code class="docutils literal notranslate"><span class="pre">idList</span></code> as follows:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> id <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">idList</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+    <span class="nb">echo</span> <span class="nv">$id</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">34813985</span>
+<span class="m">34813932</span>
+<span class="m">34813684</span>
+<span class="m">34813661</span>
+<span class="m">34813372</span>
+<span class="m">34813140</span>
+<span class="m">34813072</span>
+</pre></div>
+</div>
+<p>For storing data when looping through the IDs, we can use associative arrays. For example:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A myarray
+myarray<span class="o">[</span><span class="s2">&quot;34813985&quot;</span><span class="o">]=</span><span class="s2">&quot;data1&quot;</span>
+myarray<span class="o">[</span><span class="s2">&quot;34813932&quot;</span><span class="o">]=</span><span class="s2">&quot;data2&quot;</span>
+<span class="nb">echo</span> <span class="si">${</span><span class="nv">myarray</span><span class="p">[</span><span class="s2">&quot;34813985&quot;</span><span class="p">]</span><span class="si">}</span>
+<span class="nb">echo</span> <span class="si">${</span><span class="nv">myarray</span><span class="p">[</span><span class="s2">&quot;34813932&quot;</span><span class="p">]</span><span class="si">}</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>data1
+data2
+</pre></div>
+</div>
+<p>For extracting specific data from the returned PubMed data, we will use jq with the <code class="docutils literal notranslate"><span class="pre">--arg</span></code> option, which allows us to pass data into the jq environment, such as an ID variable:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">data</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&quot;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&amp;id=34813072&amp;retmode=json&quot;</span><span class="k">)</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;result&quot;][&quot;34813072&quot;]&#39;</span>
+</pre></div>
+</div>
+<p>or, alternatively:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">id</span><span class="o">=</span><span class="s2">&quot;34813072&quot;</span>
+<span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq --arg location <span class="s2">&quot;</span><span class="nv">$id</span><span class="s2">&quot;</span> <span class="s1">&#39;.[&quot;result&quot;][$location]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+  <span class="s2">&quot;uid&quot;</span>: <span class="s2">&quot;34813072&quot;</span>,
+  <span class="s2">&quot;pubdate&quot;</span>: <span class="s2">&quot;2022&quot;</span>,
+  <span class="s2">&quot;epubdate&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;source&quot;</span>: <span class="s2">&quot;Methods Mol Biol&quot;</span>,
+  <span class="s2">&quot;authors&quot;</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;Liu S&quot;</span>,
+      <span class="s2">&quot;authtype&quot;</span>: <span class="s2">&quot;Author&quot;</span>,
+      <span class="s2">&quot;clusterid&quot;</span>: <span class="s2">&quot;&quot;</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;Narancic T&quot;</span>,
+      <span class="s2">&quot;authtype&quot;</span>: <span class="s2">&quot;Author&quot;</span>,
+       <span class="s2">&quot;clusterid&quot;</span>: <span class="s2">&quot;&quot;</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;Davis C&quot;</span>,
+      <span class="s2">&quot;authtype&quot;</span>: <span class="s2">&quot;Author&quot;</span>,
+      <span class="s2">&quot;clusterid&quot;</span>: <span class="s2">&quot;&quot;</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;O&#39;Connor KE&quot;</span>,
+      <span class="s2">&quot;authtype&quot;</span>: <span class="s2">&quot;Author&quot;</span>,
+      <span class="s2">&quot;clusterid&quot;</span>: <span class="s2">&quot;&quot;</span>
+    <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">&quot;lastauthor&quot;</span>: <span class="s2">&quot;O&#39;Connor KE&quot;</span>,
+  <span class="s2">&quot;title&quot;</span>: <span class="s2">&quot;CRISPR-Cas9 Editing of the Synthesis of Biodegradable Polyesters Polyhydroxyalkanaotes (PHA) in Pseudomonas putida KT2440.&quot;</span>,
+  <span class="s2">&quot;sorttitle&quot;</span>: <span class="s2">&quot;crispr cas9 editing of the synthesis of biodegradable polyesters polyhydroxyalkanaotes pha in pseudomonas putida kt2440&quot;</span>,
+  <span class="s2">&quot;volume&quot;</span>: <span class="s2">&quot;2397&quot;</span>,
+  <span class="s2">&quot;issue&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;pages&quot;</span>: <span class="s2">&quot;341-358&quot;</span>,
+  <span class="s2">&quot;lang&quot;</span>: <span class="o">[</span>
+    <span class="s2">&quot;eng&quot;</span>
+  <span class="o">]</span>,
+  <span class="s2">&quot;nlmuniqueid&quot;</span>: <span class="s2">&quot;9214969&quot;</span>,
+  <span class="s2">&quot;issn&quot;</span>: <span class="s2">&quot;1064-3745&quot;</span>,
+  <span class="s2">&quot;essn&quot;</span>: <span class="s2">&quot;1940-6029&quot;</span>,
+  <span class="s2">&quot;pubtype&quot;</span>: <span class="o">[</span>
+    <span class="s2">&quot;Journal Article&quot;</span>
+  <span class="o">]</span>,
+  <span class="s2">&quot;recordstatus&quot;</span>: <span class="s2">&quot;PubMed - indexed for MEDLINE&quot;</span>,
+  <span class="s2">&quot;pubstatus&quot;</span>: <span class="s2">&quot;4&quot;</span>,
+  <span class="s2">&quot;articleids&quot;</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">&quot;idtype&quot;</span>: <span class="s2">&quot;pubmed&quot;</span>,
+      <span class="s2">&quot;idtypen&quot;</span>: <span class="m">1</span>,
+      <span class="s2">&quot;value&quot;</span>: <span class="s2">&quot;34813072&quot;</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">&quot;idtype&quot;</span>: <span class="s2">&quot;doi&quot;</span>,
+      <span class="s2">&quot;idtypen&quot;</span>: <span class="m">3</span>,
+      <span class="s2">&quot;value&quot;</span>: <span class="s2">&quot;10.1007/978-1-0716-1826-4_17&quot;</span>
+    <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">&quot;history&quot;</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">&quot;pubstatus&quot;</span>: <span class="s2">&quot;entrez&quot;</span>,
+      <span class="s2">&quot;date&quot;</span>: <span class="s2">&quot;2021/11/23 12:28&quot;</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">&quot;pubstatus&quot;</span>: <span class="s2">&quot;pubmed&quot;</span>,
+      <span class="s2">&quot;date&quot;</span>: <span class="s2">&quot;2021/11/24 06:00&quot;</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">&quot;pubstatus&quot;</span>: <span class="s2">&quot;medline&quot;</span>,
+      <span class="s2">&quot;date&quot;</span>: <span class="s2">&quot;2022/01/27 06:00&quot;</span>
+    <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">&quot;references&quot;</span>: <span class="o">[]</span>,
+  <span class="s2">&quot;attributes&quot;</span>: <span class="o">[</span>
+    <span class="s2">&quot;Has Abstract&quot;</span>
+  <span class="o">]</span>,
+  <span class="s2">&quot;pmcrefcount&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;fulljournalname&quot;</span>: <span class="s2">&quot;Methods in molecular biology (Clifton, N.J.)&quot;</span>,
+  <span class="s2">&quot;elocationid&quot;</span>: <span class="s2">&quot;doi: 10.1007/978-1-0716-1826-4_17&quot;</span>,
+  <span class="s2">&quot;doctype&quot;</span>: <span class="s2">&quot;citation&quot;</span>,
+  <span class="s2">&quot;srccontriblist&quot;</span>: <span class="o">[]</span>,
+  <span class="s2">&quot;booktitle&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;medium&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;edition&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;publisherlocation&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;publishername&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;srcdate&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;reportnumber&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;availablefromurl&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;locationlabel&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;doccontriblist&quot;</span>: <span class="o">[]</span>,
+  <span class="s2">&quot;docdate&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;bookname&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;chapter&quot;</span>: <span class="s2">&quot;&quot;</span>,
+  <span class="s2">&quot;sortpubdate&quot;</span>: <span class="s2">&quot;2022/01/01 00:00&quot;</span>,
+  <span class="s2">&quot;sortfirstauthor&quot;</span>: <span class="s2">&quot;Liu S&quot;</span>,
+  <span class="s2">&quot;vernaculartitle&quot;</span>: <span class="s2">&quot;&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Finally, we can now extract out specific elements, such as the journal title (source).</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">id</span><span class="o">=</span><span class="s2">&quot;34813072&quot;</span>
+<span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq --arg location <span class="s2">&quot;</span><span class="nv">$id</span><span class="s2">&quot;</span> <span class="s1">&#39;.[&quot;result&quot;][$location][&quot;source&quot;]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Methods Mol Biol&quot;</span>
+</pre></div>
+</div>
+<p>Now, combine these steps to loop through the list of IDs and extract the journal titles:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">idList</span><span class="o">=(</span><span class="s1">&#39;34813985&#39;</span> <span class="s1">&#39;34813932&#39;</span> <span class="s1">&#39;34813684&#39;</span> <span class="s1">&#39;34813661&#39;</span> <span class="s1">&#39;34813372&#39;</span> <span class="s1">&#39;34813140&#39;</span> <span class="s1">&#39;34813072&#39;</span><span class="o">)</span>
+<span class="nb">declare</span> -A multiPapers
+<span class="k">for</span> ids <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">idList</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+  multiPapers<span class="o">[</span><span class="nv">$ids</span><span class="o">]=</span><span class="k">$(</span>curl -s <span class="nv">$summary</span><span class="s1">$&#39;id=&#39;</span><span class="nv">$ids</span><span class="s1">$&#39;&amp;retmode=json&#39;</span><span class="k">)</span>
+  sleep <span class="m">1</span>
+<span class="k">done</span>
+<span class="k">for</span> ids <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">idList</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+  <span class="nb">echo</span> <span class="si">${</span><span class="nv">multiPapers</span><span class="p">[</span><span class="nv">$ids</span><span class="p">]</span><span class="si">}</span> <span class="p">|</span> jq --arg location <span class="s2">&quot;</span><span class="nv">$ids</span><span class="s2">&quot;</span> <span class="s1">&#39;.result[$location][&quot;source&quot;]&#39;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Cell Calcium&quot;</span>
+<span class="s2">&quot;Methods&quot;</span>
+<span class="s2">&quot;FEBS J&quot;</span>
+<span class="s2">&quot;Dev Growth Differ&quot;</span>
+<span class="s2">&quot;CRISPR J&quot;</span>
+<span class="s2">&quot;Chembiochem&quot;</span>
+<span class="s2">&quot;Methods Mol Biol&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="pubmed-api-calls-with-requests-and-parameters">
+<h3>3. PubMed API Calls with Requests and Parameters<a class="headerlink" href="#pubmed-api-calls-with-requests-and-parameters" title="Permalink to this headline">#</a></h3>
+<p>For searching for articles, we will need to use this API url:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">search</span><span class="o">=</span><span class="s1">&#39;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&amp;&#39;</span>
+</pre></div>
+</div>
+<p>When searching through articles, we are given a few ways of filtering the data. A list of all the available parameters for these requests can be found in the official NCBI documentation:</p>
+<p><a class="reference external" href="https://www.ncbi.nlm.nih.gov/books/NBK25499/">https://www.ncbi.nlm.nih.gov/books/NBK25499/</a></p>
+<p>We can specify the database by putting <code class="docutils literal notranslate"><span class="pre">db=&lt;database&gt;</span></code> into the URL. We will be using the PubMed database. We can also use term to search data by adding <code class="docutils literal notranslate"><span class="pre">term=&lt;searchQuery&gt;</span></code>. Just be sure to replace spaces with a + instead. We can, for example, use a query to search PubMed, such as “neuroscience intervention learning”:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">url</span><span class="o">=</span><span class="nv">$search</span><span class="s2">$&quot;term=neuroscience+intervention+learning&amp;retmode=json&quot;</span>
+<span class="nv">data</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$url</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>We can also use the query to search for an author.</p>
+<p>we will add <code class="docutils literal notranslate"><span class="pre">`[au]`</span></code> after the name to specify it is an author:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">url</span><span class="o">=</span><span class="nv">$search</span><span class="s2">$&quot;term=Darwin[au]&amp;retmode=json&quot;</span>
+<span class="nv">data</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$url</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="nv">$data</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span><span class="s2">&quot;header&quot;</span>:<span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="s2">&quot;esearch&quot;</span>,<span class="s2">&quot;version&quot;</span>:<span class="s2">&quot;0.3&quot;</span><span class="o">}</span>,<span class="s2">&quot;esearchresult&quot;</span>:<span class="o">{</span><span class="s2">&quot;count&quot;</span>:<span class="s2">&quot;603&quot;</span>,<span class="s2">&quot;retmax&quot;</span>:<span class="s2">&quot;20&quot;</span>,<span class="s2">&quot;retstart&quot;</span>:<span class="s2">&quot;0&quot;</span>,<span class="s2">&quot;idlist&quot;</span>:<span class="o">[</span><span class="s2">&quot;36374290&quot;</span>,<span class="s2">&quot;36370080&quot;</span>,<span class="s2">&quot;36363931&quot;</span>,<span class="s2">&quot;36342372&quot;</span>,<span class="s2">&quot;36315101&quot;</span>,<span class="s2">&quot;36254119&quot;</span>,<span class="s2">&quot;36164491&quot;</span>,<span class="s2">&quot;36102812&quot;</span>,<span class="s2">&quot;36100038&quot;</span>,<span class="s2">&quot;36098658&quot;</span>,<span class="s2">&quot;36082519&quot;</span>,<span class="s2">&quot;35993699&quot;</span>,<span class="s2">&quot;35916364&quot;</span>,<span class="s2">&quot;35834740&quot;</span>,<span class="s2">&quot;35732810&quot;</span>,<span class="s2">&quot;35719898&quot;</span>,<span class="s2">&quot;35714393&quot;</span>,<span class="s2">&quot;35513308&quot;</span>,<span class="s2">&quot;35507730&quot;</span>,<span class="s2">&quot;35475719&quot;</span><span class="o">]</span>,<span class="s2">&quot;translationset&quot;</span>:<span class="o">[]</span>,<span class="s2">&quot;querytranslation&quot;</span>:<span class="s2">&quot;Darwin[Author]&quot;</span><span class="o">}}</span>
+</pre></div>
+</div>
+<p>The number of returned IDs can be adjusted with the <code class="docutils literal notranslate"><span class="pre">retmax</span></code> parameter:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">url</span><span class="o">=</span><span class="nv">$search</span><span class="s2">$&quot;term=Darwin[au]&amp;retmax=30&amp;retmode=json&quot;</span>
+<span class="nv">data</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$url</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;esearchresult&quot;][&quot;idlist&quot;]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>
+<span class="s2">&quot;36374290&quot;</span>,
+<span class="s2">&quot;36370080&quot;</span>,
+<span class="s2">&quot;36363931&quot;</span>,
+<span class="s2">&quot;36342372&quot;</span>,
+<span class="s2">&quot;36315101&quot;</span>,
+<span class="s2">&quot;36254119&quot;</span>,
+<span class="s2">&quot;36164491&quot;</span>,
+<span class="s2">&quot;36102812&quot;</span>,
+<span class="s2">&quot;36100038&quot;</span>,
+<span class="s2">&quot;36098658&quot;</span>,
+<span class="s2">&quot;36082519&quot;</span>,
+<span class="s2">&quot;35993699&quot;</span>,
+<span class="s2">&quot;35916364&quot;</span>,
+<span class="s2">&quot;35834740&quot;</span>,
+<span class="s2">&quot;35732810&quot;</span>,
+<span class="s2">&quot;35719898&quot;</span>,
+<span class="s2">&quot;35714393&quot;</span>,
+<span class="s2">&quot;35513308&quot;</span>,
+<span class="s2">&quot;35507730&quot;</span>,
+<span class="s2">&quot;35475719&quot;</span>,
+<span class="s2">&quot;35414258&quot;</span>,
+<span class="s2">&quot;35301788&quot;</span>,
+<span class="s2">&quot;35293777&quot;</span>,
+<span class="s2">&quot;35122809&quot;</span>,
+<span class="s2">&quot;35100046&quot;</span>,
+<span class="s2">&quot;35073334&quot;</span>,
+<span class="s2">&quot;35038915&quot;</span>,
+<span class="s2">&quot;35034540&quot;</span>,
+<span class="s2">&quot;34927345&quot;</span>,
+<span class="s2">&quot;34923869&quot;</span>
+<span class="o">]</span>
+</pre></div>
+</div>
+<p>We can get the number of IDs after a bit of cleanup with <code class="docutils literal notranslate"><span class="pre">tr</span></code> and <code class="docutils literal notranslate"><span class="pre">awk</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;esearchresult&quot;][&quot;idlist&quot;]&#39;</span> <span class="p">|</span> tr -d <span class="s1">&#39; &quot;[],&#39;</span> <span class="p">|</span> awk <span class="s1">&#39;NF&#39;</span> <span class="p">|</span> wc -l
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">30</span>
+</pre></div>
+</div>
+<p>We can sort results using <strong>usehistory=y</strong>. This allows us to store the data for it to be sorted in the same API call. The addition of <strong>sort=pub+date</strong> will sort IDs by the publishing date.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">url</span><span class="o">=</span><span class="nv">$search</span><span class="s2">$&quot;term=Coral+Reefs&amp;retmode=json&amp;usehistory=y&amp;sort=pub+date&quot;</span>
+<span class="nv">data</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$url</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>We can also search based on publication type by adding <strong>AND</strong> into the search in the term: <strong>term=&lt;searchQuery&gt;+AND+filter[filterType]</strong>.</p>
+<p><strong>[pt]</strong> specifies that the filter type is the publication type. More filters can be found at: <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/help/">https://pubmed.ncbi.nlm.nih.gov/help/</a>.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">url</span><span class="o">=</span><span class="nv">$search</span><span class="s2">$&quot;term=stem+cells+AND+clinical+trial[pt]&amp;retmode=json&quot;</span>
+<span class="nv">data</span><span class="o">=</span><span class="k">$(</span>curl <span class="nv">$url</span><span class="k">)</span>
+sleep <span class="m">1</span>
+<span class="nb">echo</span> <span class="nv">$data</span>
+</pre></div>
+</div>
+</section>
+<section id="pubmed-api-metadata-visualization">
+<h3>4. PubMed API Metadata Visualization<a class="headerlink" href="#pubmed-api-metadata-visualization" title="Permalink to this headline">#</a></h3>
+<section id="frequency-of-topic-sortpubdate-field">
+<h4>Frequency of topic sortpubdate field<a class="headerlink" href="#frequency-of-topic-sortpubdate-field" title="Permalink to this headline">#</a></h4>
+<p>Extracting the sortpubdate field for a “hydrogel drug” search results, limited to publication type clinical trials:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">search</span><span class="o">=</span><span class="s1">&#39;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&amp;&#39;</span>
+<span class="nv">url</span><span class="o">=</span><span class="nv">$search</span><span class="s2">$&quot;term=hydrogel+drug+AND+clinical+trial[pt]&amp;sort=pub+date&amp;retmax=500&amp;retmode=json&quot;</span>
+<span class="nv">data</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$url</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>Get the length of results:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;esearchresult&quot;][&quot;idlist&quot;] | length&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">299</span>
+</pre></div>
+</div>
+<p>Next, loop through each ID and get the sortpubdate field. Note that this sortpubdate field may not necessarily be equivalent to a publication date:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -a idList
+<span class="k">for</span> <span class="o">((</span> <span class="nv">id</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span> id &lt; <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;esearchresult&quot;][&quot;idlist&quot;] | length&#39;</span><span class="k">)</span><span class="p">;</span> id++ <span class="o">))</span>
+<span class="k">do</span>
+  <span class="nv">idList</span><span class="o">+=(</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq <span class="s2">&quot;.esearchresult.idlist[</span><span class="nv">$id</span><span class="s2">]&quot;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span><span class="k">)</span><span class="o">)</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>Get the length of the array:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="si">${#</span><span class="nv">idList</span><span class="p">[@]</span><span class="si">}</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">299</span>
+</pre></div>
+</div>
+<p>Show the first 10 IDs</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="si">${</span><span class="nv">idList</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">10</span><span class="si">}</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">36203046</span> <span class="m">36261491</span> <span class="m">35830550</span> <span class="m">34653384</span> <span class="m">35556170</span> <span class="m">35413602</span> <span class="m">35041809</span> <span class="m">34915741</span> <span class="m">34695615</span> <span class="m">35062896</span>
+</pre></div>
+</div>
+<p>Now, loop through each ID, get the sortpubdate and save to a file. Note, this will take a few minutes:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">summary</span><span class="o">=</span><span class="s1">&#39;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&amp;&#39;</span>
+<span class="k">for</span> ids <span class="k">in</span> <span class="si">${</span><span class="nv">idList</span><span class="p">[@]</span><span class="si">}</span>
+<span class="k">do</span>
+  <span class="nv">url</span><span class="o">=</span><span class="nv">$summary</span><span class="s2">$&quot;id=&quot;</span><span class="nv">$ids</span><span class="s2">$&quot;&amp;retmode=json&quot;</span>
+  <span class="nv">data</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$url</span><span class="k">)</span>
+  sleep <span class="m">1</span>
+  <span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq --arg location <span class="s2">&quot;</span><span class="nv">$ids</span><span class="s2">&quot;</span> <span class="s1">&#39;.[&quot;result&quot;][$location][&quot;sortpubdate&quot;]&#39;</span> &gt;&gt; pubDates.csv
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>Finally, plot the data using gnuplot.  See the <a class="reference external" href="http://www.gnuplot.info/documentation.html">gnuplot documentation</a> for more information about the smooth frequency histogram.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gnuplot -e <span class="s2">&quot;set datafile separator &#39;,&#39;; \</span>
+<span class="s2">set title &#39;sortpubdate&#39;;</span>
+<span class="s2">set term dumb;</span>
+<span class="s2">binwidth=2; \</span>
+<span class="s2">bin(val)=binwidth*floor(val/binwidth); \</span>
+<span class="s2">plot &#39;pubDates.csv&#39; using (bin(column(1))):(1.0) smooth frequency with boxes notitle&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>                                 sortpubdate
+
+<span class="m">35</span> +---------------------------------------------------------------------+
+   <span class="p">|</span>       +       +      +       +       +       +****  +       +       <span class="p">|</span>
+   <span class="p">|</span>                                               *  *                  <span class="p">|</span>
+<span class="m">30</span> <span class="p">|</span>-+                                             *  ****             +-<span class="p">|</span>
+   <span class="p">|</span>                                   ****        *  *  *****           <span class="p">|</span>
+<span class="m">25</span> <span class="p">|</span>-+                                 *  ****     *  *  *   *         +-<span class="p">|</span>
+   <span class="p">|</span>                                   *  *  ****  *  *  *   *  ****     <span class="p">|</span>
+   <span class="p">|</span>                                   *  *  *  ****  *  *   ****  *     <span class="p">|</span>
+<span class="m">20</span> <span class="p">|</span>-+                                 *  *  *  *  *  *  *   *  *  *   +-<span class="p">|</span>
+   <span class="p">|</span>                                   *  *  *  *  *  *  *   *  *  *     <span class="p">|</span>
+<span class="m">15</span> <span class="p">|</span>-+                                 *  *  *  *  *  *  *   *  *  *   +-<span class="p">|</span>
+   <span class="p">|</span>                                   *  *  *  *  *  *  *   *  *  **    <span class="p">|</span>
+   <span class="p">|</span>                                   *  *  *  *  *  *  *   *  *  **    <span class="p">|</span>
+<span class="m">10</span> <span class="p">|</span>-+                                 *  *  *  *  *  *  *   *  *  **  +-<span class="p">|</span>
+   <span class="p">|</span>             ****  ****      *******  *  *  *  *  *  *   *  *  **    <span class="p">|</span>
+ <span class="m">5</span> <span class="p">|</span>-+           *  ****  ********  *  *  *  *  *  *  *  *   *  *  **  +-<span class="p">|</span>
+   <span class="p">|</span>             *  *  *  *  *   *  *  *  *  *  *  *  *  *   *  *  **    <span class="p">|</span>
+   <span class="p">|</span>************** +*  *  *  *   *+ *  *  *  *  * +*  *  *   *  *+ **    <span class="p">|</span>
+ <span class="m">0</span> +---------------------------------------------------------------------+
+  <span class="m">1980</span>    <span class="m">1985</span>    <span class="m">1990</span>   <span class="m">1995</span>    <span class="m">2000</span>    <span class="m">2005</span>    <span class="m">2010</span>   <span class="m">2015</span>    <span class="m">2020</span>    <span class="m">2025</span>
+</pre></div>
+</div>
+</section>
+<section id="frequency-of-publication-for-an-author-search">
+<h4>Frequency of publication for an author search<a class="headerlink" href="#frequency-of-publication-for-an-author-search" title="Permalink to this headline">#</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">search</span><span class="o">=</span><span class="s1">&#39;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&amp;&#39;</span>
+<span class="nv">url</span><span class="o">=</span><span class="nv">$search</span><span class="s2">$&quot;term=Reed+LK[au]&amp;sort=pub+date&amp;retmax=500&amp;retmode=json&quot;</span>
+<span class="nv">data</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$url</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>Next, create the list of IDs:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -a idList
+<span class="k">for</span> <span class="o">((</span> <span class="nv">id</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span> id &lt; <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;esearchresult&quot;][&quot;idlist&quot;] | length&#39;</span><span class="k">)</span><span class="p">;</span> id++ <span class="o">))</span>
+<span class="k">do</span>
+  <span class="nv">idList</span><span class="o">+=(</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq <span class="s2">&quot;.esearchresult.idlist[</span><span class="nv">$id</span><span class="s2">]&quot;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span><span class="k">)</span><span class="o">)</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>Get the length of the array:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="si">${#</span><span class="nv">idList</span><span class="p">[@]</span><span class="si">}</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">55</span>
+</pre></div>
+</div>
+<p>Next, collect the sortpubdate for each ID:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">summary</span><span class="o">=</span><span class="s1">&#39;https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&amp;&#39;</span>
+<span class="k">for</span> ids <span class="k">in</span> <span class="si">${</span><span class="nv">idList</span><span class="p">[@]</span><span class="si">}</span>
+<span class="k">do</span>
+  <span class="nv">url</span><span class="o">=</span><span class="nv">$summary</span><span class="s2">$&quot;id=&quot;</span><span class="nv">$ids</span><span class="s2">$&quot;&amp;retmode=json&quot;</span>
+  <span class="nv">data</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$url</span><span class="k">)</span>
+  sleep <span class="m">1</span>
+  <span class="nb">echo</span> <span class="nv">$data</span> <span class="p">|</span> jq --arg location <span class="s2">&quot;</span><span class="nv">$ids</span><span class="s2">&quot;</span> <span class="s1">&#39;.[&quot;result&quot;][$location][&quot;sortpubdate&quot;]&#39;</span> &gt;&gt; pubDates2.csv
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>Plot the data:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gnuplot -e <span class="s2">&quot;set datafile separator &#39;,&#39;; \</span>
+<span class="s2">set title &#39;sortpubdate&#39;;</span>
+<span class="s2">set term dumb;</span>
+<span class="s2">binwidth=3; \</span>
+<span class="s2">bin(val)=binwidth*floor(val/binwidth); \</span>
+<span class="s2">plot &#39;pubDates2.csv&#39; using (bin(column(1))):(1.0) smooth frequency with boxes notitle&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>                                 sortpubdate
+
+<span class="m">16</span> +---------------------------------------------------------------------+
+   <span class="p">|</span>       +       +      +       +       +       +      +   *** +       <span class="p">|</span>
+<span class="m">14</span> <span class="p">|</span>-+                                                       * *       +-<span class="p">|</span>
+   <span class="p">|</span>                                                         * ****      <span class="p">|</span>
+<span class="m">12</span> <span class="p">|</span>-+                                                       * *  *    +-<span class="p">|</span>
+   <span class="p">|</span>                                                         * *  *      <span class="p">|</span>
+   <span class="p">|</span>                                                         * *  *      <span class="p">|</span>
+<span class="m">10</span> <span class="p">|</span>-+                                                       * *  *    +-<span class="p">|</span>
+   <span class="p">|</span>                                                         * *  *      <span class="p">|</span>
+ <span class="m">8</span> <span class="p">|</span>-+                                                ***    * *  *    +-<span class="p">|</span>
+   <span class="p">|</span>                                                  * *    * *  *      <span class="p">|</span>
+ <span class="m">6</span> <span class="p">|</span>-+                                                * *    * *  *    +-<span class="p">|</span>
+   <span class="p">|</span>                                              ***** *  *** *  *      <span class="p">|</span>
+ <span class="m">4</span> <span class="p">|</span>-+                                            *   * *  * * *  **   +-<span class="p">|</span>
+   <span class="p">|</span>                                              *   * *  * * *  **     <span class="p">|</span>
+   <span class="p">|</span>                                              *   * *  * * *  **     <span class="p">|</span>
+ <span class="m">2</span> <span class="p">|</span>-+                              ***************   * *  * * *  **   +-<span class="p">|</span>
+   <span class="p">|</span>*********************************     +       *   * **** * * +**     <span class="p">|</span>
+ <span class="m">0</span> +---------------------------------------------------------------------+
+  <span class="m">1940</span>    <span class="m">1950</span>    <span class="m">1960</span>   <span class="m">1970</span>    <span class="m">1980</span>    <span class="m">1990</span>    <span class="m">2000</span>   <span class="m">2010</span>    <span class="m">2020</span>    <span class="m">2030</span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 </section>
 
