@@ -662,6 +662,23 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#chronicling-america-api-in-matlab">
    Chronicling America API in Matlab
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-api-request">
+     1. Basic API Request
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#frequency-of-university-of-alabama-mentions">
+     2. Frequency of “University of Alabama” mentions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#industrialization-keywords-frequency-in-the-birmingham-age-herald">
+     3. Industrialization keywords frequency in the Birmingham Age-Herald
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -686,6 +703,23 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#chronicling-america-api-in-matlab">
    Chronicling America API in Matlab
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-api-request">
+     1. Basic API Request
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#frequency-of-university-of-alabama-mentions">
+     2. Frequency of “University of Alabama” mentions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#industrialization-keywords-frequency-in-the-birmingham-age-herald">
+     3. Industrialization keywords frequency in the Birmingham Age-Herald
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -701,6 +735,138 @@ title="Print to PDF"
 <h1>…in Matlab<a class="headerlink" href="#in-matlab" title="Permalink to this headline">#</a></h1>
 <section id="chronicling-america-api-in-matlab">
 <h2>Chronicling America API in Matlab<a class="headerlink" href="#chronicling-america-api-in-matlab" title="Permalink to this headline">#</a></h2>
+<p>by Anastasia Ramig</p>
+<p><strong>LOC Chronicling America API Documentation:</strong> <a class="reference external" href="https://chroniclingamerica.loc.gov/about/api/">https://chroniclingamerica.loc.gov/about/api/</a></p>
+<p>These recipe examples were tested on December 6, 2022 in MATLAB R2022b.</p>
+<p><strong>Attribution:</strong> We thank <strong>Professor Jessica Kincaid</strong> (UA Libraries, Hoole Special Collections)
+for the use-cases. All data was collected from the Library of Congress, Chronicling America: Historic
+American Newspapers site, using the API.</p>
+<p>Note that the data from the <em>Alabama state intelligencer</em>, <em>The age-herald</em>, and the
+<em>Birmingham age-herald</em> were contributed to Chronicling America by The University of
+Alabama Libraries: <a class="reference external" href="https://chroniclingamerica.loc.gov/awardees/au/">https://chroniclingamerica.loc.gov/awardees/au/</a></p>
+<section id="basic-api-request">
+<h3>1. Basic API Request<a class="headerlink" href="#basic-api-request" title="Permalink to this headline">#</a></h3>
+<p>The Chronicling America API identifies newspapers and other records using LCCNs.
+We can query the API once we have the LCCN for the newspaper and even ask for
+particular issues and editions. For example, the following link lists newspapers
+published in the state of Alabama, from which the LCCN can be obtained:
+<a class="reference external" href="https://chroniclingamerica.loc.gov/newspapers/?state=Alabama">https://chroniclingamerica.loc.gov/newspapers/?state=Alabama</a></p>
+<p>Here is an example with the Alabama State Intelligencer:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% set up the API parameters and pull json data for the given LCCN</span><span class="w"></span>
+<span class="n">api_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://chroniclingamerica.loc.gov/lccn/&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">lccn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;sn84023600&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lccn</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;.json&quot;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">fields</span><span class="p">:</span><span class="w"></span>
+<span class="w"> </span><span class="n">place_of_publication</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Tuskaloosa [sic], Ala.&#39;</span><span class="w"></span>
+<span class="w">                 </span><span class="n">lccn</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;sn84023600&#39;</span><span class="w"></span>
+<span class="w">           </span><span class="n">start_year</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;183?&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="n">place</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;Alabama--Tuscaloosa--Tuscaloosa&#39;</span><span class="p">}</span><span class="w"></span>
+<span class="w">                 </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Alabama State intelligencer. [volume]&#39;</span><span class="w"></span>
+<span class="w">            </span><span class="n">publisher</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;T.M. Bradford&#39;</span><span class="w"></span>
+<span class="w">                  </span><span class="n">url</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;https://chroniclingamerica.loc.gov/lccn/sn84023600.json&#39;</span><span class="w"></span>
+<span class="w">             </span><span class="n">end_year</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;18??&#39;</span><span class="w"></span>
+<span class="w">               </span><span class="n">issues</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+<span class="w">              </span><span class="n">subject</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% extract the name from the search</span><span class="w"></span>
+<span class="n">q</span><span class="p">.</span><span class="n">name</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;Alabama State intelligencer. [volume]&#39;</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% extract the publisher from the search</span><span class="w"></span>
+<span class="n">q</span><span class="p">.</span><span class="n">publisher</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;T.M. Bradford&#39;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Moving on to another publication, we can get the 182nd page (seq-182) of the
+Evening Star newspaper published on November 19, 1961.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% set up the API parameters and pull json data for the given LCCN</span><span class="w"></span>
+<span class="n">lccn2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;sn83045462/1961-11-19/ed-1/seq-182&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">q2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lccn2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;.json&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">%% obtain the url for the pdf of the page</span><span class="w"></span>
+<span class="n">q_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">q2</span><span class="p">.</span><span class="n">pdf</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">q_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;https://chroniclingamerica.loc.gov/lccn/sn83045462/1961-11-19/ed-1/seq-182.pdf&#39;</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% view the PDF in web browser</span><span class="w"></span>
+<span class="nb">web</span><span class="p">(</span><span class="n">q_url</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="frequency-of-university-of-alabama-mentions">
+<h3>2. Frequency of “University of Alabama” mentions<a class="headerlink" href="#frequency-of-university-of-alabama-mentions" title="Permalink to this headline">#</a></h3>
+<p>The URL below limits to searching newspapers in the state of Alabama and provides
+500 results (as a demo) of “University of Alabama” mentions. Note that phrases
+can be searched by putting them inside parentheses for the query.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% set up the API parameters and pull json data</span><span class="w"></span>
+<span class="n">api_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://chroniclingamerica.loc.gov/search/pages/results/?state=Alabama&amp;proxtext=(University%20of%20Alabama)&amp;rows=500&amp;format=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">options</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">weboptions</span><span class="p">(</span><span class="s">&#39;Timeout&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span><span class="w"></span>
+<span class="n">alabamaInfo</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">%% find the size of the data structure</span><span class="w"></span>
+<span class="nb">size</span><span class="p">(</span><span class="nb">struct2table</span><span class="p">(</span><span class="n">alabamaInfo</span><span class="p">.</span><span class="n">items</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">ans</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>1<span class="n">x2</span><span class="w"></span>
+<span class="n">500</span><span class="w">    </span><span class="s">28</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% extract the years from the dates given</span><span class="w"></span>
+<span class="n">dates</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">alabamaInfo</span><span class="p">.</span><span class="n">items</span><span class="p">.</span><span class="n">date</span><span class="p">};</span><span class="w"></span>
+<span class="n">datesList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">alabamaInfo</span><span class="p">.</span><span class="n">items</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">datesList</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">str2double</span><span class="p">(</span><span class="n">dates</span><span class="p">{</span><span class="nb">i</span><span class="p">}(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="c">%% plot a histogram of the mentions according to decade</span><span class="w"></span>
+<span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell2mat</span><span class="p">(</span><span class="n">datesList</span><span class="p">);</span><span class="w"></span>
+<span class="nb">edges</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1890</span><span class="w"> </span><span class="mi">1900</span><span class="w"> </span><span class="mi">1910</span><span class="w"> </span><span class="mi">1920</span><span class="w"> </span><span class="mi">1930</span><span class="p">];</span><span class="w"></span>
+<span class="nb">xticks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">([</span><span class="mi">1890</span><span class="p">,</span><span class="w"> </span><span class="mi">1900</span><span class="p">,</span><span class="w"> </span><span class="mi">1910</span><span class="p">,</span><span class="w"> </span><span class="mi">1920</span><span class="p">]);</span><span class="w"></span>
+<span class="nb">histogram</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="nb">edges</span><span class="p">)</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&quot;Mentions of University of Alabama by Decade&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&quot;Decade&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&quot;Mentions&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<img alt="../../../_images/matlab_chronam_im0.png" src="../../../_images/matlab_chronam_im0.png" />
+</section>
+<section id="industrialization-keywords-frequency-in-the-birmingham-age-herald">
+<h3>3. Industrialization keywords frequency in the Birmingham Age-Herald<a class="headerlink" href="#industrialization-keywords-frequency-in-the-birmingham-age-herald" title="Permalink to this headline">#</a></h3>
+<p>We will try to obtain the frequency of “Iron” on the front pages of the Birmingham Age- herald newspapers
+from the year 1903 to 1949 (limited to first 500 rows for testing here).</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% set up the API parameters and pull json data for the given parameters</span><span class="w"></span>
+<span class="n">api_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://chroniclingamerica.loc.gov/search/pages/results/?state=Alabama&amp;lccn=sn85038485&amp;dateFilterType=yearRange&amp;date1=1903&amp;date2=1949&amp;sequence=1&amp;andtext=Iron&amp;rows=500&amp;searchType=advanced&amp;format=json&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">ind</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create a dataset of dates and format as datetimes</span><span class="w"></span>
+<span class="n">dates2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">ind</span><span class="p">.</span><span class="n">items</span><span class="p">.</span><span class="n">date</span><span class="p">};</span><span class="w"></span>
+<span class="n">x2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">datetime</span><span class="p">(</span><span class="n">dates2</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;InputFormat&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;yyyyMMdd&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="c">%% plot a histogram of mentions of iron by year</span><span class="w"></span>
+<span class="nb">histogram</span><span class="p">(</span><span class="n">x2</span><span class="p">.</span><span class="n">Year</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;BinMethod&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;integers&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&quot;Iron Frequency in the Birmingham Age Herald&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&quot;Year&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&quot;Mentions&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<img alt="../../../_images/matlab_chronam_im1.png" src="../../../_images/matlab_chronam_im1.png" />
+</section>
 </section>
 </section>
 
