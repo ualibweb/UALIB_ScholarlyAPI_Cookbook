@@ -662,6 +662,28 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#chronicling-america-api-in-unix-shell">
    Chronicling America API in Unix Shell
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#program-requirements">
+     Program requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-api-request">
+     1. Basic API request
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#frequency-of-university-of-alabama-mentions">
+     2. Frequency of “University of Alabama” mentions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#industrialization-keywords-frequency-in-the-birmingham-age-herald">
+     3. Industrialization keywords frequency in the Birmingham Age-Herald
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -686,6 +708,28 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#chronicling-america-api-in-unix-shell">
    Chronicling America API in Unix Shell
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#program-requirements">
+     Program requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-api-request">
+     1. Basic API request
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#frequency-of-university-of-alabama-mentions">
+     2. Frequency of “University of Alabama” mentions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#industrialization-keywords-frequency-in-the-birmingham-age-herald">
+     3. Industrialization keywords frequency in the Birmingham Age-Herald
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -701,6 +745,357 @@ title="Print to PDF"
 <h1>…in Unix Shell<a class="headerlink" href="#in-unix-shell" title="Permalink to this headline">#</a></h1>
 <section id="chronicling-america-api-in-unix-shell">
 <h2>Chronicling America API in Unix Shell<a class="headerlink" href="#chronicling-america-api-in-unix-shell" title="Permalink to this headline">#</a></h2>
+<p>by Avery Fernandez</p>
+<p><strong>LOC Chronicling America API Documentation:</strong> <a class="reference external" href="https://chroniclingamerica.loc.gov/about/api/">https://chroniclingamerica.loc.gov/about/api/</a></p>
+<p>These recipe examples were tested on December 7, 2022 using GNOME Terminal in Ubuntu 18.04.</p>
+<p><strong>Attribution:</strong> We thank <strong>Professor Jessica Kincaid</strong> (UA Libraries, Hoole Special Collections)
+for the use-cases. All data was collected from the Library of Congress, Chronicling America: Historic
+American Newspapers site, using the API.</p>
+<p>Note that the data from the <em>Alabama state intelligencer</em>, <em>The age-herald</em>, and the
+<em>Birmingham age-herald</em> were contributed to Chronicling America by The University of
+Alabama Libraries: <a class="reference external" href="https://chroniclingamerica.loc.gov/awardees/au/">https://chroniclingamerica.loc.gov/awardees/au/</a></p>
+<section id="program-requirements">
+<h3>Program requirements<a class="headerlink" href="#program-requirements" title="Permalink to this headline">#</a></h3>
+<p>In order to run this code, you will need to first install <a class="reference external" href="https://github.com/curl/curl">curl</a>, <a class="reference external" href="https://stedolan.github.io/jq/">jq</a>, and <a class="reference external" href="http://www.gnuplot.info/">gnuplot</a>.
+curl is used to request the data from the API, jq is used to parse the JSON data,
+and gnuplot is used to plot the data.</p>
+</section>
+<section id="basic-api-request">
+<h3>1. Basic API request<a class="headerlink" href="#basic-api-request" title="Permalink to this headline">#</a></h3>
+<p>The Chronicling America API identifies newspapers and other records using LCCNs.
+We can query the API once we have the LCCN for the newspaper and even ask for
+particular issues and editions. For example, the following link lists newspapers
+published in the state of Alabama, from which the LCCN can be obtained:
+<a class="reference external" href="https://chroniclingamerica.loc.gov/newspapers/?state=Alabama">https://chroniclingamerica.loc.gov/newspapers/?state=Alabama</a></p>
+<p>Here is an example with the Alabama State Intelligencer:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">api</span><span class="o">=</span><span class="s2">&quot;https://chroniclingamerica.loc.gov/&quot;</span>
+<span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$api</span><span class="s2">$&quot;lccn/sn84023600.json&quot;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="nv">$request</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+<span class="s2">&quot;place_of_publication&quot;</span>: <span class="s2">&quot;Tuskaloosa [sic], Ala.&quot;</span>,
+<span class="s2">&quot;lccn&quot;</span>: <span class="s2">&quot;sn84023600&quot;</span>,
+<span class="s2">&quot;start_year&quot;</span>: <span class="s2">&quot;183?&quot;</span>,
+<span class="s2">&quot;place&quot;</span>: <span class="o">[</span>
+   <span class="s2">&quot;Alabama--Tuscaloosa--Tuscaloosa&quot;</span>
+<span class="o">]</span>,
+<span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;Alabama State intelligencer. [volume]&quot;</span>,
+<span class="s2">&quot;publisher&quot;</span>: <span class="s2">&quot;T.M. Bradford&quot;</span>,
+<span class="s2">&quot;url&quot;</span>: <span class="s2">&quot;https://chroniclingamerica.loc.gov/lccn/sn84023600.json&quot;</span>,
+<span class="s2">&quot;end_year&quot;</span>: <span class="s2">&quot;18??&quot;</span>,
+<span class="s2">&quot;issues&quot;</span>: <span class="o">[]</span>,
+<span class="s2">&quot;subject&quot;</span>: <span class="o">[]</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Indexing into the json output allows data to be extracted using key names as demonstrated below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="nv">$request</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;name&quot;]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Alabama State intelligencer. [volume]&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="nv">$request</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;publisher&quot;]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;T.M. Bradford&quot;</span>
+</pre></div>
+</div>
+<p>Moving on to another publication, we can get the 182nd page (seq-182) of the Evening Star
+newspaper published on November 19, 1961.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$api</span><span class="s2">$&quot;lccn/sn83045462/1961-11-19/ed-1/seq-182.json&quot;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="nv">$request</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+<span class="s2">&quot;jp2&quot;</span>: <span class="s2">&quot;https://chroniclingamerica.loc.gov/lccn/sn83045462/1961-11-19/ed-1/seq-182.jp2&quot;</span>,
+<span class="s2">&quot;sequence&quot;</span>: <span class="m">182</span>,
+<span class="s2">&quot;text&quot;</span>: <span class="s2">&quot;https://chroniclingamerica.loc.gov/lccn/sn83045462/1961-11-19/ed-1/seq-182/ocr.txt&quot;</span>,
+<span class="s2">&quot;title&quot;</span>: <span class="o">{</span>
+   <span class="s2">&quot;url&quot;</span>: <span class="s2">&quot;https://chroniclingamerica.loc.gov/lccn/sn83045462.json&quot;</span>,
+   <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;Evening star. [volume]&quot;</span>
+<span class="o">}</span>,
+<span class="s2">&quot;pdf&quot;</span>: <span class="s2">&quot;https://chroniclingamerica.loc.gov/lccn/sn83045462/1961-11-19/ed-1/seq-182.pdf&quot;</span>,
+<span class="s2">&quot;ocr&quot;</span>: <span class="s2">&quot;https://chroniclingamerica.loc.gov/lccn/sn83045462/1961-11-19/ed-1/seq-182/ocr.xml&quot;</span>,
+<span class="s2">&quot;issue&quot;</span>: <span class="o">{</span>
+   <span class="s2">&quot;url&quot;</span>: <span class="s2">&quot;https://chroniclingamerica.loc.gov/lccn/sn83045462/1961-11-19/ed-1.json&quot;</span>,
+   <span class="s2">&quot;date_issued&quot;</span>: <span class="s2">&quot;1961-11-19&quot;</span>
+<span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Next, extract the URL for the PDF file and open it from the terminal. The <cite>-L</cite>
+option in curl allows for redirection to load the PDF:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">url</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$request</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;pdf&quot;]&#39;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span><span class="k">)</span>
+curl <span class="nv">$url</span> -L --output outfile.pdf
+xdg-open outfile.pdf
+</pre></div>
+</div>
+</section>
+<section id="frequency-of-university-of-alabama-mentions">
+<h3>2. Frequency of “University of Alabama” mentions<a class="headerlink" href="#frequency-of-university-of-alabama-mentions" title="Permalink to this headline">#</a></h3>
+<p>The URL below limits to searching newspapers in the state of Alabama and provides 500 results of
+“University of Alabama” mentions. Note that phrases can be searched by putting them inside parentheses for the query.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">api</span><span class="o">=</span><span class="s2">&quot;https://chroniclingamerica.loc.gov/&quot;</span>
+<span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="nv">$api</span><span class="s2">$&quot;search/pages/results/?state=Alabama&amp;proxtext=(University%20of%20Alabama)&amp;rows=500&amp;format=json&quot;</span> <span class="p">|</span> jq .<span class="s1">&#39;[&quot;items&quot;]&#39;</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>Get the length of returned data:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">length</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;. | length&#39;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$length</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">500</span>
+</pre></div>
+</div>
+<p>Next, display the first record</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[0]&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+<span class="s2">&quot;sequence&quot;</span>: <span class="m">48</span>,
+<span class="s2">&quot;county&quot;</span>: <span class="o">[</span>
+   <span class="s2">&quot;Jefferson&quot;</span>
+<span class="o">]</span>,
+<span class="s2">&quot;edition&quot;</span>: null,
+<span class="s2">&quot;frequency&quot;</span>: <span class="s2">&quot;Daily&quot;</span>,
+<span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;/lccn/sn85038485/1924-07-13/ed-1/seq-48/&quot;</span>,
+<span class="s2">&quot;subject&quot;</span>: <span class="o">[</span>
+   <span class="s2">&quot;Alabama--Birmingham.--fast--(OCoLC)fst01204958&quot;</span>,
+   <span class="s2">&quot;Birmingham (Ala.)--Newspapers.&quot;</span>
+<span class="o">]</span>,
+<span class="s2">&quot;city&quot;</span>: <span class="o">[</span>
+   <span class="s2">&quot;Birmingham&quot;</span>
+<span class="o">]</span>,
+<span class="s2">&quot;date&quot;</span>: <span class="s2">&quot;19240713&quot;</span>,
+<span class="s2">&quot;title&quot;</span>: <span class="s2">&quot;The Birmingham age-herald. [volume]&quot;</span>,
+<span class="s2">&quot;end_year&quot;</span>: <span class="m">1950</span>,
+<span class="s2">&quot;note&quot;</span>: <span class="o">[</span>
+   <span class="s2">&quot;Also issued on microfilm from Bell &amp; Howell, Micro Photo Div.; the Library of Congress, Photoduplication Service.&quot;</span>,
+   <span class="s2">&quot;Also published in a weekly ed.&quot;</span>,
+   <span class="s2">&quot;Archived issues are available in digital format from the Library of Congress Chronicling America online collection.&quot;</span>,
+   <span class="s2">&quot;Publication suspended with July 12, 1945 issue due to a printers&#39; strike; resumed publication with Aug. 17, 1945 issue.&quot;</span>
+<span class="o">]</span>,
+<span class="s2">&quot;state&quot;</span>: <span class="o">[</span>
+   <span class="s2">&quot;Alabama&quot;</span>
+<span class="o">]</span>,
+<span class="s2">&quot;section_label&quot;</span>: <span class="s2">&quot;Tuscaloosa Section&quot;</span>,
+<span class="s2">&quot;type&quot;</span>: <span class="s2">&quot;page&quot;</span>,
+<span class="s2">&quot;place_of_publication&quot;</span>: <span class="s2">&quot;Birmingham, Ala.&quot;</span>,
+<span class="s2">&quot;start_year&quot;</span>: <span class="m">1902</span>,
+<span class="s2">&quot;edition_label&quot;</span>: <span class="s2">&quot;&quot;</span>,
+<span class="s2">&quot;publisher&quot;</span>: <span class="s2">&quot;Age-Herald Co.&quot;</span>,
+<span class="s2">&quot;language&quot;</span>: <span class="o">[</span>
+   <span class="s2">&quot;English&quot;</span>
+<span class="o">]</span>,
+<span class="s2">&quot;alt_title&quot;</span>: <span class="o">[</span>
+   <span class="s2">&quot;Age-herald&quot;</span>,
+   <span class="s2">&quot;Birmingham news, the Birmingham age-herald&quot;</span>
+<span class="o">]</span>,
+<span class="s2">&quot;lccn&quot;</span>: <span class="s2">&quot;sn85038485&quot;</span>,
+<span class="s2">&quot;country&quot;</span>: <span class="s2">&quot;Alabama&quot;</span>,
+<span class="s2">&quot;ocr_eng&quot;</span>: <span class="s2">&quot;canes at the University .of Alabama\nMORGAN HALL -\nSMITH HALL\n&#39; hi i ..mil w i 1»..IIgylUjAiU. &#39;. n\njjiIi\n(ARCHITECTS* MODEL)\nCOMER. HALli\nMINING\n••tSgSB?\n* i v&#39; y -4\n■Si &#39; 3&gt;\nA GLIMP9E OF FRATERNITY ROW\nTHE GYMNASIUM\nTuscaloosa, Alabama\nADV.&quot;</span>,
+<span class="s2">&quot;batch&quot;</span>: <span class="s2">&quot;au_foster_ver01&quot;</span>,
+<span class="s2">&quot;title_normal&quot;</span>: <span class="s2">&quot;birmingham age-herald.&quot;</span>,
+<span class="s2">&quot;url&quot;</span>: <span class="s2">&quot;https://chroniclingamerica.loc.gov/lccn/sn85038485/1924-07-13/ed-1/seq-48.json&quot;</span>,
+<span class="s2">&quot;place&quot;</span>: <span class="o">[</span>
+   <span class="s2">&quot;Alabama--Jefferson--Birmingham&quot;</span>
+<span class="o">]</span>,
+<span class="s2">&quot;page&quot;</span>: <span class="s2">&quot;8&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Loop through the records and extract the dates:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -a dates
+<span class="k">for</span> <span class="o">((</span> <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; <span class="s2">&quot;</span><span class="nv">$length</span><span class="s2">&quot;</span> <span class="p">;</span> i++ <span class="o">))</span><span class="p">;</span>
+<span class="k">do</span>
+  <span class="nv">dates</span><span class="o">+=(</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s2">&quot;.[</span><span class="nv">$i</span><span class="s2">].date&quot;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span><span class="k">)</span><span class="s2">&quot;</span><span class="o">)</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>Check the length of dates:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${#</span><span class="nv">dates</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">500</span>
+</pre></div>
+</div>
+<p>Display the first 10 dates:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">dates</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">10</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">19240713</span> <span class="m">19180818</span> <span class="m">19240224</span> <span class="m">19160806</span> <span class="m">19130618</span> <span class="m">19240217</span> <span class="m">19140602</span> <span class="m">19120714</span> <span class="m">19220917</span> <span class="m">19170513</span>
+</pre></div>
+</div>
+<p>We’ll do a bit of data transformation on the dates before plotting:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -a formattedDates
+<span class="k">for</span> date <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">dates</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="k">do</span>
+  <span class="nv">year</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$date</span><span class="s2">&quot;</span> <span class="p">|</span> cut -c1-4<span class="k">)</span>
+  <span class="nv">month</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$date</span><span class="s2">&quot;</span> <span class="p">|</span> cut -c5-6<span class="k">)</span>
+  <span class="nv">day</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$date</span><span class="s2">&quot;</span> <span class="p">|</span> cut -c7-8<span class="k">)</span>
+  <span class="nv">formatted</span><span class="o">=</span><span class="nv">$year</span><span class="s2">$&quot;/&quot;</span><span class="nv">$month</span><span class="s2">$&quot;/&quot;</span><span class="nv">$day</span>
+  <span class="nb">echo</span> <span class="s1">$&#39;&quot;&#39;</span><span class="s2">&quot;</span><span class="nv">$formatted</span><span class="s2">&quot;</span><span class="s1">$&#39;&quot;&#39;</span> &gt;&gt; dates.csv
+  <span class="nv">formattedDates</span><span class="o">+=(</span><span class="s2">&quot;</span><span class="nv">$formatted</span><span class="s2">&quot;</span><span class="o">)</span>
+<span class="k">done</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">formattedDates</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">10</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">1924</span>/07/13 <span class="m">1918</span>/08/18 <span class="m">1924</span>/02/24 <span class="m">1916</span>/08/06 <span class="m">1913</span>/06/18 <span class="m">1924</span>/02/17 <span class="m">1914</span>/06/02 <span class="m">1912</span>/07/14 <span class="m">1922</span>/09/17 <span class="m">1917</span>/05/13
+</pre></div>
+</div>
+<p>Next, plot the data using gnuplot.
+See the <a class="reference external" href="http://www.gnuplot.info/documentation.html">gnuplot documentation</a> for more information about the smooth frequency histogram.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>head dates.csv
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;1924/07/13&quot;</span>
+<span class="s2">&quot;1918/08/18&quot;</span>
+<span class="s2">&quot;1924/02/24&quot;</span>
+<span class="s2">&quot;1916/08/06&quot;</span>
+<span class="s2">&quot;1913/06/18&quot;</span>
+<span class="s2">&quot;1924/02/17&quot;</span>
+<span class="s2">&quot;1914/06/02&quot;</span>
+<span class="s2">&quot;1912/07/14&quot;</span>
+<span class="s2">&quot;1922/09/17&quot;</span>
+<span class="s2">&quot;1917/05/13&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat graph.gnuplot
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> datafile separator <span class="s1">&#39;,&#39;</span>
+<span class="nv">binwidth</span><span class="o">=</span><span class="m">4</span>
+<span class="nb">set</span> term dumb
+bin<span class="o">(</span>x,width<span class="o">)=</span>width*floor<span class="o">(</span>x/width<span class="o">)</span>
+plot <span class="s1">&#39;dates.csv&#39;</span> using <span class="o">(</span>bin<span class="o">(</span><span class="nv">$1</span>,binwidth<span class="o">))</span>:<span class="o">(</span><span class="m">1</span>.0<span class="o">)</span> smooth freq with boxes notitle
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gnuplot -p graph.gnuplot
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span><span class="m">120</span> +--------------------------------------------------------------------+
+   <span class="p">|</span>         +         +         +        +         +         +         <span class="p">|</span>
+   <span class="p">|</span>                                           ***                      <span class="p">|</span>
+<span class="m">100</span> <span class="p">|</span>-+                                         * * ***                +-<span class="p">|</span>
+   <span class="p">|</span>                                           * * * *                  <span class="p">|</span>
+   <span class="p">|</span>                                           * * * *                  <span class="p">|</span>
+   <span class="p">|</span>                                           * * * *                  <span class="p">|</span>
+<span class="m">80</span> <span class="p">|</span>-+                                         * * * *                +-<span class="p">|</span>
+   <span class="p">|</span>                                           * *** *                  <span class="p">|</span>
+   <span class="p">|</span>                                       *** * * * *                  <span class="p">|</span>
+<span class="m">60</span> <span class="p">|</span>-+                                     * *** * * *                +-<span class="p">|</span>
+   <span class="p">|</span>                                       * * * * * *                  <span class="p">|</span>
+   <span class="p">|</span>                                     *** * * * * *                  <span class="p">|</span>
+<span class="m">40</span> <span class="p">|</span>-+                                   * * * * * * *                +-<span class="p">|</span>
+   <span class="p">|</span>                                     * * * * * * *                  <span class="p">|</span>
+   <span class="p">|</span>                                     * * * * * * *                  <span class="p">|</span>
+   <span class="p">|</span>                                     * * * * * * **********         <span class="p">|</span>
+<span class="m">20</span> <span class="p">|</span>-+                                   * * * * * * *        *       +-<span class="p">|</span>
+   <span class="p">|</span>                                   *** * * * * * *        *         <span class="p">|</span>
+   <span class="p">|</span>         +         ***************** *+* * * * *+*        *         <span class="p">|</span>
+ <span class="m">0</span> +--------------------------------------------------------------------+
+  <span class="m">1820</span>      <span class="m">1840</span>      <span class="m">1860</span>      <span class="m">1880</span>     <span class="m">1900</span>      <span class="m">1920</span>      <span class="m">1940</span>      <span class="m">1960</span>
+</pre></div>
+</div>
+</section>
+<section id="industrialization-keywords-frequency-in-the-birmingham-age-herald">
+<h3>3. Industrialization keywords frequency in the Birmingham Age-Herald<a class="headerlink" href="#industrialization-keywords-frequency-in-the-birmingham-age-herald" title="Permalink to this headline">#</a></h3>
+<p>We will try to obtain the frequency of “Iron” on the front pages of the Birmingham Age- herald newspapers from
+the year 1903 to 1949 (limited to first 500 rows for testing here).</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">api</span><span class="o">=</span><span class="s2">&quot;https://chroniclingamerica.loc.gov/&quot;</span>
+<span class="nv">request</span><span class="o">=</span><span class="k">$(</span>curl <span class="s2">&quot;</span><span class="nv">$api</span><span class="s2">&quot;$&quot;search/pages/results/?state=Alabama&amp;lccn=sn85038485&amp;dateFilterType=yearRange&amp;date1=1903&amp;date2=1949&amp;sequence=1&amp;andtext=Iron&amp;rows=500&amp;searchType=advanced&amp;format=json&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;.[&quot;items&quot;]&#39;</span><span class="k">)</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;. | length&#39;</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">500</span>
+</pre></div>
+</div>
+<p>Extract the dates and do some formatting as shown before:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -a dates
+<span class="nv">length</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s1">&#39;. | length&#39;</span><span class="k">)</span>
+<span class="k">for</span> <span class="o">((</span> <span class="nv">i</span> <span class="o">=</span> <span class="m">0</span> <span class="p">;</span> i &lt; <span class="s2">&quot;</span><span class="nv">$length</span><span class="s2">&quot;</span> <span class="p">;</span> i++ <span class="o">))</span><span class="p">;</span>
+<span class="k">do</span>
+  <span class="nv">dates</span><span class="o">+=(</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$request</span><span class="s2">&quot;</span> <span class="p">|</span> jq <span class="s2">&quot;.[</span><span class="nv">$i</span><span class="s2">].date&quot;</span> <span class="p">|</span> tr -d <span class="s1">&#39;&quot;&#39;</span><span class="k">)</span><span class="s2">&quot;</span><span class="o">)</span>
+<span class="k">done</span>
+
+<span class="nb">declare</span> -a formattedDates
+<span class="k">for</span> date <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">dates</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="k">do</span>
+  <span class="nv">year</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$date</span><span class="s2">&quot;</span> <span class="p">|</span> cut -c1-4<span class="k">)</span>
+  <span class="nv">month</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$date</span><span class="s2">&quot;</span> <span class="p">|</span> cut -c5-6<span class="k">)</span>
+  <span class="nv">day</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$date</span><span class="s2">&quot;</span> <span class="p">|</span> cut -c7-8<span class="k">)</span>
+  <span class="nv">formatted</span><span class="o">=</span><span class="nv">$year</span><span class="s2">$&quot;/&quot;</span><span class="nv">$month</span><span class="s2">$&quot;/&quot;</span><span class="nv">$day</span>
+  <span class="nb">echo</span> <span class="s1">$&#39;&quot;&#39;</span><span class="s2">&quot;</span><span class="nv">$formatted</span><span class="s2">&quot;</span><span class="s1">$&#39;&quot;&#39;</span> &gt;&gt; dates2.csv
+  <span class="nv">formattedDates</span><span class="o">+=(</span><span class="s2">&quot;</span><span class="nv">$formatted</span><span class="s2">&quot;</span><span class="o">)</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>Check to make sure we have 500 dates:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat dates2.csv <span class="p">|</span> wc -l
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">500</span>
+</pre></div>
+</div>
+<p>And plot the data:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat graph.gnuplot
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> datafile separator <span class="s1">&#39;,&#39;</span>
+<span class="nv">binwidth</span><span class="o">=</span><span class="m">2</span>
+<span class="nb">set</span> term dumb
+bin<span class="o">(</span>x,width<span class="o">)=</span>width*floor<span class="o">(</span>x/width<span class="o">)</span>
+plot <span class="s1">&#39;dates2.csv&#39;</span> using <span class="o">(</span>bin<span class="o">(</span><span class="nv">$1</span>,binwidth<span class="o">))</span>:<span class="o">(</span><span class="m">1</span>.0<span class="o">)</span> smooth freq with boxes notitle
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gnuplot -p graph.gnuplot
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">90</span> +---------------------------------------------------------------------+
+   <span class="p">|</span>             +             +             +             +             <span class="p">|</span>
+<span class="m">80</span> <span class="p">|</span>-+                      *******                                    +-<span class="p">|</span>
+   <span class="p">|</span>                        *     *                                      <span class="p">|</span>
+<span class="m">70</span> <span class="p">|</span>-+     *******          *     *                                    +-<span class="p">|</span>
+   <span class="p">|</span>       *     *          *     *                                      <span class="p">|</span>
+   <span class="p">|</span>       *     ************     *                                      <span class="p">|</span>
+<span class="m">60</span> <span class="p">|</span>-+     *     *     *    *     ******                               +-<span class="p">|</span>
+   <span class="p">|</span>       *     *     *    *     *    *                                 <span class="p">|</span>
+<span class="m">50</span> <span class="p">|</span>-+     *     *     *    *     *    *                      ******   +-<span class="p">|</span>
+   <span class="p">|</span>       *     *     *    *     *    *                      *    *     <span class="p">|</span>
+<span class="m">40</span> <span class="p">|</span>-+     *     *     *    *     *    *                      *    *   +-<span class="p">|</span>
+   <span class="p">|</span>       *     *     *    *     *    *                      *    *     <span class="p">|</span>
+<span class="m">30</span> <span class="p">|</span>-+     *     *     *    *     *    *                      *    *   +-<span class="p">|</span>
+   <span class="p">|</span>  ******     *     *    *     *    *     *******          *    *     <span class="p">|</span>
+   <span class="p">|</span>  *    *     *     *    *     *    *     *     *    *******    *     <span class="p">|</span>
+<span class="m">20</span> <span class="p">|</span>-+*    *     *     *    *     *    *******     *    *     *    *   +-<span class="p">|</span>
+   <span class="p">|</span>  *    *     *     *    *     *    *     *     *    *     *    *     <span class="p">|</span>
+<span class="m">10</span> <span class="p">|</span>-+*    *     *     *    *     *    *     *     ******     *    ****+-<span class="p">|</span>
+   <span class="p">|</span>  *    *     *     *    *  +  *    *     *     *    *  +  *    *  *  <span class="p">|</span>
+   <span class="m">0</span> +---------------------------------------------------------------------+
+   <span class="m">1900</span>          <span class="m">1905</span>          <span class="m">1910</span>          <span class="m">1915</span>          <span class="m">1920</span>          <span class="m">1925</span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 
