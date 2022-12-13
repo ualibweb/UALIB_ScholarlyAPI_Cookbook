@@ -15,10 +15,11 @@ Alabama Libraries efforts to support `Research Data Services`_.
 
 .. _Research Data Services: https://guides.lib.ua.edu/Data/ResearchDataServices/
 
-.. warning::
+.. note::
 
-   This book is in-progress and is currently in the early stages. Check back in 
-   a few months for more content.
+   We are in the process of preparing a ``Z39.50`` tutorial for programmatically interacting
+   with library catalogs. In addition, we have reproduced several of the recipes in ``R``
+   and plan to add the ``R`` content to the Cookbook in early 2023.
 
 What should I be aware of before getting started?
 ===================================================
