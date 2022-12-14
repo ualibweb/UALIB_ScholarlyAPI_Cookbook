@@ -662,6 +662,64 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#scopus-api-in-matlab">
    Scopus API in Matlab
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setup">
+     Setup
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-author-data">
+     1. Get Author Data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#number-of-records-for-author">
+       Number of Records for Author
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-author-data-in-a-loop">
+     2. Get Author Data in a Loop
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Number of Records for Author
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#get-record-data">
+       Get Record Data
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#save-record-data-to-a-file">
+       Save Record Data to a file
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-references-via-a-title-search">
+     3. Get References via a Title Search
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#number-of-title-match-records">
+       Number of Title Match Records
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#download-title-match-record-data">
+       Download Title Match Record Data
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -686,6 +744,64 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#scopus-api-in-matlab">
    Scopus API in Matlab
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setup">
+     Setup
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-author-data">
+     1. Get Author Data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#number-of-records-for-author">
+       Number of Records for Author
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-author-data-in-a-loop">
+     2. Get Author Data in a Loop
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Number of Records for Author
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#get-record-data">
+       Get Record Data
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#save-record-data-to-a-file">
+       Save Record Data to a file
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-references-via-a-title-search">
+     3. Get References via a Title Search
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#number-of-title-match-records">
+       Number of Title Match Records
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#download-title-match-record-data">
+       Download Title Match Record Data
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -701,6 +817,351 @@ title="Print to PDF"
 <h1>…in Matlab<a class="headerlink" href="#in-matlab" title="Permalink to this headline">#</a></h1>
 <section id="scopus-api-in-matlab">
 <h2>Scopus API in Matlab<a class="headerlink" href="#scopus-api-in-matlab" title="Permalink to this headline">#</a></h2>
+<p>by Anastasia Ramig</p>
+<p>These recipe examples use the Elsevier Scopus API.
+Code was tested with MATLAB R2021b and sample data downloaded from the Scopus API on April 26, 2022
+via <a class="reference external" href="http://api.elsevier.com">http://api.elsevier.com</a> and <a class="reference external" href="http://www.scopus.com">http://www.scopus.com</a>. This tutorial content is intended to help
+facillitate academic research. Before continuing or reusing any of this code, please be aware of
+Elsevier’s <a class="reference external" href="https://dev.elsevier.com/use_cases.html">API policies and appropiate use-cases</a>. You will also need to register for an API key
+in order to use the Scopus API.</p>
+<section id="setup">
+<h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">#</a></h3>
+<p>We will start by setting up the API key. Save your key in a text file in the
+same directory as the current Matlab folder and import your key as follows:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% import API key from file</span><span class="w"></span>
+<span class="n">myAPIKey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">importdata</span><span class="p">(</span><span class="s">&quot;apiKey.txt&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="get-author-data">
+<h3>1. Get Author Data<a class="headerlink" href="#get-author-data" title="Permalink to this headline">#</a></h3>
+<section id="number-of-records-for-author">
+<h4>Number of Records for Author<a class="headerlink" href="#number-of-records-for-author" title="Permalink to this headline">#</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% setup API information and pull data</span><span class="w"></span>
+<span class="n">api_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://api.elsevier.com/content/search/scopus?query=&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">author_id</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;AU-ID(55764087400)&amp;apiKey=&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">author_id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myAPIKey</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">fields</span><span class="p">:</span><span class="w"></span>
+<span class="w">   </span><span class="n">search_results</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>1<span class="n">x1</span><span class="w"> </span><span class="nb">struct</span><span class="p">]</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create an array of ones to pre-allocate doi_list</span><span class="w"></span>
+<span class="n">doi_list</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+
+<span class="c">%% create a list of dois from the data</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">doi_list</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">{</span><span class="nb">i</span><span class="p">,</span><span class="mi">1</span><span class="p">}.</span><span class="n">prism_doi</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">doi_list</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">doi_list</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>1<span class="n">x20</span><span class="w"> </span><span class="nb">cell</span><span class="w"></span>
+<span class="s">&#39;10.1021/acs.jchemed.1c00904&#39;&#39;10.5860/crln.82.9.428&#39;&#39;10.1021/acs.iecr.8b02573&#39;&#39;10.1021/acs.jchemed.6b00602&#39;&#39;10.5062/F4TD9VBX&#39;&#39;10.1021/acs.macromol.6b02005&#39;&#39;10.1186/s13321-016-0181-z&#39;&#39;10.1021/acs.chemmater.5b04431&#39;&#39;10.1021/acs.jchemed.5b00512&#39;&#39;10.1021/acs.jchemed.5b00375&#39;&#39;10.5860/crln.76.9.9384&#39;&#39;10.5860/crln.76.2.9259&#39;&#39;10.1021/ed400887t&#39;&#39;10.1016/j.acalib.2014.03.015&#39;&#39;10.5062/F4XS5SB9&#39;&#39;10.1021/ma300328u&#39;&#39;10.1021/mz200108a&#39;&#39;10.1021/ma201170y&#39;&#39;10.1021/ma200184u&#39;&#39;10.1021/cm102374t&#39;</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create an array of ones to pre-allocate titles_list</span><span class="w"></span>
+<span class="n">titles_list</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+
+<span class="c">%% create a list of titles from the data</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">titles_list</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">{</span><span class="nb">i</span><span class="p">,</span><span class="mi">1</span><span class="p">}.</span><span class="n">dc_title</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">titles_list</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">titles_list</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>1<span class="n">x20</span><span class="w"> </span><span class="nb">cell</span><span class="w"></span>
+<span class="s">&#39;Using NCBI Entrez Direct (EDirect) for Small Molecule Chemical Informati…  &#39;</span><span class="n">Using</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">linux</span><span class="w"> </span><span class="n">operating</span><span class="w"> </span><span class="nb">system</span><span class="w"> </span><span class="nb">full</span><span class="o">-</span><span class="nb">time</span><span class="w"> </span><span class="n">tips</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">experiences</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">s</span>…<span class="w">  </span><span class="s">&#39;Analysis of the Frequency and Diversity of 1,3-Dialkylimidazolium Ionic …  &#39;</span><span class="n">Rapid</span><span class="w"> </span><span class="n">Access</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Multicolor</span><span class="w"> </span><span class="n">Three</span><span class="o">-</span><span class="n">Dimensional</span><span class="w"> </span><span class="n">Printed</span><span class="w"> </span><span class="n">Chemistry</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">Bioch</span>…<span class="w">  </span><span class="s">&#39;Text analysis of chemistry thesis and dissertation titles&#39;&#39;Phototunable Thermoplastic Elastomer Hydrogel Networks&#39;&#39;Programmatic conversion of crystal structures into 3D printable files us…  &#39;</span><span class="n">Dangling</span><span class="o">-</span><span class="n">End</span><span class="w"> </span><span class="n">Double</span><span class="w"> </span><span class="n">Networks</span><span class="p">:</span><span class="w"> </span><span class="n">Tapping</span><span class="w"> </span><span class="n">Hidden</span><span class="w"> </span><span class="n">Toughness</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">Highly</span><span class="w"> </span><span class="n">Swollen</span>…<span class="w">  </span><span class="s">&#39;Replacing the Traditional Graduate Chemistry Literature Seminar with a C…  &#39;</span>3<span class="n">D</span><span class="w"> </span><span class="n">Printed</span><span class="w"> </span><span class="n">Block</span><span class="w"> </span><span class="n">Copolymer</span><span class="w"> </span><span class="n">Nanostructures</span><span class="o">&#39;&#39;</span><span class="n">Hypotheses</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">librarianship</span><span class="p">:</span><span class="w"> </span><span class="n">Applying</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">scientific</span><span class="w"> </span><span class="n">method</span><span class="o">&#39;&#39;</span><span class="n">Recruiting</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">campus</span><span class="p">:</span><span class="w"> </span><span class="n">Creating</span><span class="w"> </span><span class="n">tangible</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">digital</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="n">in</span>…<span class="w">  </span><span class="s">&#39;3D printed molecules and extended solid models for teaching symmetry and…  &#39;</span><span class="n">Repurposing</span><span class="w"> </span><span class="n">Space</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">Science</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">Engineering</span><span class="w"> </span><span class="n">Library</span><span class="p">:</span><span class="w"> </span><span class="n">Considerations</span><span class="w"> </span><span class="n">f</span>…<span class="w">  </span><span class="s">&#39;A model for managing 3D printing services in academic libraries&#39;&#39;Morphological phase behavior of poly(RTIL)-containing diblock copolymer …  &#39;</span><span class="n">Network</span><span class="w"> </span><span class="n">formation</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">orthogonally</span><span class="w"> </span><span class="n">self</span><span class="o">-</span><span class="n">assembling</span><span class="w"> </span><span class="nb">system</span><span class="o">&#39;&#39;</span><span class="n">Access</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">nanostructured</span><span class="w"> </span><span class="n">hydrogel</span><span class="w"> </span><span class="n">networks</span><span class="w"> </span><span class="n">through</span><span class="w"> </span><span class="n">photocured</span><span class="w"> </span><span class="n">body</span><span class="o">-</span><span class="n">cente</span>…<span class="w">  </span><span class="s">&#39;Synthesis and ordered phase separation of imidazolium-based alkyl-ionic …  &#39;</span><span class="n">Thermally</span><span class="w"> </span><span class="n">stable</span><span class="w"> </span><span class="n">photocuring</span><span class="w"> </span><span class="n">chemistry</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">selective</span><span class="w"> </span><span class="n">morphological</span><span class="w"> </span><span class="n">trapp</span>…<span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create an array of ones to pre-allocate citedby_count</span><span class="w"></span>
+<span class="n">citedby_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+
+<span class="c">%% create a list of counts of how much each title was cited</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">citedby_count</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">{</span><span class="nb">i</span><span class="p">,</span><span class="mi">1</span><span class="p">}.</span><span class="n">citedby_count</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">citedby_count</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">citedby_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>1<span class="n">x20</span><span class="w"> </span><span class="nb">cell</span><span class="w"></span>
+<span class="s">&#39;0&#39;</span><span class="w">          </span><span class="s">&#39;0&#39;</span><span class="w">          </span><span class="s">&#39;17&#39;</span><span class="w">         </span><span class="s">&#39;25&#39;</span><span class="w">         </span><span class="s">&#39;5&#39;</span><span class="w">          </span><span class="s">&#39;11&#39;</span><span class="w">         </span><span class="s">&#39;20&#39;</span><span class="w">         </span><span class="s">&#39;6&#39;</span><span class="w">          </span><span class="s">&#39;10&#39;</span><span class="w">         </span><span class="s">&#39;25&#39;</span><span class="w">         </span><span class="s">&#39;0&#39;</span><span class="w">          </span><span class="s">&#39;0&#39;</span><span class="w">          </span><span class="s">&#39;98&#39;</span><span class="w">         </span><span class="s">&#39;6&#39;</span><span class="w">          </span><span class="s">&#39;34&#39;</span><span class="w">         </span><span class="s">&#39;40&#39;</span><span class="w">         </span><span class="s">&#39;31&#39;</span><span class="w">         </span><span class="s">&#39;18&#39;</span><span class="w">         </span><span class="s">&#39;45&#39;</span><span class="w">         </span><span class="s">&#39;11&#39;</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% find the total number of cites</span><span class="w"></span>
+<span class="n">citesTotal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">str2double</span><span class="p">(</span><span class="n">citedby_count</span><span class="p">);</span><span class="w"></span>
+<span class="n">totalCites</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">citesTotal</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">totalCites</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">402</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="get-author-data-in-a-loop">
+<h3>2. Get Author Data in a Loop<a class="headerlink" href="#get-author-data-in-a-loop" title="Permalink to this headline">#</a></h3>
+<section id="id1">
+<h4>Number of Records for Author<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% import author text data as a cell array</span><span class="w"></span>
+<span class="n">authorList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">importdata</span><span class="p">(</span><span class="s">&quot;authorData.txt&quot;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">authorList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>5<span class="n">x1</span><span class="w"> </span><span class="nb">cell</span><span class="w"></span>
+<span class="s">&#39;{Emy Decker, 36660678600}&#39;</span><span class="w"></span>
+<span class="s">&#39;{Lindsey Lowry, 57210944451}&#39;</span><span class="w"></span>
+<span class="s">&#39;{Karen Chapman, 35783926100}&#39;</span><span class="w"></span>
+<span class="s">&#39;{Kevin Walker, 56133961300}&#39;</span><span class="w"></span>
+<span class="s">&#39;{Sara Whitver, 57194760730}&#39;</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create a list of author names and delete the extra bracket from it</span><span class="w"></span>
+<span class="n">authorList2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nb">strsplit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;,&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">authorList</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">authorList2</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">str</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">authorList2</span><span class="p">{</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="w">   </span><span class="n">old</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;{&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">new</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">authorList2</span><span class="p">{</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">replace</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">old</span><span class="p">,</span><span class="w"> </span><span class="n">new</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c">%% extract the author ids</span><span class="w"></span>
+<span class="n">author_ids</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">authorList2</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">authorList2</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">pat</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">digitsPattern</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">author_ids</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">extract</span><span class="p">(</span><span class="n">authorList2</span><span class="p">{</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">},</span><span class="w"> </span><span class="n">pat</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% preallocate an array for the number of records</span><span class="w"></span>
+<span class="n">numRecords</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">author_ids</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+
+<span class="c">%% find the number of records for each author and add it to the author list</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">numRecords</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">})</span><span class="w"></span>
+<span class="w">   </span><span class="n">q1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;AU-ID(&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">author_ids</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;)&amp;apiKey=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myAPIKey</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">numRecords</span><span class="p">{</span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">q1</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="nb">pause</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">authorList2</span><span class="p">{</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">numRecords</span><span class="p">{</span><span class="nb">i</span><span class="p">};</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="nb">cell2table</span><span class="p">(</span><span class="n">authorList2</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="w">                     </span><span class="n">authorList2</span><span class="w"></span>
+<span class="s">________________________________________________</span><span class="w"></span>
+
+<span class="p">{</span><span class="s">&#39;Emy Decker&#39;</span><span class="w">   </span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39; 36660678600}&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{[</span><span class="mi">14</span><span class="p">]}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;Lindsey Lowry&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39; 57210944451}&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{[</span><span class="w"> </span><span class="mi">4</span><span class="p">]}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;Karen Chapman&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39; 35783926100}&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{[</span><span class="mi">25</span><span class="p">]}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;Kevin Walker&#39;</span><span class="w"> </span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39; 56133961300}&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{[</span><span class="w"> </span><span class="mi">8</span><span class="p">]}</span><span class="w"></span>
+<span class="p">{</span><span class="s">&#39;Sara Whitver&#39;</span><span class="w"> </span><span class="p">}</span><span class="w">    </span><span class="p">{</span><span class="s">&#39; 57194760730}&#39;</span><span class="p">}</span><span class="w">    </span><span class="p">{[</span><span class="w"> </span><span class="mi">4</span><span class="p">]}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="get-record-data">
+<h4>Get Record Data<a class="headerlink" href="#get-record-data" title="Permalink to this headline">#</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">clear</span><span class="w"> </span><span class="n">info</span><span class="w"></span>
+<span class="c">%% extract the dois and cites for each author</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">author_ids</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">q_records</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;AU-ID(&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">author_ids</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">}</span><span class="o">+</span><span class="s">&quot;)&amp;apiKey=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myAPIKey</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">q_records</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">   </span><span class="c">%% preallocate cell array for the dois and cites</span><span class="w"></span>
+<span class="w">   </span><span class="n">doiList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">author_ids</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="n">citeList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">author_ids</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="w"></span>
+<span class="w">      </span><span class="k">try</span><span class="w"></span>
+<span class="w">            </span><span class="n">doiList</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">}{</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">q_records</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">{</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}.</span><span class="n">prism_doi</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">citeList</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">}{</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">q_records</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">{</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}.</span><span class="n">citedby_count</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">catch</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span><span class="nb">pause</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">   </span><span class="c">%% add the dois and cites to an overall information array</span><span class="w"></span>
+<span class="w">   </span><span class="n">info</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">doiList</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">};</span><span class="w"></span>
+<span class="w">   </span><span class="n">info</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">citeList</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">};</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c">%% create arrays for the dois and cites</span><span class="w"></span>
+<span class="n">dois</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="n">cites</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">width</span><span class="p">(</span><span class="n">info</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">})</span><span class="w"></span>
+<span class="w">   </span><span class="n">dois</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">vertcat</span><span class="p">(</span><span class="n">dois</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">});</span><span class="w"></span>
+<span class="w">   </span><span class="n">cites</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">vertcat</span><span class="p">(</span><span class="n">cites</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">});</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create a conclusive array</span><span class="w"></span>
+<span class="n">authorArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">horzcat</span><span class="p">(</span><span class="n">dois</span><span class="p">,</span><span class="w"> </span><span class="n">cites</span><span class="p">);</span><span class="w"></span>
+<span class="n">nameArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+
+<span class="c">%% create an array of author names</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:(</span><span class="nb">length</span><span class="p">(</span><span class="n">numRecords</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="n">nameLength</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">int16</span><span class="p">(</span><span class="n">numRecords</span><span class="p">{</span><span class="nb">i</span><span class="p">});</span><span class="w"></span>
+<span class="w">   </span><span class="n">authorName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellstr</span><span class="p">(</span><span class="nb">repmat</span><span class="p">(</span><span class="n">authorList2</span><span class="p">{</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span><span class="w"> </span><span class="n">nameLength</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="n">nameArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">vertcat</span><span class="p">(</span><span class="n">nameArray</span><span class="p">,</span><span class="w"> </span><span class="n">authorName</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c">%% add the author names to the informational array</span><span class="w"></span>
+<span class="n">authorArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">horzcat</span><span class="p">(</span><span class="n">authorArray</span><span class="p">,</span><span class="w"> </span><span class="n">nameArray</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">authorArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>55<span class="n">x3</span><span class="w"> </span><span class="nb">cell</span><span class="w"></span>
+<span class="w">   </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w">       </span><span class="mi">3</span><span class="w"></span>
+<span class="n">1</span><span class="w">    </span><span class="s">&#39;10.1108/RSR-08-2021-0051&#39;</span><span class="w">      </span><span class="s">&#39;0&#39;</span><span class="w">     </span><span class="s">&#39;Emy Decker&#39;</span><span class="w"></span>
+<span class="n">2</span><span class="w">    </span><span class="s">&#39;10.1080/1072303X.2021.1929642&#39;</span><span class="w"> </span><span class="s">&#39;0&#39;</span><span class="w">     </span><span class="s">&#39;Emy Decker&#39;</span><span class="w"></span>
+<span class="n">3</span><span class="w">    </span><span class="s">&#39;10.1080/15367967.2021.1900740&#39;</span><span class="w"> </span><span class="s">&#39;8&#39;</span><span class="w">     </span><span class="s">&#39;Emy Decker&#39;</span><span class="w"></span>
+<span class="n">4</span><span class="w">    </span><span class="s">&#39;10.1080/15367967.2020.1826951&#39;</span><span class="w"> </span><span class="s">&#39;0&#39;</span><span class="w">     </span><span class="s">&#39;Emy Decker&#39;</span><span class="w"></span>
+<span class="n">5</span><span class="w">    </span><span class="s">&#39;10.1080/10691316.2020.1781725&#39;</span><span class="w"> </span><span class="s">&#39;0&#39;</span><span class="w">     </span><span class="s">&#39;Emy Decker&#39;</span><span class="w"></span>
+<span class="n">6</span><span class="w">    </span><span class="s">&#39;10.1145/3347709.3347805&#39;</span><span class="w">       </span><span class="s">&#39;0&#39;</span><span class="w">     </span><span class="s">&#39;Emy Decker&#39;</span><span class="w"></span>
+<span class="n">7</span><span class="w">    </span><span class="s">&#39;10.4018/978-1-5225-5631-2.ch09&#39;</span><span class="w">        </span><span class="s">&#39;3&#39;</span><span class="w">     </span><span class="s">&#39;Emy Decker&#39;</span><span class="w"></span>
+<span class="k">...</span><span class="w"></span>
+<span class="k">...</span><span class="w"></span>
+<span class="k">...</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="save-record-data-to-a-file">
+<h4>Save Record Data to a file<a class="headerlink" href="#save-record-data-to-a-file" title="Permalink to this headline">#</a></h4>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% save the search for each author to a mat file</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">author</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">author_ids</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">authorName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">authorList2</span><span class="p">{</span><span class="n">author</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="w">   </span><span class="n">q2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;AU-ID&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;(&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">author_ids</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">author</span><span class="p">}</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;)&amp;apiKey=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myAPIKey</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="nb">pause</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">filename</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">authorName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;.mat&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">save</span><span class="w"> </span><span class="s">filename</span><span class="w"> </span><span class="s">q2</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% save the author arrays to individual text files</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:(</span><span class="nb">length</span><span class="p">(</span><span class="n">numRecords</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="nb">clear</span><span class="w"> </span><span class="n">individualAuthorData</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">individualDois</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">info</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">};</span><span class="w"></span>
+<span class="w">   </span><span class="n">individualCites</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">info</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">};</span><span class="w"></span>
+
+<span class="w">   </span><span class="n">nameLength</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">int16</span><span class="p">(</span><span class="n">numRecords</span><span class="p">{</span><span class="nb">i</span><span class="p">});</span><span class="w"></span>
+<span class="w">   </span><span class="n">authorName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellstr</span><span class="p">(</span><span class="nb">repmat</span><span class="p">(</span><span class="n">authorList2</span><span class="p">{</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span><span class="w"> </span><span class="n">nameLength</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">   </span><span class="n">individualAuthorData</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">horzcat</span><span class="p">(</span><span class="n">individualDois</span><span class="p">,</span><span class="w"> </span><span class="n">individualCites</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">individualAuthorData</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">horzcat</span><span class="p">(</span><span class="n">individualAuthorData</span><span class="p">,</span><span class="w"> </span><span class="n">authorName</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">   </span><span class="nb">writecell</span><span class="p">(</span><span class="n">individualAuthorData</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">authorList2</span><span class="p">{</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;.txt&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Delimiter&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\t&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="get-references-via-a-title-search">
+<h3>3. Get References via a Title Search<a class="headerlink" href="#get-references-via-a-title-search" title="Permalink to this headline">#</a></h3>
+<section id="number-of-title-match-records">
+<h4>Number of Title Match Records<a class="headerlink" href="#number-of-title-match-records" title="Permalink to this headline">#</a></h4>
+<p>Search Scopus for all references containing ‘ChemSpider” in the record title.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% set up the API information</span><span class="w"></span>
+<span class="n">api_url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;https://api.elsevier.com/content/search/scopus?query=&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">author_id</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;TITLE(ChemSpider)&amp;apiKey=&quot;</span><span class="p">;</span><span class="w"></span>
+
+<span class="c">%% find the information for ChemSpider and get the total number of results</span><span class="w"></span>
+<span class="n">q3</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">author_id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myAPIKey</span><span class="p">);</span><span class="w"></span>
+<span class="n">q3</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">opensearch_totalResults</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Repeat this in a loop to get number of Scopus records for each title search.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create a list of titles</span><span class="w"></span>
+<span class="n">titleList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;ChemSpider&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PubChem&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ChEMBL&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Reaxys&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SciFinder&quot;</span><span class="p">];</span><span class="w"></span>
+<span class="nb">length</span><span class="p">(</span><span class="n">titleList</span><span class="p">)</span><span class="w"></span>
+
+<span class="c">%% create an array of ones to pre-allocate numRecordsTitle</span><span class="w"></span>
+<span class="nb">clear</span><span class="w"> </span><span class="n">numRecordsTitle</span><span class="w"></span>
+<span class="n">numRecordsTitle</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">titleList</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+
+<span class="c">%% obtain the number of records for each title in the list and create an array</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">titleList</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">qt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;TITLE(&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">titleList</span><span class="p">(</span><span class="nb">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;)&amp;apiKey=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myAPIKey</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">numt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">qt</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">opensearch_totalResults</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="n">numRecordsTitle</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">titleList</span><span class="p">(</span><span class="nb">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">numRecordsTitle</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">i</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">numt</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="nb">pause</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="download-title-match-record-data">
+<h4>Download Title Match Record Data<a class="headerlink" href="#download-title-match-record-data" title="Permalink to this headline">#</a></h4>
+<p>Download records and create a list of selected metadata.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create a list of titles and preallocate an array</span><span class="w"></span>
+<span class="n">titleList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;ChemSpider&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PubChem&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ChEMBL&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Reaxys&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SciFinder&quot;</span><span class="p">];</span><span class="w"></span>
+<span class="n">scopusTitleData</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">ones</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">titleList</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)};</span><span class="w"></span>
+<span class="c">%% find the dois, titles, and dates for each title in the list and put them into an array</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">titleList</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">qt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">webread</span><span class="p">(</span><span class="n">api_url</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;TITLE(&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">titleList</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;)&amp;apiKey=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myAPIKey</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">qt</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">doiTitles</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">titleList</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="n">titles</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">titleList</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="n">dates</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">titleList</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="w"></span>
+<span class="w">      </span><span class="k">try</span><span class="w"></span>
+<span class="w">            </span><span class="n">doiTitles</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">}{</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">qt</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">{</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}.</span><span class="n">prism_doi</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">titles</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">}{</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">qt</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">{</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}.</span><span class="n">dc_title</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">dates</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">}{</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">qt</span><span class="p">.</span><span class="n">search_results</span><span class="p">.</span><span class="n">entry</span><span class="p">{</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}.</span><span class="n">prism_coverDate</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">catch</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span><span class="k">end</span><span class="w"></span>
+<span class="w">   </span><span class="nb">pause</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">infoTitles</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">doiTitles</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">};</span><span class="w"></span>
+<span class="w">   </span><span class="n">infoTitles</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">titles</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">};</span><span class="w"></span>
+<span class="w">   </span><span class="n">infoTitles</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dates</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">};</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% create an overall array of the information found above</span><span class="w"></span>
+<span class="n">titleDois</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="n">titlesFinal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="n">datesFinal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">width</span><span class="p">(</span><span class="n">info</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">})</span><span class="w"></span>
+<span class="w">   </span><span class="n">titleDois</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">vertcat</span><span class="p">(</span><span class="n">titleDois</span><span class="p">,</span><span class="w"> </span><span class="n">infoTitles</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">});</span><span class="w"></span>
+<span class="w">   </span><span class="n">titlesFinal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">vertcat</span><span class="p">(</span><span class="n">titlesFinal</span><span class="p">,</span><span class="w"> </span><span class="n">infoTitles</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">});</span><span class="w"></span>
+<span class="w">   </span><span class="n">datesFinal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">vertcat</span><span class="p">(</span><span class="n">datesFinal</span><span class="p">,</span><span class="w"> </span><span class="n">infoTitles</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">});</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">titleArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">horzcat</span><span class="p">(</span><span class="n">titleDois</span><span class="p">,</span><span class="w"> </span><span class="n">titlesFinal</span><span class="p">);</span><span class="w"></span>
+<span class="n">titleArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">horzcat</span><span class="p">(</span><span class="n">titleArray</span><span class="p">,</span><span class="w"> </span><span class="n">datesFinal</span><span class="p">);</span><span class="w"></span>
+<span class="c">%% create an array of names and add it to the overall array</span><span class="w"></span>
+<span class="n">titlesNameArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">titleList</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">nameLength</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">infoTitles</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">});</span><span class="w"></span>
+<span class="w">   </span><span class="n">titlesAuthorName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellstr</span><span class="p">(</span><span class="nb">repmat</span><span class="p">(</span><span class="n">titleList</span><span class="p">(</span><span class="n">t</span><span class="p">),</span><span class="w"> </span><span class="n">nameLength</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+<span class="w">   </span><span class="n">titlesNameArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">vertcat</span><span class="p">(</span><span class="n">titlesNameArray</span><span class="p">,</span><span class="w"> </span><span class="n">titlesAuthorName</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">titleArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">horzcat</span><span class="p">(</span><span class="n">titleArray</span><span class="p">,</span><span class="w"> </span><span class="n">titlesNameArray</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="n">titleArray</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>88<span class="n">x4</span><span class="w"> </span><span class="nb">cell</span><span class="w"></span>
+<span class="w">   </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w">       </span><span class="mi">3</span><span class="w">       </span><span class="mi">4</span><span class="w"></span>
+<span class="n">1</span><span class="w">    </span><span class="s">&#39;10.1039/c5np90022k&#39;</span><span class="w">    </span><span class="s">&#39;Editorial: ChemSpider-a tool for Natural Products research&#39;</span><span class="w">    </span><span class="s">&#39;2015-08-01&#39;</span><span class="w">    </span><span class="s">&#39;ChemSpider&#39;</span><span class="w"></span>
+<span class="n">2</span><span class="w">    </span><span class="s">&#39;10.1021/bk-2013-1128.ch020&#39;</span><span class="w">    </span><span class="s">&#39;ChemSpider: How a free community resource of data can support the teaching of nmr spectroscopy&#39;</span><span class="w">        </span><span class="s">&#39;2013-01-01&#39;</span><span class="w">    </span><span class="s">&#39;ChemSpider&#39;</span><span class="w"></span>
+<span class="n">3</span><span class="w">    </span><span class="s">&#39;10.1007/s13361-011-0265-y&#39;</span><span class="w">     </span><span class="s">&#39;Identification of &quot;known unknowns&quot; utilizing accurate mass data and chemspider&#39;</span><span class="w">        </span><span class="s">&#39;2012-01-01&#39;</span><span class="w">    </span><span class="s">&#39;ChemSpider&#39;</span><span class="w"></span>
+<span class="n">4</span><span class="w">    </span><span class="s">&#39;10.1002/9781118026038.ch22&#39;</span><span class="w">    </span><span class="s">&#39;Chemspider: A Platform for Crowdsourced Collaboration to Curate Data Derived From Public Compound Databases&#39;</span><span class="w">   </span><span class="s">&#39;2011-05-03&#39;</span><span class="w">    </span><span class="s">&#39;ChemSpider&#39;</span><span class="w"></span>
+<span class="n">5</span><span class="w">    </span><span class="s">&#39;10.1021/ed100697w&#39;</span><span class="w">     </span><span class="s">&#39;Chemspider: An online chemical information resource&#39;</span><span class="w">   </span><span class="s">&#39;2010-11-01&#39;</span><span class="w">    </span><span class="s">&#39;ChemSpider&#39;</span><span class="w"></span>
+<span class="n">6</span><span class="w">    </span><span class="s">&#39;10.1016/j.bioorg.2022.105648&#39;</span><span class="w">  </span><span class="s">&#39;Structure-based discovery of a specific SHP2 inhibitor with enhanced blood–brain barrier penetration from PubChem database&#39;</span><span class="w">    </span><span class="s">&#39;2022-04-01&#39;</span><span class="w">    </span><span class="s">&#39;PubChem&#39;</span><span class="w"></span>
+<span class="n">7</span><span class="w">    </span><span class="s">&#39;10.1016/j.jmb.2022.167514&#39;</span><span class="w">     </span><span class="s">&#39;PubChem Protein, Gene, Pathway, and Taxonomy Data Collections: Bridging Biology and Chemistry through Target-Centric Views of PubChem Data&#39;</span><span class="w">    </span><span class="s">&#39;2022-01-01&#39;</span><span class="w">    </span><span class="s">&#39;PubChem&#39;</span><span class="w"></span>
+<span class="n">8</span><span class="w">    </span><span class="s">&#39;10.1007/s40011-021-01335-x&#39;</span><span class="w">    </span><span class="s">&#39;Identification a Novel Inhibitor for Aldo–Keto Reductase 1 C3 by Virtual Screening of PubChem Database&#39;</span><span class="w">        </span><span class="s">&#39;2022-01-01&#39;</span><span class="w">    </span><span class="s">&#39;PubChem&#39;</span><span class="w"></span>
+<span class="n">9</span><span class="w">    </span><span class="s">&#39;10.1007/978-1-0716-2067-0_27&#39;</span><span class="w">  </span><span class="s">&#39;Plant Reactome and PubChem: The Plant Pathway and (Bio)Chemical Entity Knowledgebases&#39;</span><span class="w"> </span><span class="s">&#39;2022-01-01&#39;</span><span class="w">    </span><span class="s">&#39;PubChem&#39;</span><span class="w"></span>
+<span class="n">10</span><span class="w">   </span><span class="s">&#39;10.1016/j.molstruc.2021.130968&#39;</span><span class="w">        </span><span class="s">&#39;3CL&lt;sup&gt;pro&lt;/sup&gt; and PL&lt;sup&gt;pro&lt;/sup&gt; affinity, a docking study to fight COVID19 based on 900 compounds from PubChem and literature. Are there new drugs to be found?&#39;</span><span class="w">        </span><span class="s">&#39;2021-12-05&#39;</span><span class="w">    </span><span class="s">&#39;PubChem&#39;</span><span class="w"></span>
+<span class="n">11</span><span class="w">   </span><span class="s">&#39;10.1093/glycob/cwab078&#39;</span><span class="w">        </span><span class="s">&#39;Enhancing the interoperability of glycan data flow between ChEBI, PubChem and GlyGen&#39;</span><span class="w">  </span><span class="s">&#39;2021-11-01&#39;</span><span class="w">    </span><span class="s">&#39;PubChem&#39;</span><span class="w"></span>
+<span class="k">...</span><span class="w"></span>
+<span class="k">...</span><span class="w"></span>
+<span class="k">...</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 </section>
 
