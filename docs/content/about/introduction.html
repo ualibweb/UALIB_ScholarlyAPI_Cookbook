@@ -238,6 +238,23 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../scripts/A_overview/z3950_overview.html">
+   Z39.50
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../scripts/shell/shell_z3950.html">
+     …in Unix Shell
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -249,8 +266,8 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal" href="../scripts/A_overview/worldbank_overview.html">
    World Bank
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-  <label for="toctree-checkbox-5">
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -288,8 +305,8 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal" href="../scripts/A_overview/chronam_overview.html">
    Chronicling America
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-  <label for="toctree-checkbox-6">
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -327,8 +344,8 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal" href="../scripts/A_overview/casc_overview.html">
    CAS Common Chemistry
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-  <label for="toctree-checkbox-7">
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -359,8 +376,8 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal" href="../scripts/A_overview/pubchem_overview.html">
    PubChem
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
-  <label for="toctree-checkbox-8">
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -391,8 +408,8 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal" href="../scripts/A_overview/pubmed_overview.html">
    PubMed
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
-  <label for="toctree-checkbox-9">
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -430,8 +447,8 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal" href="../scripts/A_overview/uscensus_overview.html">
    U.S. Census Data
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
-  <label for="toctree-checkbox-10">
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -771,14 +788,12 @@ that demonstrate how to work with various scholarly web service APIs. It is part
 Alabama Libraries efforts to support <a class="reference external" href="https://guides.lib.ua.edu/Data/ResearchDataServices/">Research Data Services</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>We are in the process of preparing a <code class="docutils literal notranslate"><span class="pre">Z39.50</span></code> tutorial for programmatically interacting
-with library catalogs. In addition, we have reproduced several of the recipes in <code class="docutils literal notranslate"><span class="pre">R</span></code>
-and plan to add the <code class="docutils literal notranslate"><span class="pre">R</span></code> content to the Cookbook in early 2023.</p>
+<p>We are in the process of adding new API tutorials and plan to add <code class="docutils literal notranslate"><span class="pre">R</span></code> recipes to the Cookbook in early 2023.</p>
 </div>
 </section>
 <section id="what-should-i-be-aware-of-before-getting-started">
 <h3>What should I be aware of before getting started?<a class="headerlink" href="#what-should-i-be-aware-of-before-getting-started" title="Permalink to this headline">#</a></h3>
-<p>Before interacting with any scholarly APIs, it is very important to review the scholarly API’s
+<p>Before interacting with any scholarly APIs (or similar web service), it is very important to review the
 usage policies, which generally includes information such as query limits and data reuse policies.
 We have endeavored to follow all appropriate API usage policies in our examples and have linked
 to the specific API policies where possible. While some APIs are openly accessible and do
@@ -788,11 +803,11 @@ We have added instructions about any necessary authentication within the relevan
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>In general, scholarly APIs are designed for the collection of small to medium
-sized datasets; that is, in the range of 100s or maybe a few thousand API queries at most
+sized datasets; that is, in the range of 100s or maybe a few thousand queries at most
 (various with API). If you need large bulk datasets, an API is likely not the method to use, and
 there may be bulk data downloads available from the database instead.</p>
 </div>
-<p>If you decide that your use-case is appropriate for a scholarly API, here are a few good general practices
+<p>If you decide that your use-case is appropriate for a scholarly API (or similar web service), here are a few good general practices
 to follow when working with any web API:</p>
 <ol class="arabic simple">
 <li><p>Read the API documentation and usage guidelines before starting.</p></li>
@@ -827,29 +842,29 @@ the programming workflows. In some cases, for example, it may be preferable to
 choose one language over the other.</p>
 <p>For good luck, let’s add <code class="docutils literal notranslate"><span class="pre">Hello</span> <span class="pre">World!</span></code> in each programming language:</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="7fe60870-c195-4c4b-847e-df07e76b09fd" name="950550e2-7fe2-4d2b-a144-f40f59dfa850" type="radio">
-</input><label class="sd-tab-label" for="7fe60870-c195-4c4b-847e-df07e76b09fd">
+<input checked="checked" id="312c66e1-ef79-4c75-a803-af2f585fd34c" name="445411ec-61e1-4faf-a5c3-7b1e933ca610" type="radio">
+</input><label class="sd-tab-label" for="312c66e1-ef79-4c75-a803-af2f585fd34c">
 Python</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello World!&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<input id="cf222195-f2fe-4b1c-9129-8bda0cd9f431" name="950550e2-7fe2-4d2b-a144-f40f59dfa850" type="radio">
-</input><label class="sd-tab-label" for="cf222195-f2fe-4b1c-9129-8bda0cd9f431">
+<input id="3ff618cc-6c7a-40ab-b33c-7a0942b58a29" name="445411ec-61e1-4faf-a5c3-7b1e933ca610" type="radio">
+</input><label class="sd-tab-label" for="3ff618cc-6c7a-40ab-b33c-7a0942b58a29">
 Unix Shell</label><div class="sd-tab-content docutils">
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="s2">&quot;Hello World!&quot;</span>
 </pre></div>
 </div>
 </div>
-<input id="2af9ae2d-4b32-47c2-852f-42d8e17d2beb" name="950550e2-7fe2-4d2b-a144-f40f59dfa850" type="radio">
-</input><label class="sd-tab-label" for="2af9ae2d-4b32-47c2-852f-42d8e17d2beb">
+<input id="312ec71c-e4d3-443b-856f-da54abfe5acc" name="445411ec-61e1-4faf-a5c3-7b1e933ca610" type="radio">
+</input><label class="sd-tab-label" for="312ec71c-e4d3-443b-856f-da54abfe5acc">
 Matlab</label><div class="sd-tab-content docutils">
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="nb">disp</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
-<input id="587b2570-85d4-41b6-a4fb-440d79f4a200" name="950550e2-7fe2-4d2b-a144-f40f59dfa850" type="radio">
-</input><label class="sd-tab-label" for="587b2570-85d4-41b6-a4fb-440d79f4a200">
+<input id="72ab92a2-ffa1-45f5-8beb-300a67e86f37" name="445411ec-61e1-4faf-a5c3-7b1e933ca610" type="radio">
+</input><label class="sd-tab-label" for="72ab92a2-ffa1-45f5-8beb-300a67e86f37">
 Mathematica</label><div class="sd-tab-content docutils">
 <div class="highlight-mathematica notranslate"><div class="highlight"><pre><span></span><span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">:=</span><span class="w"> </span><span class="n">Print</span><span class="p">[</span><span class="s">&quot;Hello World!&quot;</span><span class="p">]</span><span class="w"></span>
 </pre></div>
@@ -934,7 +949,7 @@ tutorial or document page.</p>
   
     By The University of Alabama Libraries<br/>
   
-      &copy; Copyright 2022.<br/>
+      &copy; Copyright 2023.<br/>
 </p>
         </footer>
     </div>

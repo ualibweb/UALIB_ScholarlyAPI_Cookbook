@@ -17,14 +17,12 @@ Alabama Libraries efforts to support `Research Data Services`_.
 
 .. note::
 
-   We are in the process of preparing a ``Z39.50`` tutorial for programmatically interacting
-   with library catalogs. In addition, we have reproduced several of the recipes in ``R``
-   and plan to add the ``R`` content to the Cookbook in early 2023.
+   We are in the process of adding new API tutorials and plan to add ``R`` recipes to the Cookbook in early 2023.
 
 What should I be aware of before getting started?
 ===================================================
 
-Before interacting with any scholarly APIs, it is very important to review the scholarly API's
+Before interacting with any scholarly APIs (or similar web service), it is very important to review the
 usage policies, which generally includes information such as query limits and data reuse policies.
 We have endeavored to follow all appropriate API usage policies in our examples and have linked
 to the specific API policies where possible. While some APIs are openly accessible and do
@@ -36,11 +34,11 @@ We have added instructions about any necessary authentication within the relevan
 .. important::
 
    In general, scholarly APIs are designed for the collection of small to medium
-   sized datasets; that is, in the range of 100s or maybe a few thousand API queries at most
+   sized datasets; that is, in the range of 100s or maybe a few thousand queries at most
    (various with API). If you need large bulk datasets, an API is likely not the method to use, and
    there may be bulk data downloads available from the database instead.
 
-If you decide that your use-case is appropriate for a scholarly API, here are a few good general practices 
+If you decide that your use-case is appropriate for a scholarly API (or similar web service), here are a few good general practices 
 to follow when working with any web API:
 
 1. Read the API documentation and usage guidelines before starting.

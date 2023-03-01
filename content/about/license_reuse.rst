@@ -12,14 +12,13 @@ can be found in the GitHub repository:
 
 `<https://github.com/ualibweb/UALIB_ScholarlyAPI_Cookbook/blob/main/LICENSE>`_
 
-
 .. important::
    
-   We have endeavored to follow the appropriate usage policies of each scholarly API and have
-   linked to the policies where possible. Please be responsible when reusing these scripts
-   and respect the usage policies of the API (e.g., query limits, record downloads, 
+   We have endeavored to follow the appropriate usage policies of each scholarly API, web service, and
+   Z39.50 server. We have linked to the policies where possible. Please be responsible when reusing these scripts
+   and respect the usage policies (e.g., query limits, record downloads, 
    data sharing restrictions). Code output snippets shown in this book are
-   for demonstration purposes and credited to the individual scholarly APIs.
+   for demonstration purposes and credited to the individual API or database service.
  
 
 If you reuse the code, attribution would be appreciated. Please cite this resource with the following information:

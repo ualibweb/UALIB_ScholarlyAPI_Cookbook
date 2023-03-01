@@ -26,7 +26,10 @@ parts:
        - file: content/scripts/mathematica/mathematica_scopus
     - file: content/scripts/A_overview/wikidata_overview
       sections:
-       - file: content/scripts/mathematica/mathematica_wikidata
+       - file: content/scripts/mathematica/mathematica_wikidata              
+    - file: content/scripts/A_overview/z3950_overview
+      sections:
+       - file: content/scripts/shell/shell_z3950      
   - caption: BUSINESS
     chapters:
     - file: content/scripts/A_overview/worldbank_overview
