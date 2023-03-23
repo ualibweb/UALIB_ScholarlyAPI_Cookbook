@@ -3,11 +3,25 @@ name: Build and Deploy Jupyter Book
 on:
   push:
     branches:
-      - main
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+      - master  # Replace 'master' with the name of the branch containing your latest book content if necessary
 
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
@@ -27,8 +41,14 @@ jobs:
       run: |
         jupyter-book build .
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./_build/html
+        path: './_build/html'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
