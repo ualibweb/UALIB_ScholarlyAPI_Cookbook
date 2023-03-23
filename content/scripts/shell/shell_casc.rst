@@ -6,7 +6,7 @@
 CAS Common Chemistry API in Unix Shell
 *****************************************
 
-by Avery Fernandez and Vincent Scalfani
+by Avery M. Fernandez and Vincent F. Scalfani
 
 These recipe examples were tested on April 1, 2022 using GNOME Terminal (with Bash 4.4.20) in Ubuntu 18.04.
 
