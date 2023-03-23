@@ -3,7 +3,7 @@ name: Build and Deploy Jupyter Book
 on:
   push:
     branches:
-      - master  # Replace 'master' with the name of the branch containing your latest book content if necessary
+      - main
 
   workflow_dispatch:
 
