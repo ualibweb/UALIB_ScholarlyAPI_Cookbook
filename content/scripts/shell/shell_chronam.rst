@@ -6,7 +6,7 @@
 Chronicling America API in Unix Shell
 *****************************************
 
-by Avery Fernandez
+by Avery M. Fernandez
 
 **LOC Chronicling America API Documentation:** https://chroniclingamerica.loc.gov/about/api/
 
