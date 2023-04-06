@@ -2,11 +2,13 @@
 title: Chronicling America
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Brief Overview
+# Chronicling America
+
+## Brief Overview
 
 The Library of Congress Chronicling America API provides programmatic
 access to historic newspaper text and images. Registration is not

@@ -2,11 +2,13 @@
 title: PubMed
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Brief Overview
+# PubMed
+
+## Brief Overview
 
 PubMed bibliographic and related NCBI information is programmatically
 accessible through the Entrez Programming Utilities API. Registration is

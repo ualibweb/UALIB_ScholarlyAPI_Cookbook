@@ -2,11 +2,13 @@
 title: CAS Common Chemistry
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Brief Overview
+# CAS Common Chemistry
+
+## Brief Overview
 
 The CAS Common Chemistry API provides access to \~500,000 chemical
 substance information from the CAS REGISTRY. Example API queries include

@@ -2,11 +2,13 @@
 title: U.S. Census Data
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Brief Overview
+# U.S. Census Data
+
+## Brief Overview
 
 The U.S. Census Bureau offers several APIs for accessing census data and
 related information. Registration is not required, but registering

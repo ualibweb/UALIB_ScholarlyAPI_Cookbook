@@ -2,11 +2,13 @@
 title: Z39.50
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Brief Overview
+# Z39.50
+
+## Brief Overview
 
 Z39.50 is a protocol and query language often used for interacting with
 library catalogs[^1].

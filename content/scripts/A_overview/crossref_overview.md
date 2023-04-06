@@ -2,11 +2,13 @@
 title: Crossref
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Brief Overview
+# Crossref
+
+## Brief Overview
 
 The Crossref API provides programmatic access to bibliographic document
 information and related metadata[^1]. Registration is not required. See

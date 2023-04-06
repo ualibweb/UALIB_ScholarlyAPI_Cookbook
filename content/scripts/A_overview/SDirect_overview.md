@@ -2,11 +2,12 @@
 title: ScienceDirect
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
+# ScienceDirect
 
-# Brief Overview
+## Brief Overview
 
 The Elsevier ScienceDirect APIs allows programmatic access to search and
 retrieve ScienceDirect metadata and article full-text. Registration is

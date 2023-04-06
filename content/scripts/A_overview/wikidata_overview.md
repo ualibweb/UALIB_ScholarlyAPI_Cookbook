@@ -2,11 +2,13 @@
 title: Wikidata
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Brief Overview
+# Wikidata
+
+## Brief Overview
 
 Wikidata is an open knowledge base with \~ 100 million data items[^1].
 Data within Wikidata is programmatically accessible through the SPARQL

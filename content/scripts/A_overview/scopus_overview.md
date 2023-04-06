@@ -2,11 +2,13 @@
 title: Scopus
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Brief Overview
+# Scopus
+
+## Brief Overview
 
 The Elsevier Scopus API allows programmatic access to search and
 retrieve Scopus record information including, for example author

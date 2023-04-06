@@ -2,11 +2,13 @@
 title: World Bank
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Brief Overview
+# World Bank
+
+## Brief Overview
 
 The World Bank Indicators API provides access to numerous time series
 economic and related data such as population, income, energy, and
