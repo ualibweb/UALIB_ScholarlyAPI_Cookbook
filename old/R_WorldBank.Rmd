@@ -1,0 +1,208 @@
+# World Bank Data API in R
+
+#### By Vishank Patel
+
+See the [World Bank API documentation](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation)
+
+These recipe examples were tested on February 8, 2022
+
+```{r message=FALSE, warning=FALSE}
+# setup
+
+library(tidyverse)  #ggplot2
+library(dplyr)      #tibbles
+library(purrr)      #turning into character
+library(httr)       #GET()
+library(jsonlite)   #converting to JSON
+
+urlRoot <- "https://api.worldbank.org/v2/"
+
+```
+
+### 1. Get list of country iso2Codes and names
+
+For obtaining data from the World Bank API, it is helpful to first obtain a list of country codes and names.
+
+```{r}
+countryURL <- paste(urlRoot,"country?format=json&per_page=500",sep = "")
+
+raw_country_data <- GET(countryURL)
+prelim_country_data <- fromJSON(rawToChar(raw_country_data$content), flatten = TRUE)
+
+country_data <- prelim_country_data[[2]]
+country_data[1:5,1:5]
+```
+
+```{r}
+countryIso2Code <- as.list(country_data$iso2Code)
+head(countryIso2Code)
+```
+
+Extract country names:
+
+```{r}
+countryName <- as.list(country_data$name)
+head(countryName)
+```
+
+```{r}
+countryIso2CodeName <- transpose(list(countryIso2Code,countryName))
+head(countryIso2CodeName)
+```
+
+So now we know the country iso2codes, which we can use to pull specific indicator data for countries.
+
+### 2. Compile a Custom Indicator Dataset
+
+There are many availabe indicators: <https://data.worldbank.org/indicator>
+
+We wll select three indicators for this example:
+
+1.  Scientific and Technical Journal Article Data = [IP.JRN.ARTC.SC](https://data.worldbank.org/indicator/IP.JRN.ARTC.SC?view=chart)
+
+2.  Patent Applications, residents = [IP.PAT.RESD](https://data.worldbank.org/indicator/IP.PAT.RESD?view=chart)
+
+3.  GDP per capita (current US\$) Code = [NY.GDP.PCAP.CD](https://data.worldbank.org/indicator/NY.GDP.PCAP.CD?view=chart)
+
+Note that these three selected indictaors have a [CC-BY 4.0 license](https://datacatalog.worldbank.org/public-licenses#cc-by). We will compile this indicator data for the United States (US) and United Kingdom (GB)
+
+```{r}
+indicators <- list("IP.JRN.ARTC.SC", "IP.PAT.RESD", "NY.GDP.PCAP.CD")
+```
+
+Generate the web API URLs we need for U.S.:
+
+```{r}
+us_api_url <- c()
+for (indicator in indicators) {
+  us_api_url <- append(x = us_api_url,
+         values = paste(urlRoot,"country/US/indicator/",indicator,"?format=json&per_page=500",sep = ""))
+}
+us_api_url
+```
+
+Retrieving Data
+
+```{r}
+us_indicator_data <- list()
+for (url in us_api_url) {
+  temp_data <- tibble(fromJSON(rawToChar(GET(url)$content), flatten = TRUE)[[2]])
+  us_indicator_data <- append(us_indicator_data,list(temp_data))  #making a list of tibbles 
+}
+```
+
+```{r}
+
+us_journal_data <- us_indicator_data[[1]][,c("date","value")] #the first element in us_indicator_data is regarding journal publications
+head(us_journal_data)
+
+```
+
+```{r}
+us_patent_data <- us_indicator_data[[2]][,c("date","value")]    #takes all rows but only two columns
+head(us_patent_data)
+```
+
+```{r}
+us_GDP_data <- us_indicator_data[[3]][,c("date","value")] 
+head(us_GDP_data)
+```
+
+```{r}
+us_data <- list()
+us_data <- append(us_data,values = c(us_journal_data,us_patent_data,us_GDP_data))
+head(us_data)
+```
+
+For the United Kingdom:
+
+```{r}
+uk_api_url <- c()
+for (indicator in indicators) {
+  uk_api_url <- append(x = uk_api_url,
+         values = paste(urlRoot,"country/GB/indicator/",indicator,"?format=json&per_page=500",sep = ""))
+}
+uk_api_url
+```
+
+Retrieving Data
+
+```{r}
+uk_indicator_data <- list()
+for (url in uk_api_url) {
+  temp_data <- tibble(fromJSON(rawToChar(GET(url)$content), flatten = TRUE)[[2]])
+  uk_indicator_data <- append(uk_indicator_data,list(temp_data))  #making a list of tibbles 
+}
+```
+
+```{r}
+
+uk_journal_data <- uk_indicator_data[[1]][,c("date","value")]  #takes all rows but only two columns
+uk_patent_data <- uk_indicator_data[[2]][,c("date","value")]  
+uk_GDP_data <- uk_indicator_data[[3]][,c("date","value")] 
+
+uk_data <- list()
+uk_data <- append(uk_data,values = c(uk_journal_data,uk_patent_data,uk_GDP_data))
+head(uk_data)
+
+```
+
+### 3. Plot Indicator Data
+
+Create line plots of US/UK Number of Scientific and Technical Journal Articles and Patents by year. Upon inspecting the dataset, there are no values before the year 2000 and after 2018. Hence, we will slice our data for visualizations accordingly.
+
+```{r}
+#plotting the data
+
+#Part [4:22] corresponds to years 2000-2018
+journal_data <- tibble(dates= c(us_journal_data$date[4:22]),       
+                       us_journals=c(us_journal_data$value[4:22]),
+                       uk_journals=c(uk_journal_data$value[4:22]))
+
+ggplot(journal_data, aes(x = dates))+
+  geom_line(aes(y = us_journals, color = "US IP", group=1))+
+  geom_point(aes(y = us_journals, color = "US IP"))+
+  geom_line(aes(y = uk_journals, color = "UK IP"), group=1)+
+  geom_point(aes(y = uk_journals, color = "UK IP"))+
+  labs(title = "US vs UK Journal Publications",
+      x="Year",
+      y="Publications")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5))
+
+```
+
+Similarly for the GDP data,
+
+```{r}
+gdp_data <- tibble(dates= c(us_GDP_data$date[4:22]),
+                       us_gdp=c(us_GDP_data$value[4:22]),
+                       uk_gdp=c(uk_GDP_data$value[4:22]))
+
+ggplot(gdp_data, aes(x = dates))+
+  geom_line(aes(y = us_gdp, color = "US GDP", group=1))+
+  geom_point(aes(y = us_gdp, color = "US GDP"))+
+  geom_line(aes(y = uk_gdp, color = "UK GDP"), group=1)+
+  geom_point(aes(y = uk_gdp, color = "UK GDP"))+
+  labs(title = "US vs UK GDP",
+      x="Year",
+      y="GDP")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5))
+```
+
+Patents:
+
+```{r}
+patent_data <- tibble(dates= c(us_patent_data$date[4:41]),
+                       us_patents=c(us_patent_data$value[4:41]),
+                       uk_patents=c(uk_patent_data$value[4:41]))
+
+ggplot(patent_data, aes(x = dates))+
+  geom_line(aes(y = us_patents, color = "US Patents", group=1))+
+  geom_point(aes(y = us_patents, color = "US Patents"))+
+  geom_line(aes(y = uk_patents, color = "UK Patents"), group=1)+
+  geom_point(aes(y = uk_patents, color = "UK Patents"))+
+  labs(title = "US vs UK Patents",
+      x="Year",
+      y="Patents")+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5, vjust = 0.5))
+```
