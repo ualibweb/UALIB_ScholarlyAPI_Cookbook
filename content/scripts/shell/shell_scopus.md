@@ -2,11 +2,13 @@
 title: \...in Unix Shell
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Scopus API in Unix Shell
+# ...in Unix Shell
+
+## Scopus API in Unix Shell
 
 by Avery Fernandez
 
@@ -19,14 +21,14 @@ continuing or reusing any of this code, please be aware of Elsevier\'s
 use-cases](https://dev.elsevier.com/use_cases.html). You will also need
 to register for an API key in order to use the Scopus API.
 
-## Program requirements
+### Program requirements
 
 In order to run this code, you will need to first install
 [curl](https://github.com/curl/curl), and
 [jq](https://stedolan.github.io/jq/). curl is used to request the data
 from the API and jq is used to parse the JSON data.
 
-## 1. Setup
+### 1. Setup
 
 We will start by setting up the API key. Save your key in a text file in
 your current directory and import your key as follows:
@@ -41,9 +43,9 @@ Set the url for the base API:
 api="https://api.elsevier.com/content/search/scopus"
 ```
 
-## 2. Get Author data
+### 2. Get Author data
 
-### Records for Author
+#### Records for Author
 
 ``` shell
 rawAuthorSearch=$(curl $api$"?query=AU-ID(55764087400)&apiKey=""$apiKey" | jq '.["search-results"]')
@@ -187,9 +189,9 @@ echo "$rawAuthorSearch" | jq '.["entry"][]["citedby-count"]'
 "11"
 ```
 
-## 3. Author Data in a Loop
+### 3. Author Data in a Loop
 
-### Number of Records for Author
+#### Number of Records for Author
 
 Setup an array of Authors and their Scopus IDs:
 
@@ -226,7 +228,7 @@ done
 57194760730: "4"
 ```
 
-### Download Record Data
+#### Download Record Data
 
 Let\'s say we want the DOIs and cited by counts in a csv file
 
@@ -308,9 +310,9 @@ Author: Emy Decker
 ...
 ```
 
-## 4. Get References via a Title Search
+### 4. Get References via a Title Search
 
-### Number of Title Match Records
+#### Number of Title Match Records
 
 Search Scopus for all references containing\' ChemSpider\' in the record
 title
@@ -352,7 +354,7 @@ ChemSpider: "7"
 ChEMBL: "53"
 ```
 
-### Title Match Record Data
+#### Title Match Record Data
 
 Create a csv of selected metadata:
 

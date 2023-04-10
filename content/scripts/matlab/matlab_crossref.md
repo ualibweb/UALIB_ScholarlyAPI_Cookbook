@@ -2,11 +2,13 @@
 title: \...in Matlab
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Crossref API in Matlab
+# ...in Matlab
+
+## Crossref API in Matlab
 
 by Anastasia Ramig
 
@@ -20,9 +22,9 @@ publishers and even journals can vary considerably. As a result, it can
 be easier to work with one journal at a time when using the crossref API
 (e.g., particularly when trying to extract selected data from records).*
 
-## 1. Basic crossref API call
+### 1. Basic crossref API call
 
-### Setup API parameters
+#### Setup API parameters
 
 ``` matlab
 base_url = "https://api.crossref.org/works/"; %% the base url for api calls
@@ -32,7 +34,7 @@ options = weboptions('Timeout', 30);
 doi = "10.1186/1758-2946-4-12"; %% example
 ```
 
-### Request data from crossref API
+#### Request data from crossref API
 
 ``` matlab
 api_data = webread(base_url + doi + mailto, options);
@@ -84,7 +86,7 @@ published: [1×1 struct]
 article_number: '12'
 ```
 
-### Select some specific data
+#### Select some specific data
 
 ``` matlab
 %% Get Journal title
@@ -157,9 +159,9 @@ Column 5
  {'Medina-Franco JL, Martinez-Mayorga K, Giulianotti MA, Houghten RA, Pinilla C: Visualizatio…'}
 ```
 
-## 2. Crossref API call with a Loop
+### 2. Crossref API call with a Loop
 
-### Setup API parameters
+#### Setup API parameters
 
 ``` matlab
 base_url = "https://api.crossref.org/works/"; %% the base url for api calls
@@ -167,7 +169,7 @@ email = "your_email@ua.edu"; %% change this to your email
 mailto = "?mailto=" + email;
 ```
 
-### Create a list of DOIs
+#### Create a list of DOIs
 
 ``` matlab
 %% Create a list of DOIs
@@ -178,7 +180,7 @@ doi_list = ["10.1021/acsomega.1c03250",...
 "10.1021/acsomega.8b01834"];
 ```
 
-### Request metadata for each DOI from Crossref API and save to a structure
+#### Request metadata for each DOI from Crossref API and save to a structure
 
 ``` matlab
 %% get data for each of the dois in the list
@@ -197,7 +199,7 @@ doi_metadata = struct with fields:
     doi: {[1×1 struct]  [1×1 struct]  [1×1 struct]  [1×1 struct]  [1×1 struct]}
 ```
 
-### Select some specific data
+#### Select some specific data
 
 ``` matlab
 %% Create a table of information
@@ -241,9 +243,9 @@ Column 5
  {'QSPR Modeling of the Refractive Index for Diverse Polymers Using 2D Descriptors'}
 ```
 
-## 3. Crossref API call for journal information
+### 3. Crossref API call for journal information
 
-### Setup API parameters
+#### Setup API parameters
 
 ``` matlab
 jbase_url = "https://api.crossref.org/journals/"; %% the base url for api calls
@@ -252,7 +254,7 @@ mailto = "?mailto=" + email;
 issn = "1471-2105"; %% issn for the journal BMC Bioinformatics
 ```
 
-### Request journal data from crossref API
+#### Request journal data from crossref API
 
 ``` matlab
 jour_data = webread(jbase_url + issn + mailto)
@@ -285,9 +287,9 @@ Columns 4 through 5
  {'Biochemistry'}    {'Structural Biology'}
 ```
 
-## 4. Crossref API - Get article DOIs for a journal
+### 4. Crossref API - Get article DOIs for a journal
 
-### Setup API Parameters
+#### Setup API Parameters
 
 ``` matlab
 jbase_url = "https://api.crossref.org/journals/"; %% the base url for api calls
@@ -298,7 +300,7 @@ issn = "1471-2105";  %% issn for the journal BMC Bioinformatics
 journal_works2014 = "/works?filter=from-pub-date:2014,until-pub-date:2014&select=DOI"; %% query to get DOIs for 2014
 ```
 
-### Request DOI data from crossref API
+#### Request DOI data from crossref API
 
 ``` matlab
 doi_data = webread(jbase_url + issn + journal_works2014 + mailto, options)
@@ -335,7 +337,7 @@ weboptions('Timeout', 60);
 doi_data_all = webread(jbase_url + issn + journal_works2014 + rows + mailto, options);
 ```
 
-### Extract DOIs
+#### Extract DOIs
 
 ``` matlab
 dois_list = {doi_data_all.message.items.DOI}

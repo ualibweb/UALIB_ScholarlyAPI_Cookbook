@@ -2,11 +2,13 @@
 title: \...in Matlab
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# U.S. Census Data API in Matlab
+# ...in Matlab
+
+## U.S. Census Data API in Matlab
 
 by Anastasia Ramig
 
@@ -23,7 +25,7 @@ Service](https://www.census.gov/data/developers/about/terms-of-service.html)
 **Attribution:** This tutorial uses the Census Bureau Data API but is
 not endorsed or certified by the Census Bureau.
 
-## API Key Information
+### API Key Information
 
 While an API key is not required to use the U.S. Census Data API, you
 may consider registering for an API key as the API is limited to 500
@@ -43,7 +45,7 @@ This tutorial does not use an API key:
 key = "";
 ```
 
-## 1. Get population estimates of countries by state
+### 1. Get population estimates of countries by state
 
 Note: includes Washington, D.C. and Puerto Rico
 
@@ -138,7 +140,7 @@ ans = 68x2 cell
 'Lamar County, Alabama'     '13805' 
 ```
 
-## 2. Get population estimates over a range of years
+### 2. Get population estimates over a range of years
 
 We can use similar code as before, but now loop through different
 population estimate datasets by year. Here are the specific APIs used:
@@ -233,7 +235,7 @@ stateYears.Alabama.y2017
 .   
 ```
 
-## 3. Plot Population Change
+### 3. Plot Population Change
 
 This data is based off the 2021 Population Estimates dataset:
 

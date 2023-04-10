@@ -2,11 +2,13 @@
 title: \...in Unix Shell
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# U.S. Census API in Unix Shell
+# ...in Unix Shell
+
+## U.S. Census API in Unix Shell
 
 by Avery Fernandez
 
@@ -24,7 +26,7 @@ Service](https://www.census.gov/data/developers/about/terms-of-service.html)
 **Attribution:** This tutorial uses the Census Bureau Data API but is
 not endorsed or certified by the Census Bureau.
 
-## Program requirements
+### Program requirements
 
 In order to run this code, you will need to first install
 [curl](https://github.com/curl/curl),
@@ -33,7 +35,7 @@ In order to run this code, you will need to first install
 from the API, jq is used to parse the JSON data, and gnuplot is used to
 plot the data.
 
-## API Key Information
+### API Key Information
 
 While an API key is not required to use the U.S. Census Data API, you
 may consider registering for an API key as the API is limited to 500
@@ -52,7 +54,7 @@ This tutorial does not use an API key:
 key=""
 ```
 
-## 1. Get population estimates of countries by state
+### 1. Get population estimates of countries by state
 
 Note: includes Washington, D.C. and Puerto Rico
 
@@ -139,7 +141,7 @@ Alabama,Marengo County,18863
 Alabama,Russell County,57961
 ```
 
-## 2. Get population estimates over a range of years
+### 2. Get population estimates over a range of years
 
 We can use similar code as before, but now loop through different
 population estimate datasets by year. Here are the specific APIs used:
@@ -210,7 +212,7 @@ head -n25 state_populations_over_years.csv
 2015,Alabama,Macon County,19105
 ```
 
-## 3. Plot Population Change
+### 3. Plot Population Change
 
 This data is based off the 2021 Population Estimates dataset:
 

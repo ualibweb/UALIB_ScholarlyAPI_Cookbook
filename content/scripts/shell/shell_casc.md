@@ -2,11 +2,13 @@
 title: \...in Unix Shell
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# CAS Common Chemistry API in Unix Shell
+# ...in Unix Shell
+
+## CAS Common Chemistry API in Unix Shell
 
 by Avery M. Fernandez and Vincent F. Scalfani
 
@@ -21,7 +23,7 @@ API](https://commonchemistry.cas.org/). Example data shown is licensed
 under the [CC BY-NC 4.0
 license](https://creativecommons.org/licenses/by-nc/4.0/).
 
-## Program requirements
+### Program requirements
 
 In order to run this code, you will need to first install
 [curl](https://github.com/curl/curl),
@@ -33,12 +35,12 @@ molecules as ASCII characters in your terminal, you will need to install
 [RDKit](https://www.rdkit.org/) and download the
 [print_mols](https://github.com/vfscalfani/teletype_mols) Python script.
 
-## 1. Common Chemistry Record Detail Retrieval
+### 1. Common Chemistry Record Detail Retrieval
 
 Information about substances in CAS Common Chemistry can be retrieved
 using the `/detail` API and a CAS RN identifier:
 
-### Setup API parameters
+#### Setup API parameters
 
 Create variables for the CAS Common Chemistry detail base URL and an
 example CAS RN (10094-36-7, ethyl cyclohexanepropionate):
@@ -48,13 +50,13 @@ detail_base_url="https://commonchemistry.cas.org/api/detail?"
 casrn1="10094-36-7"
 ```
 
-### Request data from CAS Common Chemistry Detail API
+#### Request data from CAS Common Chemistry Detail API
 
 ``` shell
 casrn1_data=$(curl $detail_base_url$"cas_rn="$casrn1)
 ```
 
-### View data
+#### View data
 
 ``` shell
 echo "$casrn1_data" | jq '.'
@@ -104,7 +106,7 @@ echo "$casrn1_data" | jq '.'
 }
 ```
 
-### Display a Molecule Drawing
+#### Display a Molecule Drawing
 
 For displaying the molecule drawing, we could extract out the SVG image
 string and display the SVG in an image viewer program, however since we
@@ -149,7 +151,7 @@ Note
 molecule.
 :::
 
-### Select some specific data
+#### Select some specific data
 
 Get Experimental Properties:
 
@@ -203,9 +205,9 @@ echo $casrn1_data | jq '.["canonicalSmile"]'
 "O=C(OCC)CCC1CCCCC1"
 ```
 
-## 2. Common Chemistry API record detail retrieval in a loop
+### 2. Common Chemistry API record detail retrieval in a loop
 
-### Setup API parameters
+#### Setup API parameters
 
 ``` shell
 detail_base_url="https://commonchemistry.cas.org/api/detail?"
@@ -219,7 +221,7 @@ echo "${casrn_list[@]}"
 10094-36-7 10031-92-2 10199-61-8 10036-21-2 1019020-13-3
 ```
 
-### Request data for each CAS RN and save to an array
+#### Request data for each CAS RN and save to an array
 
 ``` shell
 declare -a casrn_data
@@ -281,7 +283,7 @@ echo "${casrn_data[0]}" | jq '.'
 }
 ```
 
-### Display Molecule Drawings
+#### Display Molecule Drawings
 
 We can use a similar technique to display the molecules as shown above.
 We will first extract out the SMILES strings then print them as ASCII
@@ -380,7 +382,7 @@ C               O                   C               C
                     C                        
 ```
 
-### Select some specific data
+#### Select some specific data
 
 Get canonical SMILES:
 
@@ -464,13 +466,13 @@ echo "${synonyms_flat[@]}"
 "Cyclohexanepropanoic acid, ethyl ester" "Cyclohexanepropionic acid, ethyl ester" "Ethyl cyclohexanepropionate" "Ethyl cyclohexylpropanoate" "Ethyl 3-cyclohexylpropionate" "Ethyl 3-cyclohexylpropanoate" "3-Cyclohexylpropionic acid ethyl ester" "NSC 71463" "Ethyl 3-cyclohexanepropionate" "2-Nonynoic acid, ethyl ester" "Ethyl 2-nonynoate" "NSC 190985" "1<em>H</em>-Pyrazole-1-acetic acid, ethyl ester" "Pyrazole-1-acetic acid, ethyl ester" "Ethyl 1<em>H</em>-pyrazole-1-acetate" "Ethyl 1-pyrazoleacetate" "Ethyl 2-(1<em>H</em>-pyrazol-1-yl)acetate" "Benzenepropanoic acid, 3-(ethoxycarbonyl)-, ethyl ester" "Hydrocinnamic acid, <em>m</em>-carboxy-, diethyl ester" "Ethyl 3-(ethoxycarbonyl)benzenepropanoate" "1-Cyclohexene-1-carboximidic acid, ethyl ester" "Ethyl 1-cyclohexene-1-carboximidate"
 ```
 
-## 3. Common Chemistry Search
+### 3. Common Chemistry Search
 
 In addition to the `/detail` API, the CAS Common Chemistry API has a
 `/search` method that allows searching by CAS RN, SMILES,
 InChI/InChIKey, and name.
 
-### Setup API Parameters
+#### Setup API Parameters
 
 The InChIKey is an example and is Quinine:
 
@@ -479,7 +481,7 @@ search_base_url="https://commonchemistry.cas.org/api/search?q="
 IK="InChIKey=LOUPRKONTZGTKE-WZBLMQSHSA-N"
 ```
 
-### Request data from CAS Common Chemistry Search API
+#### Request data from CAS Common Chemistry Search API
 
 Search query:
 
@@ -619,7 +621,7 @@ echo "$quinine_detail_data" | jq '.'
 }
 ```
 
-### Handle multiple results
+#### Handle multiple results
 
 Setup search query parameters with SMILES for butadiene as an example:
 
@@ -701,7 +703,7 @@ echo "${names[@]}"
 "1,3-Butadiene" "Butadiene trimer" "Butadiene dimer" "1,3-Butadiene, homopolymer, isotactic" "1,3-Butadiene-<em>1</em>,<em>1</em>,<em>2</em>,<em>3</em>,<em>4</em>,<em>4</em>-<em>d</em><sub>6</sub>, homopolymer" "Syndiotactic polybutadiene" "Polybutadiene"
 ```
 
-### Handle multiple page results
+#### Handle multiple page results
 
 The CAS Common Chemistry API returns 50 results per page, and only the
 first page is returned by default. If the search returns more than 50

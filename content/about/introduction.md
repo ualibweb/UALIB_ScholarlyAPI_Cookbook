@@ -2,13 +2,15 @@
 title: Introduction
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Overview
+# Introduction
 
-## What is this?
+## Overview
+
+### What is this?
 
 This is an open online book containing short scholarly API code examples
 (i.e., \"recipes\") that demonstrate how to work with various scholarly
@@ -25,7 +27,7 @@ We are in the process of adding new API tutorials and plan to add `R`
 recipes to the Cookbook in early 2023.
 :::
 
-## What should I be aware of before getting started?
+### What should I be aware of before getting started?
 
 Before interacting with any scholarly APIs (or similar web service), it
 is very important to review the usage policies, which generally includes
@@ -66,7 +68,7 @@ when working with any web API:
     to repeat the API request unnecessarily for the downstream parsing
     or analysis.
 
-## What kind of content is included?
+### What kind of content is included?
 
 The scope of this book is to provide short code examples related to the
 retrieval of data and information from scholarly APIs using several
@@ -85,7 +87,7 @@ UA Libraries Workshop lessons and references therein for more general
 programming content[^1].
 :::
 
-## Which Programming Languages are Covered?
+### Which Programming Languages are Covered?
 
 Currently, we are planning to provide scholarly API code examples in
 Python, Unix Shell (Bash), Matlab, and Mathematica. We hope that
@@ -130,13 +132,13 @@ In[1]:= Print["Hello World!"]
 :::
 :::
 
-## What about Video Tutorials?
+### What about Video Tutorials?
 
 Yes! We plan to also reproduce selected written tutorials from this book
 as videos. In those cases, a link will be provided to the video on the
 corresponding tutorial page.
 
-## Who is Creating the Content?
+### Who is Creating the Content?
 
 The Scholarly API Cookbook content is authored by University of Alabama
 Libraries faculty and student assistants. Specific authors are noted on

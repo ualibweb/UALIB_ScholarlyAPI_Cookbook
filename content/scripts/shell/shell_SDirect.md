@@ -2,11 +2,13 @@
 title: \...in Unix Shell
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# ScienceDirect API in Unix Shell
+# ...in Unix Shell
+
+## ScienceDirect API in Unix Shell
 
 by Avery Fernandez
 
@@ -31,15 +33,15 @@ contact The University of Alabama Libraries.
 **Elsevier How to Guide: Text Mining:**
 <https://dev.elsevier.com/tecdoc_text_mining.html>
 
-## Program requirements
+### Program requirements
 
 In order to run this code, you will need to first install
 [curl](https://github.com/curl/curl). curl is used to request the data
 from the API.
 
-## Setup
+### Setup
 
-### Create a variable for API Key
+#### Create a variable for API Key
 
 Save your API key to a separate text file, then create a variable for
 your key. Avoid displaying your API key in your terminal (to prevent
@@ -49,7 +51,7 @@ accidental sharing).
 apiKey=$(cat "apikey.txt")
 ```
 
-### Identifier Note
+#### Identifier Note
 
 We will use DOIs as the article identifiers. See our Crossref and Scopus
 API tutorials for workflows on how to create lists of DOIs and
@@ -58,7 +60,7 @@ ScienceDirect Article (Full-Text) API also accepts other identifiers
 like Scopus IDs and PubMed IDs (see API specification documents linked
 above).
 
-### 1. Retrieve full-text XML of an article
+#### 1. Retrieve full-text XML of an article
 
 ``` shell
 elsevier_url="https://api.elsevier.com/content/article/doi/"
@@ -66,7 +68,7 @@ doi1='10.1016/j.tetlet.2017.07.080' # example Tetrahedron Letters article
 curl "$elsevier_url""$doi1"$"?APIKey=""$apiKey"$"&httpAccept=text/xml" > fulltext1.xml # save to file
 ```
 
-### 2. Retrieve plain text of an article
+#### 2. Retrieve plain text of an article
 
 ``` shell
 elsevier_url="https://api.elsevier.com/content/article/doi/"
@@ -74,7 +76,7 @@ doi2='10.1016/j.tetlet.2022.153680' # example Tetrahedron Letters article
 curl "$elsevier_url""$doi2"$"?APIKey=""$apiKey"$"&httpAccept=text/plain" > fulltext2.txt # save to file
 ```
 
-### 3. Retrieve full-text in a loop
+#### 3. Retrieve full-text in a loop
 
 Create an array of 5 DOIs for testing.
 

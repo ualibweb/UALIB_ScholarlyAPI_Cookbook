@@ -2,11 +2,13 @@
 title: Technical Details
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Technology and Software Used
+# Technical Details
+
+## Technology and Software Used
 
 1.  Python tutorial and Mathematica content ([with Wolfram
     Kernel](https://github.com/WolframResearch/WolframLanguageForJupyter))

@@ -2,11 +2,13 @@
 title: \...in Unix Shell
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# World Bank API in Unix Shell
+# ...in Unix Shell
+
+## World Bank API in Unix Shell
 
 by Avery Fernandez
 
@@ -16,7 +18,7 @@ documentation](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-
 These recipe examples were tested on March 25, 2022 using GNOME Terminal
 in Ubuntu 18.04.
 
-## Program requirements
+### Program requirements
 
 In order to run this code, you will need to first install
 [curl](https://github.com/curl/curl),
@@ -25,7 +27,7 @@ In order to run this code, you will need to first install
 from the API, jq is used to parse the JSON data, and gnuplot is used to
 plot the data.
 
-## 1. Get list of country iso2Codes and names
+### 1. Get list of country iso2Codes and names
 
 For obtaining data from the World Bank API, it is helpful to first
 obtain a list of country codes and names.
@@ -175,7 +177,7 @@ Note
 all elements in the array.
 :::
 
-## 2. Compile a Custom Indicator Dataset
+### 2. Compile a Custom Indicator Dataset
 
 There are many available indicators:
 <https://data.worldbank.org/indicator>
@@ -336,7 +338,7 @@ tail UK_data.csv
 2020,NaN,NaN,41059.1688090547
 ```
 
-## 3. Plot Indicator data
+### 3. Plot Indicator data
 
 Create a line plot of US/UK Number of Scientific and Technical Journal
 Articles and Patents by year.

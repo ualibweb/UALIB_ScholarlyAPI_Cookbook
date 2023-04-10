@@ -2,11 +2,13 @@
 title: \...in Unix Shell
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# PubMed API in Unix Shell
+# ...in Unix Shell
+
+## PubMed API in Unix Shell
 
 by Avery Fernandez and Vincent Scalfani
 
@@ -31,7 +33,7 @@ workshop materials for EDirect with PubMed in our [UALIB Workshops
 repository](https://github.com/ualibweb/UALIB_Workshops).
 :::
 
-## Program requirements
+### Program requirements
 
 In order to run this code, you will need to first install
 [curl](https://github.com/curl/curl),
@@ -40,7 +42,7 @@ In order to run this code, you will need to first install
 from the API, jq is used to parse the JSON data, and gnuplot is used to
 plot the data.
 
-## 1. Basic PubMed API call
+### 1. Basic PubMed API call
 
 For calling individual articles and publications, we will need to use
 this API url:
@@ -49,7 +51,7 @@ this API url:
 summary='https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&'
 ```
 
-### Request data from PubMed API
+#### Request data from PubMed API
 
 The article we are requesting has PubMed ID: 27933103. **retmode** in
 the web API URL specifies the file format, in this example, we will use
@@ -94,7 +96,7 @@ echo $data_call | jq '.["result"]["27933103"]["authors"][]["name"]'
 "Bara JE"
 ```
 
-## 2. Request data using a Loop
+### 2. Request data using a Loop
 
 First, create an array of PubMed IDs:
 
@@ -304,7 +306,7 @@ done
 "Methods Mol Biol"
 ```
 
-## 3. PubMed API Calls with Requests and Parameters
+### 3. PubMed API Calls with Requests and Parameters
 
 For searching for articles, we will need to use this API url:
 
@@ -424,9 +426,9 @@ sleep 1
 echo $data
 ```
 
-## 4. PubMed API Metadata Visualization
+### 4. PubMed API Metadata Visualization
 
-### Frequency of topic sortpubdate field
+#### Frequency of topic sortpubdate field
 
 Extracting the sortpubdate field for a "hydrogel drug" search results,
 limited to publication type clinical trials:
@@ -539,7 +541,7 @@ sortpubdate
 1980    1985    1990   1995    2000    2005    2010   2015    2020    2025 
 ```
 
-### Frequency of publication for an author search
+#### Frequency of publication for an author search
 
 ``` shell
 search='https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&'

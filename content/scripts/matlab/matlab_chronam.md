@@ -2,11 +2,13 @@
 title: \...in Matlab
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Chronicling America API in Matlab
+# ...in Matlab
+
+## Chronicling America API in Matlab
 
 by Anastasia Ramig
 
@@ -25,7 +27,7 @@ age-herald*, and the *Birmingham age-herald* were contributed to
 Chronicling America by The University of Alabama Libraries:
 <https://chroniclingamerica.loc.gov/awardees/au/>
 
-## 1. Basic API Request
+### 1. Basic API Request
 
 The Chronicling America API identifies newspapers and other records
 using LCCNs. We can query the API once we have the LCCN for the
@@ -104,7 +106,7 @@ q_url = 'https://chroniclingamerica.loc.gov/lccn/sn83045462/1961-11-19/ed-1/seq-
 web(q_url)
 ```
 
-## 2. Frequency of \"University of Alabama\" mentions
+### 2. Frequency of \"University of Alabama\" mentions
 
 The URL below limits to searching newspapers in the state of Alabama and
 provides 500 results (as a demo) of "University of Alabama" mentions.
@@ -149,7 +151,7 @@ ylabel("Mentions");
 
 ![image](imgs/matlab_chronam_im0.png)
 
-## 3. Industrialization keywords frequency in the Birmingham Age-Herald
+### 3. Industrialization keywords frequency in the Birmingham Age-Herald
 
 We will try to obtain the frequency of "Iron" on the front pages of the
 Birmingham Age- herald newspapers from the year 1903 to 1949 (limited to

@@ -2,11 +2,13 @@
 title: \...in Matlab
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# ScienceDirect API in Matlab
+# ...in Matlab
+
+## ScienceDirect API in Matlab
 
 by Anastasia Ramig
 
@@ -31,9 +33,9 @@ contact The University of Alabama Libraries.
 **Elsevier How to Guide: Text Mining:**
 <https://dev.elsevier.com/tecdoc_text_mining.html>
 
-## Setup
+### Setup
 
-### Import API Key
+#### Import API Key
 
 As a good practice, do not display your API key in your computational
 notebook (to prevent accidental sharing). Save your API key to a
@@ -44,7 +46,7 @@ separate text file, then import your key.
 myAPIKey = importdata("apikey.txt");
 ```
 
-### Identifier Note
+#### Identifier Note
 
 We will use DOIs as the article identifiers. See our Crossref and Scopus
 API tutorials for workflows on how to create lists of DOIs and
@@ -53,7 +55,7 @@ ScienceDirect Article (Full-Text) API also accepts other identifiers
 like Scopus IDs and PubMed IDs (see API specification documents linked
 above).
 
-### 1. Retrieve full-text XML of an article
+#### 1. Retrieve full-text XML of an article
 
 ``` matlab
 %% download XML text
@@ -67,7 +69,7 @@ fulltext1 = {webread(elsevier_url + doi1 + "?APIKey=" + myAPIKey + "&httpAccept=
 :   %% save to file writecell(fulltext1, \"fulltext1.txt\"); %% can
     change to .xml after writing
 
-### 2. Retrieve plain text of an article
+#### 2. Retrieve plain text of an article
 
 ``` matlab
 %% download simplified text
@@ -81,7 +83,7 @@ fulltext2 = webread(elsevier_url + doi2 + "?APIKey=" + myAPIKey + "&httpAccept=t
 :   %% save to file writematrix(fulltext2, \"fulltext2.txt\",
     \"Delimiter\", \"t\");
 
-### 3. Retrieve full-text in a loop
+#### 3. Retrieve full-text in a loop
 
 Create an array of 5 DOIs for testing.
 

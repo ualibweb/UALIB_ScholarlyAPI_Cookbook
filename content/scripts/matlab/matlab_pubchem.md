@@ -2,11 +2,13 @@
 title: \...in Matlab
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# PubChem API in Matlab
+# ...in Matlab
+
+## PubChem API in Matlab
 
 by Vincent Scalfani and Anastasia Ramig
 
@@ -25,7 +27,7 @@ Using Matlab. *Chemical Engineering Education*, **2020**, *54*, 230.
 <https://doi.org/10.18260/2-1-370.660-115508> and
 <https://github.com/vfscalfani/MATLAB-cheminformatics>)
 
-## 1. Setup
+### 1. Setup
 
 Define the PubChem PUG-REST API base URL:
 
@@ -37,9 +39,9 @@ api = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/';
 options = weboptions('Timeout', 30);
 ```
 
-## 2. PubChem Similarity
+### 2. PubChem Similarity
 
-### Get Compound Image
+#### Get Compound Image
 
 We can search for a compound and display an image, for example:
 1-Butyl-3-methyl-imidazolium; CID = 2734162.
@@ -60,7 +62,7 @@ imshow(CID_img,map)
 Replace the above CID value (CID_SS_query) with a different CID to
 customize.
 
-### Retrieve InChI and SMILES
+#### Retrieve InChI and SMILES
 
 ``` matlab
 %% Retrieve InChI
@@ -88,7 +90,7 @@ disp(IS)
 CCCCN1C=C[N+](=C1)C
 ```
 
-### Perform a Similarity Search
+#### Perform a Similarity Search
 
 We can use the PubChem API to perform a Fingerprint Tanimoto Similarity
 Search (SS).
@@ -145,7 +147,7 @@ else
 end
 ```
 
-### Retrieve Identifier and Property Data
+#### Retrieve Identifier and Property Data
 
 Get the following data for the retrieved CIDs (SS_CIDs): InChI, Isomeric
 SMILES, MW, Heavy Atom Count, Rotable Bond Count, and Charge.
@@ -237,7 +239,7 @@ for r = 1:length(SS_CIDs)
 end
 ```
 
-### Compile Data into a Table
+#### Compile Data into a Table
 
 We can display the data as a table:
 
@@ -270,7 +272,7 @@ ___________________________________    __________    ___________________________
 "CCCN1C=C[N+](=C1)C.[Br-]"             "11160028"    "InChI=1S/C7H13N2.BrH/c1-3-4-9-6-5-8(2)7-9;/h5-7H,3-4H2,1-2H3;1H/q+1;/p-1"              "205.10"         "10"                "2"             "0
 ```
 
-### Retrieve Images of CID Compounds from Similarity Search
+#### Retrieve Images of CID Compounds from Similarity Search
 
 ``` matlab
 %% loop through hit CIDs and show images
@@ -307,11 +309,11 @@ end
 
 ![image](imgs/matlab_pc_im3.png)
 
-## 3. PubChem SMARTS Search
+### 3. PubChem SMARTS Search
 
 Search for chemical structures from a SMARTS substructure query.
 
-### Define SMARTS Query
+#### Define SMARTS Query
 
 View pattern syntax at: <https://smartsview.zbh.uni-hamburg.de/>. Note:
 These are vinyl imidazolium substructure searches.
@@ -325,7 +327,7 @@ SMARTSq = {'[CR0H2][n+]1[cH1][cH1]n([CR0H1]=[CR0H2])[cH1]1',...
 Add your own SMARTS queries to customize. You can add as many as desired
 within a list.
 
-### Perform a SMARTS query search
+#### Perform a SMARTS query search
 
 ``` matlab
 % generate URLs for SMARTS query searches
@@ -389,7 +391,7 @@ else
 end
 ```
 
-### Retrieve Identifier and Property Data
+#### Retrieve Identifier and Property Data
 
 ``` matlab
 %% Create an identifier/property dataset from the SMARTS substructure search results
@@ -488,7 +490,7 @@ for r = 1:length(hit_CIDsALL)
 end
 ```
 
-### Compile Data into a Table
+#### Compile Data into a Table
 
 ``` matlab
 %% convert cell array to string and remove leading and trailing white space
@@ -521,7 +523,7 @@ ________________________________________________________________________________
 "CCCC[N+]1=CN(C=C1)C=C.[Cl-]"                                                                                                 "1-butyl-3-ethenylimidazol-1-ium;chloride"                                                                 "87559770"     "InChI=1S/C9H15N2.ClH/c1-3-5-6-11-8-7-10(4-2)9-11;/h4,7-9H,2-3,5-6H2,1H3;1H/q+1;/p-1"                                                                                 "186.68"         "12"                "2"            "0"
 ```
 
-### Retrieve Images of CID Compounds from SMARTS Search
+#### Retrieve Images of CID Compounds from SMARTS Search
 
 ``` matlab
 %% loop through CIDs and show images

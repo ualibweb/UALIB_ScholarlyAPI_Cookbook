@@ -2,11 +2,13 @@
 title: \...in Unix Shell
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Crossref API in Unix Shell
+# ...in Unix Shell
+
+## Crossref API in Unix Shell
 
 by Avery Fernandez
 
@@ -20,16 +22,16 @@ publishers and even journals can vary considerably. As a result, it can
 be easier to work with one journal at a time when using the crossref API
 (e.g., particulary when trying to extract selected data from records).*
 
-## Program requirements
+### Program requirements
 
 In order to run this code, you will need to first install
 [curl](https://github.com/curl/curl) and
 [jq](https://stedolan.github.io/jq/). curl is used to request the data
 from the API and jq is used to parse the JSON data.
 
-## 1. Basic crossref API call
+### 1. Basic crossref API call
 
-### Setup API parameters
+#### Setup API parameters
 
 ``` shell
 base_url="https://api.crossref.org/works/"; email="your_email@ua.edu"; mailto="?mailto="$email; doi="10.1186/1758-2946-4-12"
@@ -44,7 +46,7 @@ The `;` allows us to enter multiple variable assignments on one line and
 the `$` allows for variable expansion.
 :::
 
-### Request data from crossref API
+#### Request data from crossref API
 
 If you want to view the returned json data directly, you can pipe the
 curl -s (silent option) output to jq:
@@ -62,7 +64,7 @@ storage.json
 curl $base_url$doi$mailto > storage.json
 ```
 
-### Select some specific data
+#### Select some specific data
 
 For example, the container-title data, which contains the journal title:
 
@@ -144,21 +146,21 @@ cat storage.json | jq '.["message"]["reference"][].unstructured'
 "Blum LC, Reymond J-C: 970 Million druglike small molecules for virtual screening in the chemical universe database GDB-13. J Am Chem Soc. 2009, 131: 8732-8733. 10.1021/ja902302h."
 ```
 
-## 2. Crossref API call with a Loop
+### 2. Crossref API call with a Loop
 
-### Setup API parameters
+#### Setup API parameters
 
 ``` shell
 base_url="https://api.crossref.org/works/"; email="your_email@ua.edu"; mailto="?mailto="$email
 ```
 
-### Create a list of DOIs
+#### Create a list of DOIs
 
 ``` shell
 doi_list=('10.1021/acsomega.1c03250' '10.1021/acsomega.1c05512' '10.1021/acsomega.8b01647' '10.1021/acsomega.1c04287' '10.1021/acsomega.8b01834')
 ```
 
-### Request metadata for each DOI from Crossref API and save to an array
+#### Request metadata for each DOI from Crossref API and save to an array
 
 ``` shell
 declare -a my_array
@@ -177,7 +179,7 @@ Note
 length.
 :::
 
-### Select some specific data
+#### Select some specific data
 
 Get article titles:
 
@@ -227,9 +229,9 @@ done
 "Drug Theoretics and Cheminformatics Laboratory, Division of Medicinal and Pharmaceutical Chemistry, Department of Pharmaceutical Technology, Jadavpur University, 700032 Kolkata, India"
 ```
 
-## 3. Crossref API call for Journal information
+### 3. Crossref API call for Journal information
 
-### Setup API parameters
+#### Setup API parameters
 
 We will use the issn for the journal *BMC Bioinformatics* as an example:
 
@@ -237,7 +239,7 @@ We will use the issn for the journal *BMC Bioinformatics* as an example:
 jbase_url="https://api.crossref.org/journals/"; email="your_email@ua.edu"; mailto="?mailto="$email; issn="1471-2105"
 ```
 
-### Request journal data from crossref API
+#### Request journal data from crossref API
 
 ``` shell
 curl -s $jbase_url$issn$mailto | jq '.'
@@ -245,9 +247,9 @@ curl -s $jbase_url$issn$mailto | jq '.'
 
 *Output not shown here*
 
-## 4. Crossref API - Get article DOIs for a journal
+### 4. Crossref API - Get article DOIs for a journal
 
-### Setup API parameters
+#### Setup API parameters
 
 We will use the issn for the journal *BMC Bioinformatics* and year 2014
 as an example:
@@ -256,7 +258,7 @@ as an example:
 jbase_url="https://api.crossref.org/journals/"; email="your_email@ua.edu"; mailto="&mailto="$email; issn="1471-2105"; journal_works2014="/works?filter=from-pub-date:2014,until-pub-date:2014&select=DOI"
 ```
 
-### Request DOI data from crossref API
+#### Request DOI data from crossref API
 
 ``` shell
 curl -s $jbase_url$issn$journal_works2014$mailto | jq '.'
@@ -315,7 +317,7 @@ rows="&rows=700"
 curl $jbase_url$issn$journal_works2014$rows$mailto > dois_save.json
 ```
 
-### Extract DOIs
+#### Extract DOIs
 
 ``` shell
 cat dois_save.json | jq '.["message"]["items"][].DOI'

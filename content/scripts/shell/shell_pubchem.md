@@ -2,11 +2,13 @@
 title: \...in Unix Shell
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# PubChem API in Unix Shell
+# ...in Unix Shell
+
+## PubChem API in Unix Shell
 
 by Avery Fernandez and Vincent Scalfani
 
@@ -37,7 +39,7 @@ tutorials for EDirect in our [EDirectChemInfo
 repository](https://github.com/ualibweb/EDirectChemInfo).
 :::
 
-## Program requirements
+### Program requirements
 
 In order to run this code, you will need to first install
 [curl](https://github.com/curl/curl), and
@@ -48,7 +50,7 @@ terminal, you will need to install [RDKit](https://www.rdkit.org/) and
 download the [print_mols](https://github.com/vfscalfani/teletype_mols)
 Python script.
 
-## 1. Setup
+### 1. Setup
 
 Define the PubChem PUG-REST API base URL:
 
@@ -56,9 +58,9 @@ Define the PubChem PUG-REST API base URL:
 api="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/"
 ```
 
-## 2. PubChem Similarity
+### 2. PubChem Similarity
 
-### Get Compound Image
+#### Get Compound Image
 
 We can search for a compound and display an image, for example:
 1-Butyl-3-methyl-imidazolium; CID = 2734162
@@ -87,7 +89,7 @@ xdg-open CID_2734162.png
 
 ![image](imgs/CID_2734162.png)
 
-### Retrieve InChI and SMILES
+#### Retrieve InChI and SMILES
 
 ``` shell
 request=$(curl -s "$api""cid/""$compoundID""/property/inchi,IsomericSMILES/JSON")
@@ -134,7 +136,7 @@ echo "$request" | jq '.["PropertyTable"]["Properties"][0]["IsomericSMILES"]'
 "CCCCN1C=C[N+](=C1)C"
 ```
 
-### Display Molecule as ASCII Drawing
+#### Display Molecule as ASCII Drawing
 
 We can use the extracted SMILES to generate an ASCII drawing within our
 terminal. First, we will extract the SMILES using `jq`, and then pipe
@@ -173,7 +175,7 @@ Note
 `python3 print_mols.py -` prints the molecule.
 :::
 
-### Perform a Similarity Search
+#### Perform a Similarity Search
 
 We will use the PubChem API to perform a Fingerprint Tanimoto Similarity
 Search.
@@ -254,7 +256,7 @@ echo "${idList[@]:0:10}"
 2734161   61347   529334   304622   118785   12971008   11448496   11424151   11171745   11160028 
 ```
 
-### Retrieve Identifier and Property Data
+#### Retrieve Identifier and Property Data
 
 Get the following data for the retrieved CIDs (idList): InChI, Isomeric
 SMILES, MW, Heavy Atom Count, Rotable Bond Count, and Charge. As a test,
@@ -352,7 +354,7 @@ done
 "110.16"
 ```
 
-### Retrieve Images of CID Compounds from Similarity Search
+#### Retrieve Images of CID Compounds from Similarity Search
 
 We will get and save the PNG images for the first 5 compounds:
 
@@ -465,11 +467,11 @@ C                   N           *
 C               C                   C                            
 ```
 
-## 3. PubChem SMARTS Search
+### 3. PubChem SMARTS Search
 
 Search for chemical structures from a SMARTS substructure query.
 
-### Define SMARTS queries
+#### Define SMARTS queries
 
 View pattern syntax at: <https://smartsview.zbh.uni-hamburg.de/>
 
@@ -482,7 +484,7 @@ declare -a smartsQ=("[CR0H2][n+]1[cH1][cH1]n([CR0H1]=[CR0H2])[cH1]1" "[CR0H2][n+
 Add your own SMARTS queries to customize. You can add as many as desired
 within an array.
 
-### Perform a SMARTS query search
+#### Perform a SMARTS query search
 
 We will combine all data into a single array:
 
@@ -542,7 +544,7 @@ echo "${combinedA[@]:0:5}"
 121235111   86657882   46178576   24766550   139254006 
 ```
 
-### Retrieve Identifier and Property Data
+#### Retrieve Identifier and Property Data
 
 We will retrieve some property data for the first 5 CIDs:
 

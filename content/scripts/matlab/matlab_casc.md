@@ -2,11 +2,13 @@
 title: \...in Matlab
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# CAS Common Chemistry API in Matlab
+# ...in Matlab
+
+## CAS Common Chemistry API in Matlab
 
 by Anastasia Ramig
 
@@ -20,12 +22,12 @@ Chemistry](https://commonchemistry.cas.org/) API. Example data shown is
 licensed under the [CC BY-NC 4.0
 license](https://creativecommons.org/licenses/by-nc/4.0/).
 
-## 1. Common Chemistry Record Detail Retrieval
+### 1. Common Chemistry Record Detail Retrieval
 
 Information about substances in CAS Common Chemistry can be retrieved
 using the `/detail` API and a CAS RN identifier.
 
-### Setup API parameters
+#### Setup API parameters
 
 ``` matlab
 detail_base_url = "https://commonchemistry.cas.org/api/detail?";
@@ -33,7 +35,7 @@ options = weboptions('Timeout', 30);
 casrn1 = "10094-36-7"; % ethyl cyclohexanepropionate
 ```
 
-### Request data from CAS Common Chemistry Detail API
+#### Request data from CAS Common Chemistry Detail API
 
 ``` matlab
 casrn1_data = webread(detail_base_url + "cas_rn=" + casrn1, options)
@@ -60,7 +62,7 @@ casrn1_data = struct with fields:
              hasMolfile: 1
 ```
 
-### Select some specific data
+#### Select some specific data
 
 ``` matlab
 %% Get Experimental Properties
@@ -109,16 +111,16 @@ casrn1_data.canonicalSmile
 ans = 'O=C(OCC)CCC1CCCCC1'
 ```
 
-## 2. Common Chemistry API record detail retrieval in a loop
+### 2. Common Chemistry API record detail retrieval in a loop
 
-### Setup API parameters
+#### Setup API parameters
 
 ``` matlab
 detail_base_url = "https://commonchemistry.cas.org/api/detail?";
 casrn_list = ["10094-36-7", "10031-92-2", "10199-61-8", "10036-21-2", "1019020-13-3"];
 ```
 
-### Request data for each CAS RN and save to an array
+#### Request data for each CAS RN and save to an array
 
 ``` matlab
 casrn_data = cell(1,length(casrn_list)); % preallocate
@@ -150,7 +152,7 @@ replacedRns: []
 hasMolfile: 1
 ```
 
-### Select some specific data
+#### Select some specific data
 
 ``` matlab
 %% Get canonical SMILES
@@ -217,13 +219,13 @@ ans = 2×1 cell
 'Ethyl 1-cyclohexene-1-carbo…  
 ```
 
-## 3. Common Chemistry Search
+### 3. Common Chemistry Search
 
 In addition to the `/detail API`, the CAS Common Chemistry API has a
 `/search` method that allows searching by CAS RN, SMILES,
 InChI/InChIKey, and name.
 
-### Setup API Parameters
+#### Setup API Parameters
 
 ``` matlab
 search_base_url = "https://commonchemistry.cas.org/api/search?q=";
@@ -232,7 +234,7 @@ options = weboptions('Timeout', 30);
 IK = "InChIKey=LOUPRKONTZGTKE-WZBLMQSHSA-N";
 ```
 
-### Request data from CAS Common Chemistry Search API
+#### Request data from CAS Common Chemistry Search API
 
 ``` matlab
 %% search query
@@ -291,7 +293,7 @@ quinine_detail_data = struct with fields:
              hasMolfile: 1
 ```
 
-### Handle multiple results
+#### Handle multiple results
 
 ``` matlab
 %% setup search query parameters
@@ -376,7 +378,7 @@ Columns 6 through 7
 {'Syndiotactic polybutadiene'}    {'Polybutadiene'}
 ```
 
-### Handle multiple page results
+#### Handle multiple page results
 
 The CAS Common Chemistry API returns 50 results per page, and only the
 first page is returned by default. If the search returns more than 50

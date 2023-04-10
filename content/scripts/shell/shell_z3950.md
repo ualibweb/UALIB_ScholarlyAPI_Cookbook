@@ -2,11 +2,13 @@
 title: \...in Unix Shell
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Z39.50 in Unix Shell
+# ...in Unix Shell
+
+## Z39.50 in Unix Shell
 
 by Vincent Scalfani and Cyrus Gomes
 
@@ -26,7 +28,7 @@ library catalogs programmatically. Comments are certainly welcome.
 These recipe examples were tested in February 2023 using Ubuntu 22.04
 LTS and YAZ 5.31.1.
 
-## Program requirements
+### Program requirements
 
 For **1.** through **3.** below, you will need to install Index Data\'s
 [yaz-client](https://www.indexdata.com/resources/software/yaz/).
@@ -50,9 +52,9 @@ documentation:
 
 <https://software.indexdata.com/yaz/doc/>
 
-## A very brief introduction to Z39.50
+### A very brief introduction to Z39.50
 
-### What is Z39.50?
+#### What is Z39.50?
 
 Z39.50 is a standardized protocol that defines communication rules
 between a client computer (e.g., your computer) and a server computer
@@ -66,19 +68,19 @@ Z39.50 has been around for decades and is still widely used in libraries
 at the staff level, for example, to retrieve metadata and search partner
 library catalogs.
 
-### What do end-users in 2023 use Z39.50 for?
+#### What do end-users in 2023 use Z39.50 for?
 
 Today, the majority of end-users use a graphical website environment
 (via HTTP/HTTPS), not Z39.50 for searching library catalogs. In our
 experience, end-users still use Z39.50 to configure bibliographic
 software managers for searching the UA Libraries catalog.
 
-### What else can I use Z39.50 for?
+#### What else can I use Z39.50 for?
 
 You can use Z39.50 to search library catalogs programmtically with your
 own custom scripts and software.
 
-### Why would I use Z39.50 instead of a web service API?
+#### Why would I use Z39.50 instead of a web service API?
 
 If the information is available via a web service (e.g., REST) API,
 it\'s definitely easier to use an API compared to Z39.50. However, to
@@ -86,7 +88,7 @@ our knowledge, there is not wide availability of API access for
 individual institution level library catalog searches. As a result,
 Z39.50 may be your only choice.
 
-### How do I find Z39.50 connection details?
+#### How do I find Z39.50 connection details?
 
 You can find UA Libraries Z39.50 connection details here:
 
@@ -102,7 +104,7 @@ as Project Gutenberg and Wikipedia:
 
 <https://www.indexdata.com/resources/open-content/>
 
-### How do I construct Z39.50 queries?
+#### How do I construct Z39.50 queries?
 
 Constructing Z39.50 queries is likely different from what you are used
 to with modern database boolean queries. Z39.50 allows for different
@@ -208,7 +210,7 @@ the attribute(s), then the keyword(s). Here are a few basic examples:
 @or @attr @1=4 "drug discovery" @attr 1=62 "drug discovery"
 ```
 
-## 1. Basic UA Libraries Catalog Searching
+### 1. Basic UA Libraries Catalog Searching
 
 We will use the `yaz-client` program for these search examples. First,
 start `yaz-client` in your terminal:
@@ -254,7 +256,7 @@ quit
 See you later, alligator.
 ```
 
-### Keyword, Title, and Author searches
+#### Keyword, Title, and Author searches
 
 Search for \"dinosaur\" as a keyword in any field (`1=1016`)
 
@@ -397,7 +399,7 @@ records returned: 0
 Elapsed: 0.027160
 ```
 
-## 2. Searching UA Libraries Catalog in a Loop
+### 2. Searching UA Libraries Catalog in a Loop
 
 Here are a few ways to run multiple searches with `yaz-client`:
 
@@ -544,9 +546,9 @@ do
 done | yaz-client -f /dev/stdin
 ```
 
-## 3. Retrieve Record(s) Data
+### 3. Retrieve Record(s) Data
 
-### USmarc
+#### USmarc
 
 For catalog records at The University of Alabama, the default format
 returned within `yaz-client` is USmarc (MARC 21). The records are
@@ -665,7 +667,7 @@ yaz-client -f /dev/stdin | grep "^245"
 
 How cool is that!
 
-### OPAC
+#### OPAC
 
 The University of Alabama Catalog also support the OPAC format, which
 can be useful for finding the library location or checking if a book is
@@ -766,7 +768,7 @@ callNumber: QA76.73.C15 P74 2016
 availableNow: 1
 ```
 
-### Saving Raw MARC data
+#### Saving Raw MARC data
 
 If you are looking to process or parse MARC records with software
 designed for MARC, you probably want the Raw binary MARC. In that case,
@@ -794,7 +796,7 @@ do
 done | yaz-client -f /dev/stdin -m isbn_records.marc
 ```
 
-## 4. z39-demo - A small Z39.50 C program using the YAZ toolkit
+### 4. z39-demo - A small Z39.50 C program using the YAZ toolkit
 
 Since Index Data YAZ is a complete toolkit, it\'s possible to write your
 own custom Z39.50 software.
@@ -818,7 +820,7 @@ Warning
 Consider `z39.50-demo` as an experiment program, it\'s not well-tested.
 :::
 
-### Dependencies
+#### Dependencies
 
 This will vary depending on your operating system and environment,
 however, here were the dependencies and related software we installed on
@@ -828,7 +830,7 @@ Ubuntu 22.04 LTS:
 sudo apt-get install build-essential manpages-dev glibc-doc gcc-doc make-doc
 ```
 
-### Compiling from source
+#### Compiling from source
 
 There are several possible workflows for compiling the `z39-demo`
 program, here is one method that worked well for us on Ubuntu based
@@ -844,7 +846,7 @@ cd yaz_5.33.0
 make
 ```
 
-### Running z39-demo
+#### Running z39-demo
 
 Shown below is the command to output the help file for the program in
 the terminal.

@@ -2,11 +2,13 @@
 title: \...in Matlab
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Scopus API in Matlab
+# ...in Matlab
+
+## Scopus API in Matlab
 
 by Anastasia Ramig
 
@@ -19,7 +21,7 @@ Elsevier\'s [API policies and appropiate
 use-cases](https://dev.elsevier.com/use_cases.html). You will also need
 to register for an API key in order to use the Scopus API.
 
-## Setup
+### Setup
 
 We will start by setting up the API key. Save your key in a text file in
 the same directory as the current Matlab folder and import your key as
@@ -30,9 +32,9 @@ follows:
 myAPIKey = importdata("apiKey.txt");
 ```
 
-## 1. Get Author Data
+### 1. Get Author Data
 
-### Number of Records for Author
+#### Number of Records for Author
 
 ``` matlab
 %% setup API information and pull data
@@ -114,9 +116,9 @@ totalCites = sum(citesTotal)
 totalCites = 402
 ```
 
-## 2. Get Author Data in a Loop
+### 2. Get Author Data in a Loop
 
-### Number of Records for Author
+#### Number of Records for Author
 
 ``` matlab
 %% import author text data as a cell array
@@ -179,7 +181,7 @@ ________________________________________________
 {'Sara Whitver' }    {' 57194760730}'}    {[ 4]}
 ```
 
-### Get Record Data
+#### Get Record Data
 
 ``` matlab
 clear info 
@@ -247,7 +249,7 @@ authorArray = 55x3 cell
 ...
 ```
 
-### Save Record Data to a file
+#### Save Record Data to a file
 
 ``` matlab
 %% save the search for each author to a mat file
@@ -277,9 +279,9 @@ for i = 1:(length(numRecords))
 end
 ```
 
-## 3. Get References via a Title Search
+### 3. Get References via a Title Search
 
-### Number of Title Match Records
+#### Number of Title Match Records
 
 Search Scopus for all references containing \'ChemSpider\" in the record
 title.
@@ -316,7 +318,7 @@ for i = 1:length(titleList)
 end
 ```
 
-### Download Title Match Record Data
+#### Download Title Match Record Data
 
 Download records and create a list of selected metadata.
 

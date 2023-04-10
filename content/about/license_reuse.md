@@ -2,11 +2,13 @@
 title: License and Reuse
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# License and Reuse {#license-and-reuse-1}
+# License and Reuse
+
+## License and Reuse
 
 All code in this book is licensed with the permissive MIT license.
 Please feel free to reuse or adapt the code in your teaching and

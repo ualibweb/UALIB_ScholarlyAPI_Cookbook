@@ -2,11 +2,13 @@
 title: Contributing
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# How to Contribute
+# Contributing
+
+## How to Contribute
 
 This is an open source resource. Any contributions are welcome. If you
 find a mistake or have an idea, please let us know via the GitHub Issues

@@ -2,11 +2,13 @@
 title: \...in Matlab
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# World Bank API in Matlab
+# ...in Matlab
+
+## World Bank API in Matlab
 
 by Vincent Scalfani
 
@@ -15,7 +17,7 @@ documentation](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-
 
 These recipe examples were tested on February 12, 2022
 
-## 1. Get list of country iso2Codes and names
+### 1. Get list of country iso2Codes and names
 
 For obtaining data from the World Bank API, it is helpful to first
 obtain a list of country codes and names.
@@ -102,7 +104,7 @@ disp(country_iso2code_name(1:10,:))
 Now we know the country iso2Codes which we can use to pull specific
 indicator data for countries.
 
-## 2. Compile a Custom Indicator Dataset
+### 2. Compile a Custom Indicator Dataset
 
 There are many availabe indicators:
 <https://data.worldbank.org/indicator>
@@ -318,7 +320,7 @@ disp(UK_data(1:10,:))
     0.2011    9.5820    1.5343    4.2285
 ```
 
-## 3. Plot Indicator data
+### 3. Plot Indicator data
 
 Create a line plot of US/UK Number of Scientific and Technical Journal
 Articles and Patents by year

@@ -2,11 +2,13 @@
 title: \...in Matlab
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# PubMed API in Matlab
+# ...in Matlab
+
+## PubMed API in Matlab
 
 by Anastasia Ramig
 
@@ -18,7 +20,7 @@ These recipe examples were tested on November 23, 2022 in MATLAB R2022b.
 **Please see NCBI\'s Data Usage Policies and Disclaimers:**
 <https://www.ncbi.nlm.nih.gov/home/about/policies/>
 
-## 1. Basic PubMed API call
+### 1. Basic PubMed API call
 
 For calling individual articles and publications, we will need to use
 this API URL:
@@ -73,7 +75,7 @@ Columns 6 through 8
  {'Hanson RM'}    {'Liddie JM'}    {'Bara JE'}
 ```
 
-## 2. Request Data using a Loop
+### 2. Request Data using a Loop
 
 First, create a list of PubMed IDs:
 
@@ -155,7 +157,7 @@ displayResult = 'Chembiochem'
 displayResult = 'Methods Mol Biol'
 ```
 
-## 3. PubMed API Calls with Requests and Parameters
+### 3. PubMed API Calls with Requests and Parameters
 
 For searching for articles using search term(s), we will need to use
 this API URL:
@@ -337,9 +339,9 @@ data = struct with fields:
  esearchresult: [1×1 struct]
 ```
 
-## 4. PubMed API Metadata Visualization
+### 4. PubMed API Metadata Visualization
 
-### Frequency of Topic sortpubdate field
+#### Frequency of Topic sortpubdate field
 
 Extracting the sortpubdate field for a \"hydrogel drug\" search results,
 limited to publication type clinical trials:
@@ -436,7 +438,7 @@ histogram(x)
 
 ![image](imgs/matlab_pm_im0.png)
 
-### Frequency of Publication for an Author Search
+#### Frequency of Publication for an Author Search
 
 ``` matlab
 %% search all of the articles written by a certain author sorted by publication date

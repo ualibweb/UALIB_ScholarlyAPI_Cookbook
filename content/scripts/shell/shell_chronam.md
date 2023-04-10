@@ -2,11 +2,13 @@
 title: \...in Unix Shell
 ---
 
-::: sectionauthor
-Vincent F. Scalfani \<<vfscalfani@ua.edu>\>
-:::
+<!--- sectionauthor
+Vincent F. Scalfani | vfscalfani@ua.edu>
+-->
 
-# Chronicling America API in Unix Shell
+# ...in Unix Shell
+
+## Chronicling America API in Unix Shell
 
 by Avery M. Fernandez
 
@@ -26,7 +28,7 @@ age-herald*, and the *Birmingham age-herald* were contributed to
 Chronicling America by The University of Alabama Libraries:
 <https://chroniclingamerica.loc.gov/awardees/au/>
 
-## Program requirements
+### Program requirements
 
 In order to run this code, you will need to first install
 [curl](https://github.com/curl/curl),
@@ -35,7 +37,7 @@ In order to run this code, you will need to first install
 from the API, jq is used to parse the JSON data, and gnuplot is used to
 plot the data.
 
-## 1. Basic API request
+### 1. Basic API request
 
 The Chronicling America API identifies newspapers and other records
 using LCCNs. We can query the API once we have the LCCN for the
@@ -132,7 +134,7 @@ curl $url -L --output outfile.pdf
 xdg-open outfile.pdf
 ```
 
-## 2. Frequency of "University of Alabama" mentions
+### 2. Frequency of "University of Alabama" mentions
 
 The URL below limits to searching newspapers in the state of Alabama and
 provides 500 results of "University of Alabama" mentions. Note that
@@ -343,7 +345,7 @@ gnuplot -p graph.gnuplot
   1820      1840      1860      1880     1900      1920      1940      1960 
 ```
 
-## 3. Industrialization keywords frequency in the Birmingham Age-Herald
+### 3. Industrialization keywords frequency in the Birmingham Age-Herald
 
 We will try to obtain the frequency of "Iron" on the front pages of the
 Birmingham Age- herald newspapers from the year 1903 to 1949 (limited to
