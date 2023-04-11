@@ -81,6 +81,9 @@ parts:
       - file: content/scripts/matlab/matlab_uscensus
       - file: content/scripts/mathematica/mathematica_uscensus 
       - file: content/scripts/R/R_US_Census 
+    - file: content/scripts/A_overview/usaspending_overview
+      sections:
+      - file: content/scripts/python/python_usaspending.ipynb
   - caption: ABOUT
     chapters:
     - file: content/about/contributing
