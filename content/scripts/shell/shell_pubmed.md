@@ -21,17 +21,8 @@ Terminal in Ubuntu 18.04.
 **Please see NCBI's Data Usage Policies and Disclaimers:**
 <https://www.ncbi.nlm.nih.gov/home/about/policies/>
 
-::: note
-::: title
-Note
-:::
+> **_Note:_** This tutorial uses `curl` and `jq` for interacting with the PubChem API. You may also be interested in using the [NCBI EDirect command line program](https://www.ncbi.nlm.nih.gov/books/NBK179288/). We have workshop materials for EDirect with PubMed in our [UALIB Workshops repository](https://github.com/ualibweb/UALIB_Workshops).
 
-This tutorial uses `curl` and `jq` for interacting with the PubChem API.
-You may also be interested in using the [NCBI EDirect command line
-program](https://www.ncbi.nlm.nih.gov/books/NBK179288/). We have
-workshop materials for EDirect with PubMed in our [UALIB Workshops
-repository](https://github.com/ualibweb/UALIB_Workshops).
-:::
 
 ### Program requirements
 
@@ -69,13 +60,8 @@ echo $data_call
 {"header":{"type":"esummary","version":"0.3"},"result":{"uids":["27933103"],"27933103":{"uid":"27933103","pubdate":"2016","epubdate":"2016 Nov 23","source":"J Cheminform","authors":[{"name":"Scalfani VF","authtype":"Author","clusterid":""},{"name":"Williams AJ","authtype":"Author","clusterid":""},{"name":"Tkachenko V","authtype":"Author","clusterid":""},{"name":"Karapetyan K","authtype":"Author","clusterid":""},{"name":"Pshenichnov A","authtype":"Author","clusterid":""},{"name":"Hanson RM","authtype":"Author","clusterid":""},{"name":"Liddie JM","authtype":"Author","clusterid":""},{"name":"Bara JE","authtype":"Author","clusterid":""}],"lastauthor":"Bara JE","title":"Programmatic conversion of crystal structures into 3D printable files using Jmol.","sorttitle":"programmatic conversion of crystal structures into 3d printable files using jmol","volume":"8","issue":"","pages":"66","lang":["eng"],"nlmuniqueid":"101516718","issn":"1758-2946","essn":"1758-2946","pubtype":["Journal Article"],"recordstatus":"PubMed","pubstatus":"258","articleids":[{"idtype":"pubmed","idtypen":1,"value":"27933103"},{"idtype":"pmc","idtypen":8,"value":"PMC5122160"},{"idtype":"pmcid","idtypen":5,"value":"pmc-id: PMC5122160;"},{"idtype":"doi","idtypen":3,"value":"10.1186/s13321-016-0181-z"},{"idtype":"pii","idtypen":4,"value":"181"}],"history":[{"pubstatus":"received","date":"2016/08/15 00:00"},{"pubstatus":"accepted","date":"2016/11/16 00:00"},{"pubstatus":"entrez","date":"2016/12/10 06:00"},{"pubstatus":"pubmed","date":"2016/12/10 06:00"},{"pubstatus":"medline","date":"2016/12/10 06:01"}],"references":[],"attributes":["Has Abstract"],"pmcrefcount":33,"fulljournalname":"Journal of cheminformatics","elocationid":"","doctype":"citation","srccontriblist":[],"booktitle":"","medium":"","edition":"","publisherlocation":"","publishername":"","srcdate":"","reportnumber":"","availablefromurl":"","locationlabel":"","doccontriblist":[],"docdate":"","bookname":"","chapter":"","sortpubdate":"2016/11/23 00:00","sortfirstauthor":"Scalfani VF","vernaculartitle":""}}}
 ```
 
-::: note
-::: title
-Note
-:::
+> **_Note:_** The silent option `(-s)` for curl was used to hide the progress outputs.
 
-The silent option `(-s)` for curl was used to hide the progress outputs.
-:::
 
 Let\'s extract the authors of the paper:
 

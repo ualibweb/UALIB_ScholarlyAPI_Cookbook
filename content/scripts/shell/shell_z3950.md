@@ -12,15 +12,7 @@ Vincent F. Scalfani | vfscalfani@ua.edu>
 
 by Vincent Scalfani and Cyrus Gomes
 
-::: note
-::: title
-Note
-:::
-
-This an alpha version of a Z39.50 tutorial; we are still learning about
-Z39.50 query construction and how best to apply a workflow for searching
-library catalogs programmatically. Comments are certainly welcome.
-:::
+> **_Note:_** This an alpha version of a Z39.50 tutorial; we are still learning about Z39.50 query construction and how best to apply a workflow for searching library catalogs programmatically. Comments are certainly welcome.
 
 **UA Libraries Z39.50 Connection Details:**
 <http://www.lib.ua.edu/research-tools/university-libraries-catalog/z39-50-connection/>
@@ -178,17 +170,8 @@ COMPLETENESS (6)
    3 Complete field
 ```
 
-::: hint
-::: title
-Hint
-:::
+> **_Hint:_** Something to be aware of is that Z39.50 implementations do not have to support all bib-1 attributes, so you will want to look at the Z39.50 connection details carefully for a list of supported attributes. For example, the UA Z39.50 implementation does not support relation attributes; all relations are considered equal.
 
-Something to be aware of is that Z39.50 implementations do not have to
-support all bib-1 attributes, so you will want to look at the Z39.50
-connection details carefully for a list of supported attributes. For
-example, the UA Z39.50 implementation does not support relation
-attributes; all relations are considered equal.
-:::
 
 To construct a query, you first define the operator (if needed), then
 the attribute(s), then the keyword(s). Here are a few basic examples:
@@ -496,14 +479,7 @@ do
 done
 ```
 
-::: note
-::: title
-Note
-:::
-
-`/dev/stdin` allows us to pass a string via stdin with the `-f` option,
-since `yaz-client -f` expects a file[^8].
-:::
+> **_Note:_** `/dev/stdin` allows us to pass a string via stdin with the `-f` option, since `yaz-client -f` expects a file[^8].
 
 And here is a more efficient method suggested on GitHub which does not
 quit `yaz-client` on each loop[^9]:
@@ -812,13 +788,7 @@ can accept different Z39.50 connections as an option. `z39-demo` is not
 as feature complete as `yaz-client`, but it offers a few conveniences
 and was a lot of fun to design and program.
 
-::: warning
-::: title
-Warning
-:::
-
-Consider `z39.50-demo` as an experiment program, it\'s not well-tested.
-:::
+> **_Warning:_** Consider `z39.50-demo` as an experiment program, it\'s not well-tested.
 
 #### Dependencies
 

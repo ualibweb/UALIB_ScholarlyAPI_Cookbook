@@ -18,14 +18,7 @@ web service APIs. It is part of the University of Alabama Libraries
 efforts to support [Research Data
 Services](https://guides.lib.ua.edu/Data/ResearchDataServices/).
 
-::: note
-::: title
-Note
-:::
-
-We are in the process of adding new API tutorials and plan to add `R`
-recipes to the Cookbook in early 2023.
-:::
+> **_NOTE:_**  We are in the process of adding new API tutorials and plan to add `R` recipes to the Cookbook in early 2023.
 
 ### What should I be aware of before getting started?
 
@@ -40,17 +33,8 @@ institution, and have registered for an API key to use for
 authentication in API queries. We have added instructions about any
 necessary authentication within the relevant code recipes.
 
-::: important
-::: title
-Important
-:::
 
-In general, scholarly APIs are designed for the collection of small to
-medium sized datasets; that is, in the range of 100s or maybe a few
-thousand queries at most (various with API). If you need large bulk
-datasets, an API is likely not the method to use, and there may be bulk
-data downloads available from the database instead.
-:::
+> **_Important:_**  In general, scholarly APIs are designed for the collection of small to medium sized datasets; that is, in the range of 100s or maybe a few thousand queries at most (various with API). If you need large bulk datasets, an API is likely not the method to use, and there may be bulk data downloads available from the database instead.
 
 If you decide that your use-case is appropriate for a scholarly API (or
 similar web service), here are a few good general practices to follow
@@ -82,10 +66,8 @@ information APIs. For more general introductions to programming, we
 recommend searching the UA Libraries Scout database for programming
 books (e.g., [TI python]{.title-ref}).
 
-::: seealso
-UA Libraries Workshop lessons and references therein for more general
-programming content[^1].
-:::
+
+> **_SeeAlso:_**  UA Libraries Workshop lessons and references therein for more general programming content[^1].
 
 ### Which Programming Languages are Covered?
 
@@ -98,39 +80,28 @@ example, it may be preferable to choose one language over the other.
 
 For good luck, let\'s add `Hello World!` in each programming language:
 
-::: tab-set
-::: tab-item
-Python
-
-``` python
+**Python**
+```python
 >>> print("Hello World!")
 ```
-:::
 
-::: tab-item
-Unix Shell
-
-``` shell
+**Unix Shell**
+```shell
 $ echo "Hello World!"
 ```
-:::
 
-::: tab-item
-Matlab
+**Matlab**
 
-``` matlab
+```matlab
 >> disp("Hello World!")
 ```
-:::
 
-::: tab-item
-Mathematica
+**Mathematica**
 
-``` mathematica
+```mathematica
 In[1]:= Print["Hello World!"]
 ```
-:::
-:::
+
 
 ### What about Video Tutorials?
 

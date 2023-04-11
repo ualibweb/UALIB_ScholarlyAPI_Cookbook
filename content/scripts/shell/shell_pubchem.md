@@ -27,17 +27,8 @@ Using Matlab. *Chemical Engineering Education*, **2020**, *54*, 230.
 <https://doi.org/10.18260/2-1-370.660-115508> and
 <https://github.com/vfscalfani/MATLAB-cheminformatics>)
 
-::: note
-::: title
-Note
-:::
+> **_Note:_** This tutorial uses `curl` and `jq` for interacting with the PubChem API. You may also be interested in using the [NCBI EDirect command line program](https://www.ncbi.nlm.nih.gov/books/NBK179288/). We have several tutorials for EDirect in our [EDirectChemInfo repository](https://github.com/ualibweb/EDirectChemInfo).
 
-This tutorial uses `curl` and `jq` for interacting with the PubChem API.
-You may also be interested in using the [NCBI EDirect command line
-program](https://www.ncbi.nlm.nih.gov/books/NBK179288/). We have several
-tutorials for EDirect in our [EDirectChemInfo
-repository](https://github.com/ualibweb/EDirectChemInfo).
-:::
 
 ### Program requirements
 
@@ -70,13 +61,7 @@ compoundID="2734162"
 curl -s "$api"$"cid/""$compoundID"$"/PNG" -o CID_2734162.png
 ```
 
-::: note
-::: title
-Note
-:::
-
-The silent option `(-s)` for curl was used to hide the progress outputs.
-:::
+> **_Note:_** The silent option `(-s)` for curl was used to hide the progress outputs.
 
 If you want to open the PNG file in an image viewer program from your
 terminal, try `xdg-open`:
@@ -166,14 +151,7 @@ C           *       *               C
 C                                                
 ```
 
-::: note
-::: title
-Note
-:::
-
-`tr -d '"'` removes the quotes around the extracted SMILES;
-`python3 print_mols.py -` prints the molecule.
-:::
+> **_Note:_** `tr -d '"'` removes the quotes around the extracted SMILES; `python3 print_mols.py -` prints the molecule.
 
 #### Perform a Similarity Search
 
@@ -225,14 +203,7 @@ echo "$request" | jq ".IdentifierList.CID[0:10]"
 ]
 ```
 
-::: note
-::: title
-Note
-:::
-
-Here is another approach to displaying the first 10 lines:
-`echo "$request" | jq '.["IdentifierList"]["CID"]' | head -n10`
-:::
+> **_Note:_** Here is another approach to displaying the first 10 lines: `echo "$request" | jq '.["IdentifierList"]["CID"]' | head -n10`
 
 Next, we will convert the CID identifier values into an array:
 
@@ -322,14 +293,8 @@ done
 }
 ```
 
-::: note
-::: title
-Note
-:::
+> **_Note:_** `sed 's/ //g'` removes the extra space before the CID values. `tr -d ' '` should also work to remove the extra space.
 
-`sed 's/ //g'` removes the extra space before the CID values.
-`tr -d ' '` should also work to remove the extra space.
-:::
 
 We can modify the `jq` line to extract out specific data values such as
 the MolecularWeight:
@@ -511,14 +476,7 @@ done
 7
 ```
 
-::: note
-::: title
-Note
-:::
-
-The `-g` option with curl prevents curl from interpreting the `[]`
-characters in the SMARTS patterns.
-:::
+> **_Note:_** The `-g` option with curl prevents curl from interpreting the `[]` characters in the SMARTS patterns.
 
 Get length of array:
 

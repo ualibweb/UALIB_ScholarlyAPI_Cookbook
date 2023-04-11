@@ -37,14 +37,7 @@ from the API and jq is used to parse the JSON data.
 base_url="https://api.crossref.org/works/"; email="your_email@ua.edu"; mailto="?mailto="$email; doi="10.1186/1758-2946-4-12"
 ```
 
-::: note
-::: title
-Note
-:::
-
-The `;` allows us to enter multiple variable assignments on one line and
-the `$` allows for variable expansion.
-:::
+> **_Note:_**  The `;` allows us to enter multiple variable assignments on one line and the `$` allows for variable expansion.
 
 #### Request data from crossref API
 
@@ -105,17 +98,9 @@ cat storage.json | jq '.["message"]["author"] | length'
 
 Now we can incorporate the length into a for loop:
 
-::: note
-::: title
-Note
-:::
-
--   The below for loop uses C syntax for looping range (e.g.,
-    `for (( variable = 0; variable < range ; variable++ ))`).
--   The first name and last name of the authors are concatenated
-    together using `$` variable expansiion.
--   The `tr -d '"'` command removes extra quotes around the names.
-:::
+> **_Note:_** The below for loop uses C syntax for looping range (e.g., `for (( variable = 0; variable < range ; variable++ ))`).
+> **_Note:_** The first name and last name of the authors are concatenated together using `$` variable expansiion.
+> **_Note:_** The `tr -d '"'` command removes extra quotes around the names.
 
 ``` shell
 for (( i = 0; i < $(cat storage.json | jq '.["message"]["author"] | length'); i++ ))
@@ -170,14 +155,7 @@ sleep 1;
 done
 ```
 
-::: note
-::: title
-Note
-:::
-
-`declare -a` creates an array variable; `${#doi_list[@]}` returns
-length.
-:::
+> **_Note:_** `declare -a` creates an array variable; `${#doi_list[@]}` returns length.
 
 #### Select some specific data
 
@@ -190,13 +168,7 @@ echo ${my_array[$i]} | jq '.["message"]["title"][0]'
 done
 ```
 
-::: note
-::: title
-Note
-:::
-
-`"${!my_array[@]}"` returns array range.
-:::
+> **_Note:_**  `"${!my_array[@]}"` returns array range.
 
 **Output:**
 

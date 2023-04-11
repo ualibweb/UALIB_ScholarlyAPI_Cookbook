@@ -39,14 +39,7 @@ country code data:
 api="https://api.worldbank.org/v2/"; country_url=$api$"country/?format=json&per_page=500" 
 ```
 
-::: note
-::: title
-Note
-:::
-
-The `;` allows us to enter multiple variable assignments on one line and
-the `$` allows for variable expansion.
-:::
+> **_Note:_** The `;` allows us to enter multiple variable assignments on one line and the `$` allows for variable expansion.
 
 Next, request and save the JSON data from the World Bank API:
 
@@ -54,15 +47,7 @@ Next, request and save the JSON data from the World Bank API:
 country_data=$(curl $country_url)
 ```
 
-::: note
-::: title
-Note
-:::
-
-If you want to instead quickly view a formatted output of the data, try
-the silent option (`-s`) in curl piped to jq as follows:
-`curl -s $country_url | jq '.'`
-:::
+> **_Note:_** If you want to instead quickly view a formatted output of the data, try the silent option (`-s`) in curl piped to jq as follows: `curl -s $country_url | jq '.'`
 
 Get the length of the data:
 
@@ -146,15 +131,7 @@ done;
 ...
 ```
 
-::: note
-::: title
-Note
-:::
-
-`declare -A` creates an associative array;
-`country_iso2Code["$iso"]="$country"` stores the iso variable and
-corresponding country name.
-:::
+> **_Note:_** `declare -A` creates an associative array; `country_iso2Code["$iso"]="$country"` stores the iso variable and corresponding country name.
 
 Since we saved the iso2codes and country names in the associative array,
 `country_iso2code`, it is also possible to loop through and display the
@@ -168,14 +145,7 @@ done
 
 *Output not shown here*
 
-::: note
-::: title
-Note
-:::
-
-`!` selects individual indices of the associative array; `@` specifies
-all elements in the array.
-:::
+> **_Note:_** `!` selects individual indices of the associative array; `@` specifies all elements in the array.
 
 ### 2. Compile a Custom Indicator Dataset
 
@@ -256,13 +226,7 @@ for years in "${!US_data_JRN[@]}"; do
 done
 ```
 
-::: note
-::: title
-Note
-:::
-
-`sed 's/null/NaN/g'` is used to replace missing data with NaN.
-:::
+> **_Note:_** `sed 's/null/NaN/g'` is used to replace missing data with NaN.
 
 ``` shell
 head US_data.csv
@@ -311,13 +275,7 @@ for years in "${!UK_data_JRN[@]}"; do
 done
 ```
 
-::: note
-::: title
-Note
-:::
-
-`sed 's/null/NaN/g'` is used to replace missing data with NaN.
-:::
+> **_Note:_** `sed 's/null/NaN/g'` is used to replace missing data with NaN.
 
 ``` shell
 tail UK_data.csv
@@ -350,15 +308,8 @@ sed -i "1s/.*/'year','US Articles and Patents','US GDP'/" US_sorted.csv
 sed -i "1s/.*/'year','UK Articles and Patents','UK GDP'/" UK_sorted.csv
 ```
 
-::: note
-::: title
-Note
-:::
+> **_Note:_** `awk` is combining the second column and third column into a single column; `sort` is to sort the data by the year; `sed` is to change the first row to accurately name the columns.
 
-`awk` is combining the second column and third column into a single
-column; `sort` is to sort the data by the year; `sed` is to change the
-first row to accurately name the columns.
-:::
 
 ``` shell
 head US_sorted.csv
