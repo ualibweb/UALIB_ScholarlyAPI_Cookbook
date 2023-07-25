@@ -19,6 +19,7 @@ parts:
       - file: content/scripts/matlab/matlab_crossref
       - file: content/scripts/mathematica/mathematica_crossref
       - file: content/scripts/R/R_Crossref
+      - file: content/scripts/C/C_Crossref
     - file: content/scripts/A_overview/scopus_overview
       sections:
        - file: content/scripts/python/python_scopus
@@ -40,6 +41,7 @@ parts:
       - file: content/scripts/matlab/matlab_worldbank
       - file: content/scripts/mathematica/mathematica_worldbank
       - file: content/scripts/R/R_WorldBank
+      - file: content/scripts/C/C_WorldBank
   - caption: HUMANITIES
     chapters:
     - file: content/scripts/A_overview/chronam_overview
@@ -72,6 +74,7 @@ parts:
       - file: content/scripts/matlab/matlab_pubmed
       - file: content/scripts/mathematica/mathematica_pubmed
       - file: content/scripts/R/R_PubMed
+      - file: content/scripts/C/C_PubMed
   - caption: SOCIAL SCIENCES
     chapters:
     - file: content/scripts/A_overview/uscensus_overview
