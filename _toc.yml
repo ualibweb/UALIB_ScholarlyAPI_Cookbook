@@ -19,7 +19,7 @@ parts:
       - file: content/scripts/matlab/matlab_crossref
       - file: content/scripts/mathematica/mathematica_crossref
       - file: content/scripts/R/R_Crossref
-      - file: content/scripts/C/C_Crossref
+      - file: content/scripts/C/C_CrossRef
     - file: content/scripts/A_overview/scopus_overview
       sections:
        - file: content/scripts/python/python_scopus
@@ -41,7 +41,7 @@ parts:
       - file: content/scripts/matlab/matlab_worldbank
       - file: content/scripts/mathematica/mathematica_worldbank
       - file: content/scripts/R/R_WorldBank
-      - file: content/scripts/C/C_WorldBank
+      - file: content/scripts/C/C_World_Bank
   - caption: HUMANITIES
     chapters:
     - file: content/scripts/A_overview/chronam_overview
@@ -67,6 +67,7 @@ parts:
       - file: content/scripts/matlab/matlab_pubchem
       - file: content/scripts/mathematica/mathematica_pubchem
       # - file: content/scripts/R/R_Pubchem
+      - file: content/scripts/C/C_Pub_Chem
     - file: content/scripts/A_overview/pubmed_overview
       sections:
       - file: content/scripts/python/python_pubmed
