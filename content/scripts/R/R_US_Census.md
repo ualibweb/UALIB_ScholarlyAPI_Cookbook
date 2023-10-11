@@ -211,7 +211,7 @@ ggplot(pop_pct_change, aes(x = reorder(pop_pct_change$County, as.numeric(pop_pct
   ggtitle("Percent Change in Population by County from 2016 to 2021")
 ```
 
-![](US_Census_Data_in_R_files/figure-html/plot popchg-1.png)<!-- -->
+![]("US_Census_Data_in_R_files/figure-html/plot popchg-1.png")<!-- -->
 
 # R Session Info
 
