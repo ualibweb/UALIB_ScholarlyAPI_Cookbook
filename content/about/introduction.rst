@@ -15,10 +15,6 @@ Alabama Libraries efforts to support `Research Data Services`_.
 
 .. _Research Data Services: https://guides.lib.ua.edu/Data/ResearchDataServices/
 
-.. note::
-
-   We are in the process of adding new API tutorials and plan to add ``R`` recipes to the Cookbook in early 2023.
-
 What should I be aware of before getting started?
 ===================================================
 
