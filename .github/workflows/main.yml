@@ -36,13 +36,19 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         pip install jupyter-book
+
     - name: Build Jupyter Book HTML
       run: |
         jupyter-book build .
 
-    - name: Deploy to GitHub Pages using Jupyter Book Action
-      uses: executablebooks/github-action-jupyter-book-deploy@v1
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
       with:
-        path-to-book: ./_build/html
-        branch: gh-pages  # assuming you want to deploy to the gh-pages branch
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        path: './_build/html'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
