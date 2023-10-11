@@ -208,9 +208,7 @@ str <- charToRaw(casrn1_data$image)
 image_read(str,200)
 ```
 
-<img src="CASCommonChemR_files/figure-html/Display-1.png" width="477" />
-
-
+![](CASCommonChemR_files/figure-html/Display-1.png)
 
 # 2. Common Chemistry API record detail retrieval in a loop   
 
@@ -311,35 +309,35 @@ imgs<-lapply(list, function(x) {(charToRaw(x$image))})
 image_scale(image_read(imgs[[1]]),200)
 ```
 
-<img src="CASCommonChemR_files/figure-html/disp list-1.png" width="200" />
+![](CASCommonChemR_files/figure-html/disp list-1.png)
 
 ```r
 # "Ethyl 2-nonynoate"
 image_scale(image_read(imgs[[2]]),200)
 ```
 
-<img src="CASCommonChemR_files/figure-html/disp list-2.png" width="200" />
+![](CASCommonChemR_files/figure-html/disp list-2.png)
 
 ```r
 # "Ethyl 1<em>H</em>-pyrazole-1-acetate"
 image_scale(image_read(imgs[[3]]),200)
 ```
 
-<img src="CASCommonChemR_files/figure-html/disp list-3.png" width="200" />
+![](CASCommonChemR_files/figure-html/disp list-3.png)
 
 ```r
 # "Ethyl 3-(ethoxycarbonyl)benzenepropanoate"
 image_scale(image_read(imgs[[4]]),200)
 ```
 
-<img src="CASCommonChemR_files/figure-html/disp list-4.png" width="200" />
+![](CASCommonChemR_files/figure-html/disp list-4.png)
 
 ```r
 # "Ethyl 1-cyclohexene-1-carboximidate"
 image_scale(image_read(imgs[[5]]),200)
 ```
 
-<img src="CASCommonChemR_files/figure-html/disp list-5.png" width="200" />
+![](CASCommonChemR_files/figure-html/disp list-5.png)
 
 ## Select some specific data    
 

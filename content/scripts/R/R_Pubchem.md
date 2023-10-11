@@ -299,32 +299,31 @@ content <- list()
 image_read(content[[1]])
 ```
 
-<img src="R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-1.png" width="300" />
+![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-1.png)
 
 ```r
 image_read(content[[2]])
 ```
 
-<img src="R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-2.png" width="300" />
+![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-2.png)
 
 ```r
 image_read(content[[3]])
 ```
 
-<img src="R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-3.png" width="300" />
+![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-3.png)
 
 ```r
 image_read(content[[4]])
 ```
 
-<img src="R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-4.png" width="300" />
+![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-4.png)
 
 ```r
 image_read(content[[5]])
 ```
 
-<img src="R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-5.png" width="300" />
-
+![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-5.png)
 
 # 2. PubChem SMARTS Search
 
@@ -514,31 +513,31 @@ for(CID in hit_CIDs_results[1:5]){
 image_read(content2[[1]])
 ```
 
-<img src="R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-1.png" width="300" />
+![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-1.png)
 
 ```r
 image_read(content2[[2]])
 ```
 
-<img src="R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-2.png" width="300" />
+![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-2.png)
 
 ```r
 image_read(content2[[3]])
 ```
 
-<img src="R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-3.png" width="300" />
+![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-3.png)
 
 ```r
 image_read(content2[[4]])
 ```
 
-<img src="R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-4.png" width="300" />
+![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-4.png)
 
 ```r
 image_read(content2[[5]])
 ```
 
-<img src="R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-5.png" width="300" />
+![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-5.png)
 
 # R Session Info
 
