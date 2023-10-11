@@ -18,6 +18,8 @@ parts:
       - file: content/scripts/shell/shell_crossref
       - file: content/scripts/matlab/matlab_crossref
       - file: content/scripts/mathematica/mathematica_crossref
+      - file: content/scripts/R/R_Crossref
+      - file: content/scripts/C/C_CrossRef
     - file: content/scripts/A_overview/scopus_overview
       sections:
        - file: content/scripts/python/python_scopus
@@ -38,6 +40,8 @@ parts:
       - file: content/scripts/shell/shell_worldbank
       - file: content/scripts/matlab/matlab_worldbank
       - file: content/scripts/mathematica/mathematica_worldbank
+      - file: content/scripts/R/R_WorldBank
+      - file: content/scripts/C/C_World_Bank
   - caption: HUMANITIES
     chapters:
     - file: content/scripts/A_overview/chronam_overview
@@ -46,6 +50,7 @@ parts:
       - file: content/scripts/shell/shell_chronam
       - file: content/scripts/matlab/matlab_chronam
       - file: content/scripts/mathematica/mathematica_chronam     
+      - file: content/scripts/R/R_Chronam     
   - caption: SCIENTIFIC
     chapters:
     - file: content/scripts/A_overview/casc_overview
@@ -54,18 +59,23 @@ parts:
       - file: content/scripts/shell/shell_casc
       - file: content/scripts/matlab/matlab_casc
       - file: content/scripts/mathematica/mathematica_casc    
+      - file: content/scripts/R/R_CASCommon
     - file: content/scripts/A_overview/pubchem_overview
       sections:
       - file: content/scripts/python/python_pubchem
       - file: content/scripts/shell/shell_pubchem
       - file: content/scripts/matlab/matlab_pubchem
       - file: content/scripts/mathematica/mathematica_pubchem
+      - file: content/scripts/R/R_Pubchem
+      - file: content/scripts/C/C_Pub_Chem
     - file: content/scripts/A_overview/pubmed_overview
       sections:
       - file: content/scripts/python/python_pubmed
       - file: content/scripts/shell/shell_pubmed
       - file: content/scripts/matlab/matlab_pubmed
       - file: content/scripts/mathematica/mathematica_pubmed
+      - file: content/scripts/R/R_PubMed
+      - file: content/scripts/C/C_PubMed
   - caption: SOCIAL SCIENCES
     chapters:
     - file: content/scripts/A_overview/uscensus_overview
@@ -74,6 +84,10 @@ parts:
       - file: content/scripts/shell/shell_uscensus
       - file: content/scripts/matlab/matlab_uscensus
       - file: content/scripts/mathematica/mathematica_uscensus 
+      - file: content/scripts/R/R_US_Census 
+    - file: content/scripts/A_overview/usaspending_overview
+      sections:
+      - file: content/scripts/python/python_usaspending.ipynb
   - caption: ABOUT
     chapters:
     - file: content/about/contributing
