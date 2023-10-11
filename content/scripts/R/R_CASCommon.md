@@ -21,7 +21,7 @@ See the bottom of the document for information on R and package versions.
 
 **Attribution:** This tutorial uses the [CAS Common Chemistry](https://commonchemistry.cas.org/) API. Example Data shown is licensed under the [CC BY-NC 4.0 license](https://creativecommons.org/licenses/by-nc/4.0/).
 
-### Import libraries
+## Import libraries
 Run the following lines of code to load the libraries 'httr' and 'jsonlite'. If you have not done so already, additionally, before the 'library()' functions, run 'install.packages(c('httr','jsonlite'))'.
 
 ```r
@@ -30,11 +30,11 @@ library(httr)
 library(jsonlite)
 ```
 
-## 1. Common Chemistry Record Detail Retrieval
+# 1. Common Chemistry Record Detail Retrieval
 
 Common Chemistry is an extremely useful open community resource for accessing chemical information for nearly 500,000 chemical chemistry from the CAS registry. In this example we are going to detail the steps in which a user can query and access a simple example chemical substance, ethyl cyclohexanepropionate.
 
-### Setup API parameters   
+## Setup API parameters   
 
 First let's setup the API parameters for Common Chemistry. Below we are going to provide a variable 'detail_base_url' to query Common Chemistry for details and more specifically, in this example, using a registry number, or as we abbreviate it an 'rn'.
 
@@ -42,7 +42,7 @@ First let's setup the API parameters for Common Chemistry. Below we are going to
 detail_base_url <- "https://commonchemistry.cas.org/api/detail?"
 casrn1 <- "10094-36-7" # ethyl cyclohexanepropionate
 ```
-### Request data from CAS Common Chemistry Detail API
+## Request data from CAS Common Chemistry Detail API
 
 Using the 'httr' and 'JSONlite' libraries, we will query and convert the data into a usable format.
 
@@ -55,7 +55,7 @@ raw_casrn1_data
 
 ```
 ## Response [https://commonchemistry.cas.org/api/detail?cas_rn=10094-36-7]
-##   Date: 2023-04-10 18:54
+##   Date: 2023-03-24 19:29
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 3.16 kB
@@ -138,7 +138,7 @@ casrn1_data
 ## $hasMolfile
 ## [1] TRUE
 ```
-### Accessing specific data
+## Accessing specific data
 
 To access specifc data of the list we can use the '$' operator to extract the specific part of the data object.   
 
@@ -193,10 +193,10 @@ ls(casrn1_data)
 Given this list we can select different data as seen in previous examples, i.e. 'casrn1_data$(example)'.
 
 
-### Display the molecule drawing   
+## Display the molecule drawing   
 
 
-#### Using SVG       
+### Using SVG       
 
 According to Wikipedia, Scalable Vector Graphics, or SVG, is an XML based vector format for defining two-dimensional graphics and has been an open standard since 1999. Using the SVG data provided by the API, we will display the molecule drawing using the package 'magick', a useful toolkit for image processing in R.
 
@@ -208,11 +208,11 @@ str <- charToRaw(casrn1_data$image)
 image_read(str,200)
 ```
 
-![plot of chunk Display](figure/Display-1.png)
+<img src="CASCommonChemR_files/figure-html/Display-1.png" width="477" />
 
 
 
-## 2. Common Chemistry API record detail retrieval in a loop   
+# 2. Common Chemistry API record detail retrieval in a loop   
 
 Similar to the previous example, we will show how to query Common Chemistry for details given some registry number, but in this case show how this would be achievable through a list of registry numbers. This is extremely useful for researchers and users interested in large lists of chemical substances.
 
@@ -311,37 +311,37 @@ imgs<-lapply(list, function(x) {(charToRaw(x$image))})
 image_scale(image_read(imgs[[1]]),200)
 ```
 
-![plot of chunk disp list](figure/disp list-1.png)
+<img src="CASCommonChemR_files/figure-html/disp list-1.png" width="200" />
 
 ```r
 # "Ethyl 2-nonynoate"
 image_scale(image_read(imgs[[2]]),200)
 ```
 
-![plot of chunk disp list](figure/disp list-2.png)
+<img src="CASCommonChemR_files/figure-html/disp list-2.png" width="200" />
 
 ```r
 # "Ethyl 1<em>H</em>-pyrazole-1-acetate"
 image_scale(image_read(imgs[[3]]),200)
 ```
 
-![plot of chunk disp list](figure/disp list-3.png)
+<img src="CASCommonChemR_files/figure-html/disp list-3.png" width="200" />
 
 ```r
 # "Ethyl 3-(ethoxycarbonyl)benzenepropanoate"
 image_scale(image_read(imgs[[4]]),200)
 ```
 
-![plot of chunk disp list](figure/disp list-4.png)
+<img src="CASCommonChemR_files/figure-html/disp list-4.png" width="200" />
 
 ```r
 # "Ethyl 1-cyclohexene-1-carboximidate"
 image_scale(image_read(imgs[[5]]),200)
 ```
 
-![plot of chunk disp list](figure/disp list-5.png)
+<img src="CASCommonChemR_files/figure-html/disp list-5.png" width="200" />
 
-### Select some specific data    
+## Select some specific data    
 
 Using 'lapply()', we iterate through the list and grab each sub-list's canonicalSmile.
 
@@ -425,7 +425,7 @@ flatsyns
 ## [21] "1-Cyclohexene-1-carboximidic acid, ethyl ester"         
 ## [22] "Ethyl 1-cyclohexene-1-carboximidate"
 ```
-### Create Dataframe   
+## Create Dataframe   
 
 Let's create a dataframe from 'list' with the variables: 'uri', 'rn', 'name', 'inchiKey', 'canonicalSmile', and 'molecularMass'.
 
@@ -468,11 +468,11 @@ df
 ## uri.4        153.22
 ```
 
-## 3. Common Chemistry 
+# 3. Common Chemistry 
 
 In addition to the /detail API, the CAS Common Chemistry API has a /search method that allows searching by CAS RN, SMILES, InChI/InChIKey, and name.
 
-### Request data form CAS Common Chemistry Search API
+## Request data form CAS Common Chemistry Search API
 
 
 ```r
@@ -486,7 +486,7 @@ quinine_search_data
 
 ```
 ## Response [https://commonchemistry.cas.org/api/search?q=InChIKey=LOUPRKONTZGTKE-WZBLMQSHSA-N]
-##   Date: 2023-04-10 18:54
+##   Date: 2023-03-24 19:29
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 6.24 kB
@@ -529,7 +529,7 @@ quinine_detail_data
 
 ```
 ## Response [https://commonchemistry.cas.org/api/detail?cas_rn=130-95-0]
-##   Date: 2023-04-10 18:54
+##   Date: 2023-03-24 19:29
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 7.92 kB
@@ -899,9 +899,9 @@ hist(as.numeric(mms), # Reformat mms type to numeric and call as x variable
      col = "plum", ) # Color
 ```
 
-![plot of chunk hist](figure/hist-1.png)
+![](CASCommonChemR_files/figure-html/hist-1.png)<!-- -->
 
-We can alternatively make a  kernel density plot, a graph that uses a continuous curve to depict the distribution of the data, in this case with respect to the molecular mass values. This will give some more fidelity as opposed to the histogram.
+We can alternatively make a  kernel density plot, a graph that uses a continuous curve to depict the distribution of the data, in this case with respect to the molecular mass values. This offers a different way to visualize the data that is similar to what a histogram accomplishes.
 
 
 ```r
@@ -910,7 +910,7 @@ plot(d, main="Kernel Density of Available mms values")
 polygon(d, col="plum", border="black")
 ```
 
-![plot of chunk kernel](figure/kernel-1.png)
+![](CASCommonChemR_files/figure-html/kernel-1.png)<!-- -->
 
 # R Session Info
 
@@ -920,21 +920,18 @@ sessionInfo()
 ```
 
 ```
-## R version 4.2.3 (2023-03-15)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.6 LTS
+## R version 4.2.1 (2022-06-23 ucrt)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19042)
 ## 
 ## Matrix products: default
-## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0
-## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## [1] LC_COLLATE=English_United States.utf8 
+## [2] LC_CTYPE=English_United States.utf8   
+## [3] LC_MONETARY=English_United States.utf8
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.utf8    
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -943,7 +940,11 @@ sessionInfo()
 ## [1] magick_2.7.4   jsonlite_1.8.4 httr_1.4.5    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] compiler_4.2.3 magrittr_2.0.3 R6_2.5.1       tools_4.2.3    curl_5.0.0    
-##  [6] Rcpp_1.0.10    highr_0.10     knitr_1.42     xfun_0.38      evaluate_0.20
+##  [1] Rcpp_1.0.10     png_0.1-8       digest_0.6.31   R6_2.5.1       
+##  [5] magrittr_2.0.3  evaluate_0.20   highr_0.10      cachem_1.0.7   
+##  [9] rlang_1.0.6     cli_3.6.0       curl_5.0.0      rstudioapi_0.14
+## [13] jquerylib_0.1.4 bslib_0.4.2     rmarkdown_2.20  tools_4.2.1    
+## [17] xfun_0.37       yaml_2.3.7      fastmap_1.1.0   compiler_4.2.1 
+## [21] htmltools_0.5.4 knitr_1.42      sass_0.4.5
 ```
 

@@ -22,7 +22,7 @@ https://cran.r-project.org/web/packages/easyPubMed/easyPubMed.pdf
 
 See the bottom of the document for information on R and package versions.
 
-## Setup
+# Setup
 
 First let's install the easyPubMed package as well as load the library.
 If you do not already have the package installed, run the following command in your console: "install.packages("easyPubMed", repos = "http://cran.us.r-project.org")".
@@ -35,7 +35,7 @@ library(easyPubMed)
 
 
 
-## 1. Querying PubMed API   
+# 1. Querying PubMed API   
 
 Below is an example query utilizing some valuable functions provided by the easyPubMed library as well as some important information for the API, if unfamiliar.   
 
@@ -86,7 +86,7 @@ example_authors
 ```
 
 
-## 2. Querying for Multiple Sources
+# 2. Querying for Multiple Sources
 
 Another convenience of using easyPubMed is whether requesting data from one article or multiple, it is the same process. The only change that must be made is changing the query, whether that be multiple PMIDs or an Author's name, as seen in the example below.
 
@@ -115,7 +115,7 @@ journals
 ## [1] "Journal of cheminformatics" "Journal of cheminformatics"
 ## [3] "Science (New York, N.Y.)"   "ACS macro letters"
 ```
-## 3. Looping Through a List of PMIDs
+# 3. Looping Through a List of PMIDs
 
 In some use cases, a user may be interested in looping through a list of IDs to query data. Below we will show how one can do this.
 
@@ -152,7 +152,7 @@ Titles
 ## [6] "Mammalian Chemical Genomics towards Identifying Targets and Elucidating Modes-of-Action of Bioactive Compounds."                                            
 ## [7] "CRISPR-Cas9 Editing of the Synthesis of Biodegradable Polyesters Polyhydroxyalkanaotes (PHA) in Pseudomonas putida KT2440."
 ```
-## 4. PubMed API Metadata Visualization
+# 4. PubMed API Metadata Visualization
 
 In this example we're going to show how a user can create a visualization using the PubMed API, specifically a histogram to visualize publishing frequency of the query 'hydrogel drug AND clinical trial[pt]'.
 
@@ -170,16 +170,16 @@ head(Year, n=10) #Display first 10 instances of the Year list
 ```
 
 ```
-##  [1] "2023" "2023" "2023" "2023" "2023" "2023" "2023" "2023" "2023" "2023"
+##  [1] "2022" "2023" "2022" "2022" "2022" "2022" "2022" "2022" "2022" "2022"
 ```
 
 ```r
 hist(as.numeric(Year),main= 'Freq. of Publications from PubMed "hydrogel drug AND clinical trial[pt]"',xlab='Year', breaks=40, col = 'plum') # Use base R function hist() to plot
 ```
 
-![plot of chunk visual](figure/visual-1.png)
+![](PubMedAPItut_files/figure-html/visual-1.png)<!-- -->
 
-## R Session Info
+# R Session Info
 
 
 ```r
@@ -187,21 +187,18 @@ sessionInfo()
 ```
 
 ```
-## R version 4.2.3 (2023-03-15)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.6 LTS
+## R version 4.2.1 (2022-06-23 ucrt)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19042)
 ## 
 ## Matrix products: default
-## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0
-## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## [1] LC_COLLATE=English_United States.utf8 
+## [2] LC_CTYPE=English_United States.utf8   
+## [3] LC_MONETARY=English_United States.utf8
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.utf8    
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -210,7 +207,10 @@ sessionInfo()
 ## [1] easyPubMed_2.13
 ## 
 ## loaded via a namespace (and not attached):
-## [1] compiler_4.2.3 tools_4.2.3    highr_0.10     knitr_1.42     xfun_0.38     
-## [6] evaluate_0.20
+##  [1] digest_0.6.31   R6_2.5.1        jsonlite_1.8.4  evaluate_0.20  
+##  [5] highr_0.10      cachem_1.0.7    rlang_1.0.6     cli_3.6.0      
+##  [9] rstudioapi_0.14 jquerylib_0.1.4 bslib_0.4.2     rmarkdown_2.20 
+## [13] tools_4.2.1     xfun_0.37       yaml_2.3.7      fastmap_1.1.0  
+## [17] compiler_4.2.1  htmltools_0.5.4 knitr_1.42      sass_0.4.5
 ```
 

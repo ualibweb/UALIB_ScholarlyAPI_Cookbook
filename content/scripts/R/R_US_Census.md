@@ -27,20 +27,20 @@ See also the [U.S. Census API Terms of Service](https://www.census.gov/data/deve
 
 **Attribution:** *This tutorial uses the Census Buereau Data API but is not endorsed or certified by the Census Bureau.*
 
-## API Key Information   
+# API Key Information   
 
 While an API key is not required to use the U.S. Census Data API, you may consider registering for an API key as the API is limited to 500 calls a day without a key. Sign up can be found here: https://api.census.gov/data/key_signup.html.    
 
 If using this code, make sure to access your key below.
 
-Here we use 'Sys.getenv()' to retrieve our API key from the environment variables. You can either do this by creating an [.Renviron file and storing your API Key](https://resources.numbat.space/using-rprofile-and-renviron.html) or simply replacing "Sys.getenv('USCensusAPIKey')" with your API Key.
+Here we use 'Sys.getenv()' to retrieve our API key from the environment variables. You can either do this by creating an [.Renviron file and storing your API Key](https://docs.posit.co/how-to-guides/pre-tasks/api-keys-renv/) or simply replacing "Sys.getenv('USCensusAPIKey')" with your API Key.
 
 ```r
 # Access .Renviron to get PubMed API Key
 user_key = Sys.getenv('USCensusAPIKey')#use Sys.getenv() to access .Renviron
 ```
 
-## Setup censusapi Package
+# Setup censusapi Package
 The package, censusapi, allows users to easily access U.S. Census data and metadata, including datasets such as the Decennial Census, American Community Survey, Small Area Health Insurance Estimates, Small Area Income and Poverty Estimates, Population Estimates and Projections, and more. In this tutorial, we will be using this censusapi.
 
 If you haven't already, run "install.packages('censusapi')" in your R Console to install the US Census API package we will be using for this tutorial.
@@ -50,7 +50,7 @@ First let us set up the required library, "censusapi".
 ```r
 library(censusapi) # Access censusapi library
 ```
-## 1. Get Population Estimates of Counties by State    
+# 1. Get Population Estimates of Counties by State    
 
 Our primary means of accessing the U.S. Census API will be through the function "getCensus". In this example we give specific comments as to each line of code that should clarify each line.
 
@@ -115,7 +115,7 @@ head(alabama_counties_populations,n=10) #Display first entries of 'alabama_count
 Now we have successfully used the U.S. Census API to store population estimates from Alabama counties in the variable 'alabama_counties_populations'.
 
 
-## 2. Get Population Estiamtes Over a Range of Years   
+# 2. Get Population Estiamtes Over a Range of Years   
 
 We can use similar code as before, but we will loop through the different population estimate datasets by year.
 
@@ -158,7 +158,7 @@ head(pop_estimates_all,n=10)
 ## 9  2016      31573  Franklin County, Alabama
 ## 10 2016      20066   Marengo County, Alabama
 ```
-## 3. Plot Population Change
+# 3. Plot Population Change
 
 We will use the data we retrieved in example 2 and then calculate and graph the percent change in population per county.
 
@@ -211,9 +211,9 @@ ggplot(pop_pct_change, aes(x = reorder(pop_pct_change$County, as.numeric(pop_pct
   ggtitle("Percent Change in Population by County from 2016 to 2021")
 ```
 
-![plot of chunk plot popchg](figure/plot popchg-1.png)
+![](US_Census_Data_in_R_files/figure-html/plot popchg-1.png)<!-- -->
 
-## R Session Info
+# R Session Info
 
 
 ```r
@@ -221,35 +221,35 @@ sessionInfo()
 ```
 
 ```
-## R version 4.2.3 (2023-03-15)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.6 LTS
+## R version 4.2.1 (2022-06-23 ucrt)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19042)
 ## 
 ## Matrix products: default
-## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0
-## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## [1] LC_COLLATE=English_United States.utf8 
+## [2] LC_CTYPE=English_United States.utf8   
+## [3] LC_MONETARY=English_United States.utf8
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.utf8    
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_3.4.2   censusapi_0.8.0
+## [1] ggplot2_3.4.1   censusapi_0.8.0
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] knitr_1.42       magrittr_2.0.3   tidyselect_1.2.0 munsell_0.5.0   
-##  [5] colorspace_2.1-0 R6_2.5.1         rlang_1.1.0      fansi_1.0.4     
-##  [9] highr_0.10       httr_1.4.5       dplyr_1.1.1      tools_4.2.3     
-## [13] grid_4.2.3       gtable_0.3.3     xfun_0.38        utf8_1.2.3      
-## [17] cli_3.6.1        withr_2.5.0      tibble_3.2.1     lifecycle_1.0.3 
-## [21] farver_2.1.1     vctrs_0.6.1      curl_5.0.0       glue_1.6.2      
-## [25] evaluate_0.20    labeling_0.4.2   compiler_4.2.3   pillar_1.9.0    
-## [29] generics_0.1.3   scales_1.2.1     jsonlite_1.8.4   pkgconfig_2.0.3
+##  [1] highr_0.10       bslib_0.4.2      compiler_4.2.1   pillar_1.8.1    
+##  [5] jquerylib_0.1.4  tools_4.2.1      digest_0.6.31    jsonlite_1.8.4  
+##  [9] evaluate_0.20    lifecycle_1.0.3  tibble_3.1.8     gtable_0.3.1    
+## [13] pkgconfig_2.0.3  rlang_1.0.6      cli_3.6.0        rstudioapi_0.14 
+## [17] curl_5.0.0       yaml_2.3.7       xfun_0.37        fastmap_1.1.0   
+## [21] withr_2.5.0      httr_1.4.5       dplyr_1.1.0      knitr_1.42      
+## [25] generics_0.1.3   sass_0.4.5       vctrs_0.5.2      tidyselect_1.2.0
+## [29] grid_4.2.1       glue_1.6.2       R6_2.5.1         fansi_1.0.4     
+## [33] rmarkdown_2.20   farver_2.1.1     magrittr_2.0.3   scales_1.2.1    
+## [37] htmltools_0.5.4  colorspace_2.1-0 labeling_0.4.2   utf8_1.2.3      
+## [41] munsell_0.5.0    cachem_1.0.7
 ```
