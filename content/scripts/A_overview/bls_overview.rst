@@ -1,4 +1,4 @@
-Bureau of Labor Statistics
+U.S. Bureau of Labor Statistics
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Michael T. Moen <mtmoen@crimson.ua.edu>
