@@ -59,7 +59,8 @@ parts:
       - file: content/scripts/shell/shell_chronam
       - file: content/scripts/matlab/matlab_chronam
       - file: content/scripts/mathematica/mathematica_chronam     
-      - file: content/scripts/R/R_Chronam     
+      - file: content/scripts/R/R_Chronam
+      - file: content/scripts/C/C_chronam
   - caption: SCIENTIFIC
     chapters:
     - file: content/scripts/A_overview/casc_overview
@@ -93,10 +94,12 @@ parts:
       - file: content/scripts/shell/shell_uscensus
       - file: content/scripts/matlab/matlab_uscensus
       - file: content/scripts/mathematica/mathematica_uscensus 
-      - file: content/scripts/R/R_US_Census 
+      - file: content/scripts/R/R_US_Census
+      - file: content/scripts/C/C_uscensus
     - file: content/scripts/A_overview/usaspending_overview
       sections:
-      - file: content/scripts/python/python_usaspending.ipynb
+      - file: content/scripts/python/python_usaspending
+      - file: content/scripts/C/C_usaspending
   - caption: ABOUT
     chapters:
     - file: content/about/contributing
