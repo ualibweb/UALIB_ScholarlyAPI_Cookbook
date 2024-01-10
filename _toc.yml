@@ -88,6 +88,9 @@ parts:
       - file: content/scripts/C/C_PubMed
   - caption: SOCIAL SCIENCES
     chapters:
+    - file: content/scripts/A_overview/college-scorecard_overview
+      sections:
+      - file: content/scripts/python/python_college-scorecard
     - file: content/scripts/A_overview/uscensus_overview
       sections:
       - file: content/scripts/python/python_uscensus
