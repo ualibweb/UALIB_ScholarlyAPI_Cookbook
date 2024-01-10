@@ -6,7 +6,7 @@ College Scorecard
 Brief Overview
 ****************
 
-The College Scorecard API provides programmatic access to data on institutions of higher education published by the U.S. Department of Education. Registration for the API is required [#cs1]. More information about the data available through the API can be found in the documentation [#cs2].
+The College Scorecard API provides programmatic access to data on institutions of higher education published by the U.S. Department of Education. Registration for the API is required [#cs1]_. More information about the data available through the API can be found in the documentation [#cs2]_.
 
 See the Department of Education's website for more information on how the data of the API can be used [#cs3]_.
 
