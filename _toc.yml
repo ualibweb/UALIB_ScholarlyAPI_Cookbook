@@ -12,6 +12,10 @@ parts:
       - file: content/scripts/mathematica/mathematica_SDirect
   - caption: BIBLIOGRAPHIC/GENERAL
     chapters:
+    - file: content/scripts/A_overview/arXiv_overview
+      sections:
+      - file: content/scripts/R/R_arXiv
+    chapters:
     - file: content/scripts/A_overview/crossref_overview
       sections:
       - file: content/scripts/python/python_crossref
@@ -40,6 +44,7 @@ parts:
     - file: content/scripts/A_overview/sec_edgar_overview
       sections:
       - file: content/scripts/python/python_sec_edgar
+      - file: content/scripts/R/R_SEC_EDGAR
     - file: content/scripts/A_overview/ustreasury_overview
       sections:
       - file: content/scripts/python/python_ustreasury
@@ -86,6 +91,9 @@ parts:
       - file: content/scripts/mathematica/mathematica_pubmed
       - file: content/scripts/R/R_PubMed
       - file: content/scripts/C/C_PubMed
+    - file: content/scripts/A_overview/springer_overview
+      sections:
+      - file: content/scripts/python/python_springer
   - caption: SOCIAL SCIENCES
     chapters:
     - file: content/scripts/A_overview/college-scorecard_overview
@@ -103,6 +111,7 @@ parts:
       sections:
       - file: content/scripts/python/python_usaspending
       - file: content/scripts/C/C_usaspending
+      - file: content/scripts/R/R_USA_Spending
   - caption: ABOUT
     chapters:
     - file: content/about/contributing
