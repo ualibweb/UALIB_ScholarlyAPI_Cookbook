@@ -12,10 +12,9 @@ parts:
       - file: content/scripts/mathematica/mathematica_SDirect
   - caption: BIBLIOGRAPHIC/GENERAL
     chapters:
-    - file: content/scripts/A_overview/arXiv_overview
+    - file: content/scripts/A_overview/arxiv_overview
       sections:
-      - file: content/scripts/R/R_arXiv
-    chapters:
+      - file: content/scripts/R/R_arxiv
     - file: content/scripts/A_overview/crossref_overview
       sections:
       - file: content/scripts/python/python_crossref
