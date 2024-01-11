@@ -10,6 +10,9 @@ parts:
       - file: content/scripts/shell/shell_SDirect
       - file: content/scripts/matlab/matlab_SDirect
       - file: content/scripts/mathematica/mathematica_SDirect
+    - file: content/scripts/A_overview/springer_overview
+      sections:
+      - file: content/scripts/python/python_springer
   - caption: BIBLIOGRAPHIC/GENERAL
     chapters:
     - file: content/scripts/A_overview/arxiv_overview
@@ -90,9 +93,6 @@ parts:
       - file: content/scripts/mathematica/mathematica_pubmed
       - file: content/scripts/R/R_PubMed
       - file: content/scripts/C/C_PubMed
-    - file: content/scripts/A_overview/springer_overview
-      sections:
-      - file: content/scripts/python/python_springer
   - caption: SOCIAL SCIENCES
     chapters:
     - file: content/scripts/A_overview/college-scorecard_overview
