@@ -109,8 +109,8 @@ parts:
     - file: content/scripts/A_overview/usaspending_overview
       sections:
       - file: content/scripts/python/python_usaspending
-      - file: content/scripts/C/C_usaspending
       - file: content/scripts/R/R_USA_Spending
+      - file: content/scripts/C/C_usaspending
   - caption: ABOUT
     chapters:
     - file: content/about/contributing
