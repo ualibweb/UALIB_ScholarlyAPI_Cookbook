@@ -25,7 +25,7 @@ These recipe examples were tested on December 1, 2023.
 
 See the bottom of the document for information on R and package versions.
 
-## Setup
+### Setup
 
 Run the following lines of code to load the libraries ‘httr’ and ‘jsonlite’. If you have not done so already, additionally, before the ‘library()’ functions, run ‘install.packages(c(‘httr’,’jsonlite’))’.
 
@@ -35,7 +35,7 @@ library(httr)
 library(jsonlite)
 ```
 
-## User Info
+### User Info
 
 The SEC EDGAR API requires you to provide your name and email when sending requests. Simply edit the following variables with your information.
 
@@ -58,7 +58,7 @@ email <- Sys.getenv("email")
 ```
 
 
-## SEC EDGAR Data Installation
+### SEC EDGAR Data Installation
 
 In addition to the publicly available API, SEC EDGAR data can also be access via a bulk data download, which is compiled nightly. This approach is advantageous when working with large datasets, since it does not require making many individual API calls. However, it requires about 15 GB of storage to install and is more difficult to keep up to date.
 
@@ -302,7 +302,7 @@ ggplot(asset_data, aes(x = log10(totalAssets))) +
 
 ![](SEC_EDGAR_API_R_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
-# 4. Finding the Top 500 Companies by Revenue
+## 4. Finding the Top 500 Companies by Revenue
 
 The Fortune 500 is a ranking of the top 500 companies by revenue, according to the data filed in their 10-K or a comparable form. In this example, we’ll look at only the revenues reported in the 10-K forms to construct a similar ranking of U.S. companies by revenue.
 
