@@ -13,6 +13,9 @@ parts:
     - file: content/scripts/A_overview/springer_overview
       sections:
       - file: content/scripts/python/python_springer
+    - file: content/scripts/A_overview/wileytdm_overview
+      sections:
+      - file: content/scripts/python/python_wileytdm
   - caption: BIBLIOGRAPHIC/GENERAL
     chapters:
     - file: content/scripts/A_overview/arxiv_overview
