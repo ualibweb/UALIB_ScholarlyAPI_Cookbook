@@ -1,4 +1,4 @@
-Wiley Text and Data Mining
+Wiley
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Michael T. Moen <mtmoen@crimson.ua.edu>
