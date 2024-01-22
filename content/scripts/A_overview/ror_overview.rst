@@ -1,4 +1,4 @@
-Research Organization Registry (ROR)
+Research Organization Registry
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Michael T. Moen <mtmoen@crimson.ua.edu>

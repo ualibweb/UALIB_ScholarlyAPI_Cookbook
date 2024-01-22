@@ -29,6 +29,9 @@ parts:
       - file: content/scripts/mathematica/mathematica_crossref
       - file: content/scripts/R/R_Crossref
       - file: content/scripts/C/C_CrossRef
+    - file: content/scripts/A_overview/openalex_overview
+      sections:
+      - file: content/scripts/python/python_openalex
     - file: content/scripts/A_overview/ror_overview
       sections:
       - file: content/scripts/python/python_ror
