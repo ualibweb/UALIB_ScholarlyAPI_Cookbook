@@ -22,7 +22,7 @@ parts:
       sections:
       - file: content/scripts/python/python_wileytdm
         title: "...in Python"
-  - caption: BIBLIOGRAPHIC/GENERAL
+  - caption: BIBLIOGRAPHIC
     chapters:
     - file: content/scripts/A_overview/arxiv_overview
       sections:
