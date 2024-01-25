@@ -1,9 +1,14 @@
 # Table of contents
 format: jb-book
+
 root: content/about/introduction
+
 parts:
+
   - caption: ARTICLE FULL-TEXT
     chapters:
+
+    # ScienceDirect
     - file: content/scripts/A_overview/SDirect_overview
       sections:
       - file: content/scripts/python/python_SDirect
@@ -14,20 +19,30 @@ parts:
         title: "...in Matlab"
       - file: content/scripts/mathematica/mathematica_SDirect
         title: "...in Mathematica"
+
+    # Springer
     - file: content/scripts/A_overview/springer_overview
       sections:
       - file: content/scripts/python/python_springer
         title: "...in Python"
+
+    # Wiley TDM
     - file: content/scripts/A_overview/wileytdm_overview
       sections:
       - file: content/scripts/python/python_wileytdm
         title: "...in Python"
+
+
   - caption: BIBLIOGRAPHIC
     chapters:
+
+    # arXiv
     - file: content/scripts/A_overview/arxiv_overview
       sections:
       - file: content/scripts/R/R_arxiv
         title: "...in R"
+    
+    # Crossref 
     - file: content/scripts/A_overview/crossref_overview
       sections:
       - file: content/scripts/python/python_crossref
@@ -42,40 +57,56 @@ parts:
         title: "...in R"
       - file: content/scripts/C/C_CrossRef
         title: "...in C"
+
+    # OpenAlex
     - file: content/scripts/A_overview/openalex_overview
       sections:
       - file: content/scripts/python/python_openalex
         title: "...in Python"
+
+    # Research Organization Registry
     - file: content/scripts/A_overview/ror_overview
       sections:
       - file: content/scripts/python/python_ror
         title: "...in Python"
+
+    # Scopus
     - file: content/scripts/A_overview/scopus_overview
       sections:
-       - file: content/scripts/python/python_scopus
+      - file: content/scripts/python/python_scopus
         title: "...in Python"
-       - file: content/scripts/shell/shell_scopus
+      - file: content/scripts/shell/shell_scopus
         title: "...in Unix Shell"
-       - file: content/scripts/matlab/matlab_scopus
+      - file: content/scripts/matlab/matlab_scopus
         title: "...in Matlab"
-       - file: content/scripts/mathematica/mathematica_scopus
+      - file: content/scripts/mathematica/mathematica_scopus
         title: "...in Mathematica"
+
+
   - caption: BUSINESS
     chapters:
+
+    # U.S. Bureau of Labor Statistics
     - file: content/scripts/A_overview/bls_overview
       sections:
       - file: content/scripts/python/python_bls
         title: "...in Python"
+
+    # U.S. Securities and Exchange
     - file: content/scripts/A_overview/sec_edgar_overview
       sections:
       - file: content/scripts/python/python_sec_edgar
         title: "...in Python"
       - file: content/scripts/R/R_SEC_EDGAR
         title: "...in R"
+
+    # U.S. Treasury
     - file: content/scripts/A_overview/ustreasury_overview
       sections:
       - file: content/scripts/python/python_ustreasury
         title: "...in Python"
+
+    # World Bank
     - file: content/scripts/A_overview/worldbank_overview
       sections:
       - file: content/scripts/python/python_worldbank
@@ -90,18 +121,28 @@ parts:
         title: "...in R"
       - file: content/scripts/C/C_World_Bank
         title: "...in C"
+
+
   - caption: GENERAL
     chapters:
+
+    # Wikidata
     - file: content/scripts/A_overview/wikidata_overview
       sections:
       - file: content/scripts/mathematica/mathematica_wikidata
         title: "...in Mathematica"
+
+    # Z39.50
     - file: content/scripts/A_overview/z3950_overview
       sections:
       - file: content/scripts/shell/shell_z3950
         title: "...in Unix Shell"
+
+
   - caption: HUMANITIES
     chapters:
+
+    # Chronicling America
     - file: content/scripts/A_overview/chronam_overview
       sections:
       - file: content/scripts/python/python_chronam
@@ -116,8 +157,12 @@ parts:
         title: "...in R"
       - file: content/scripts/C/C_chronam
         title: "...in C"
+
+
   - caption: SCIENTIFIC
     chapters:
+
+    # CAS Common Chemistry
     - file: content/scripts/A_overview/casc_overview
       sections:
       - file: content/scripts/python/python_casc
@@ -130,6 +175,8 @@ parts:
         title: "...in Mathematica"
       - file: content/scripts/R/R_CASCommon
         title: "...in R"
+
+    # PubChem
     - file: content/scripts/A_overview/pubchem_overview
       sections:
       - file: content/scripts/python/python_pubchem
@@ -144,6 +191,8 @@ parts:
         title: "...in R"
       - file: content/scripts/C/C_Pub_Chem
         title: "...in C"
+
+    # PubMed
     - file: content/scripts/A_overview/pubmed_overview
       sections:
       - file: content/scripts/python/python_pubmed
@@ -158,12 +207,18 @@ parts:
         title: "...in R"
       - file: content/scripts/C/C_PubMed
         title: "...in C"
+
+
   - caption: SOCIAL SCIENCES
     chapters:
+
+    # College Scorecard
     - file: content/scripts/A_overview/college-scorecard_overview
       sections:
       - file: content/scripts/python/python_college-scorecard
         title: "...in Python"
+
+    # U.S. Census Data
     - file: content/scripts/A_overview/uscensus_overview
       sections:
       - file: content/scripts/python/python_uscensus
@@ -178,6 +233,8 @@ parts:
         title: "...in R"
       - file: content/scripts/C/C_uscensus
         title: "...in C"
+
+    # USA Spending
     - file: content/scripts/A_overview/usaspending_overview
       sections:
       - file: content/scripts/python/python_usaspending
@@ -186,6 +243,7 @@ parts:
         title: "...in R"
       - file: content/scripts/C/C_usaspending
         title: "...in C"
+
   - caption: ABOUT
     chapters:
     - file: content/about/contributing
