@@ -1,10 +1,7 @@
-...in Unix Shell
+Chronicling America API in Unix Shell
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-Chronicling America API in Unix Shell
-*****************************************
 
 by Avery M. Fernandez
 

@@ -5,9 +5,7 @@ output:
     keep_md: true
 ---
 
-# ...in R
-
-## arXiv API in R
+# arXiv API in R
 
 by Adam Miramontes Nguyen
 
@@ -29,20 +27,18 @@ See the bottom of the document for information on R and package versions.
 
 Hosted and maintained by Cornell University, arXiv is an open-access and free distribution service containing nearly 2.5 million scholarly articles in fields including physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science and economics at the time of writing. In this tutorial we will introduce how to use the API with some examples, but for larger bulk downloads of data from arXiv, we recommend [Kaggle's arxiv Dataset](https://www.kaggle.com/datasets/Cornell-University/arxiv/data), which is updated monthly with the full arXiv data set and metadata.
 
-## Setup
+### Setup
 
 Run the following lines of code to load the library ‘aRxiv’. If you have not done so already, additionally, before the ‘library()’ functions, run ‘install.packages('aRxiv')’. aRxiv is the package we will use to interface with the arXiv API.
-
 
 ```r
 # Load necessary libraries
 library(aRxiv)
 ```
 
-## Retrieving Categories
+### Retrieving Categories
 
 Before we get started, a useful function provided by the aRxiv package is 'arxiv_cats'. This returns arXiv subject classification's abbreviation and corresponding description. Categories are especially important in forming queries to the API so we mention them here first.
-
 
 ```r
 # Here are the first 10 categories to showcase the function
@@ -66,7 +62,6 @@ head(arxiv_cats,n=10)
 ## 1. Basic Search
 
 Possibly the function of most utility in the package is 'arxiv_search()'. The search allows for the programmatic searching of the arXiv repository returning 15 columns of information including 'id','title','summary', and more. We will showcase the use of this function by searching for papers with the term 'Hydrodynamics' in the title and then extract authors and see who is has the most publications.
-
 
 ```r
 # Search for Hydrodynamics papers

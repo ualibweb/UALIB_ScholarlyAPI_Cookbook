@@ -1,10 +1,7 @@
-...in Matlab
+ScienceDirect API in Matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-ScienceDirect API in Matlab
-*****************************************
 
 by Anastasia Ramig
 

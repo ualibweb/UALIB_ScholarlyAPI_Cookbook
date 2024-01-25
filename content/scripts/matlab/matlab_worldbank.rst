@@ -1,10 +1,7 @@
-...in Matlab
+World Bank API in Matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-World Bank API in Matlab
-*******************************
 
 by Vincent Scalfani
 

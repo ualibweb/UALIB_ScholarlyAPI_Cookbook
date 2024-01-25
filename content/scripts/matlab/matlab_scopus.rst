@@ -1,10 +1,7 @@
-...in Matlab
+Scopus API in Matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-Scopus API in Matlab
-********************************
 
 by Anastasia Ramig
 

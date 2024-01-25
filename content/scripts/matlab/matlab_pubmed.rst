@@ -1,10 +1,7 @@
-...in Matlab
+PubMed API in Matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-PubMed API in Matlab
-******************************
 
 by Anastasia Ramig
 

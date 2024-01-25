@@ -5,9 +5,7 @@ output:
     keep_md: TRUE
 ---
 
-# ...in R
-
-## PubChem API in R
+# PubChem API in R
 
 By Vishank Patel and Adam M Nguyen
 
@@ -23,7 +21,7 @@ Attribution: This tutorial was adapted from supporting information in:
 
 Scalfani, V. F.; Ralph, S. C. Alshaikh, A. A.; Bara, J. E. Programmatic Compilation of Chemical Data and Literature From PubChem Using Matlab. Chemical Engineering Education, 2020, 54, 230. <https://doi.org/10.18260/2-1-370.660-115508> and <https://github.com/vfscalfani/MATLAB-cheminformatics>)
 
-# Setup
+### Setup
 
 Importing the necessary libraries and setting up the base api:
 
@@ -42,11 +40,11 @@ library(magick)     #Image manipulation
 api <- 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/'
 ```
 
-# 1. PubChem Similarity
+## 1. PubChem Similarity
 
 Search for chemical structures in PubChem via a Fingerprint Tanimoto Similarity Search.
 
-## Get compound image
+### Get compound image
 
 
 ```r
@@ -60,7 +58,7 @@ include_graphics(CID_URL)
 
 Replace the above CID value (CID_SS_query) with a different CID to customize.
 
-## Retrieve InChI and SMILES
+### Retrieve InChI and SMILES
 
 Retrieve InChI
 
@@ -92,7 +90,7 @@ IS
 ## [1] "CCCCN1C=C[N+](=C1)C"
 ```
 
-## Perform a Similarity Search
+### Perform a Similarity Search
 
 Search for chemical structures by Similarity Search (SS), (2D Tanimoto threshold 95% to 1-Butyl-3-methyl-imidazolium; CID = 2734162)
 
@@ -192,7 +190,7 @@ CIDs1_df   # displaying the first few elements of the data
 
 In the above SS_url value, you can adjust to the desired Tanimoto threshold (i.e., 97, 90, etc.)
 
-## Retrieve Identifier and Property Data
+### Retrieve Identifier and Property Data
 
 Create an identifier/property dataset from Similarity Search results.
 
@@ -283,7 +281,7 @@ We will now export the generated dataframe as a tab separated text file. The fil
 write.table(similarity_results_tibble, file = "Data/R_Similarityq_results.txt", sep = "\t", row.names = TRUE, col.names = NA);
 ```
 
-## Retrieve Images of CID Compounds from Similarity Search
+### Retrieve Images of CID Compounds from Similarity Search
 
 Create the results png:
 
@@ -325,7 +323,7 @@ image_read(content[[5]])
 
 ![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-10-5.png)
 
-# 2. PubChem SMARTS Search
+## 2. PubChem SMARTS Search
 
 Search for chemical structures in PubChem via a SMARTS substructure query and compile results
 
@@ -335,7 +333,7 @@ Search for chemical structures in PubChem via a SMARTS substructure query and co
 api <- "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/";
 ```
 
-## Define SMARTS Queries
+### Define SMARTS Queries
 
 
 ```r
@@ -347,7 +345,7 @@ SmartsQ <- c("[CR0H2][n+]1[cH1][cH1]n([CR0H1]=[CR0H2])[cH1]1","[CR0H2][n+]1[cH1]
 
 Add your own SMARTS queries to customize. You can add as many as desired within a cell array.
 
-## Perform a SMARTS Query Search
+### Perform a SMARTS Query Search
 
 
 ```r
@@ -397,7 +395,7 @@ hit_CIDs_results
 ## [22] 160979882 160848969 160787397 160707335
 ```
 
-## Retrieve Identifier and Property Data
+### Retrieve Identifier and Property Data
 
 Create an identifier/property dataset from the SMARTS substructure search results
 
@@ -497,7 +495,7 @@ Exporting the data as a tabbed text file
 write.table(smarts_results_tibble2, file = "Data/R_Smartsq_results.txt", sep = "\t", row.names = TRUE, col.names = NA);
 ```
 
-## Retrieve Images of CID Compounds from SMARTS query match
+### Retrieve Images of CID Compounds from SMARTS query match
 
 Create the results png:
 
@@ -539,7 +537,7 @@ image_read(content2[[5]])
 
 ![](R_Pubchem_Markdown_Adam_Edit_files/figure-html/unnamed-chunk-18-5.png)
 
-# R Session Info
+## R Session Info
 
 
 ```r

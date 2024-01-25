@@ -5,9 +5,7 @@ output:
     keep_md: true
 ---
 
-# ...in R
-
-## SEC EDGAR API in R
+# SEC EDGAR API in R
 
 by Adam Miramontes Nguyen
 

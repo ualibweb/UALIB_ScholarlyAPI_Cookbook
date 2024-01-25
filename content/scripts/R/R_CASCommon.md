@@ -5,9 +5,7 @@ output:
     keep_md: TRUE
 ---
 
-# ...in R
-
-## CAS Common Chemistry API in R
+# CAS Common Chemistry API in R
 
 by Adam Miramontes Nguyen
 
@@ -30,11 +28,11 @@ library(httr)
 library(jsonlite)
 ```
 
-# 1. Common Chemistry Record Detail Retrieval
+## 1. Common Chemistry Record Detail Retrieval
 
 Common Chemistry is an extremely useful open community resource for accessing chemical information for nearly 500,000 chemical chemistry from the CAS registry. In this example we are going to detail the steps in which a user can query and access a simple example chemical substance, ethyl cyclohexanepropionate.
 
-## Setup API parameters   
+### Setup API parameters   
 
 First let's setup the API parameters for Common Chemistry. Below we are going to provide a variable 'detail_base_url' to query Common Chemistry for details and more specifically, in this example, using a registry number, or as we abbreviate it an 'rn'.
 
@@ -42,7 +40,7 @@ First let's setup the API parameters for Common Chemistry. Below we are going to
 detail_base_url <- "https://commonchemistry.cas.org/api/detail?"
 casrn1 <- "10094-36-7" # ethyl cyclohexanepropionate
 ```
-## Request data from CAS Common Chemistry Detail API
+### Request data from CAS Common Chemistry Detail API
 
 Using the 'httr' and 'JSONlite' libraries, we will query and convert the data into a usable format.
 
@@ -138,7 +136,7 @@ casrn1_data
 ## $hasMolfile
 ## [1] TRUE
 ```
-## Accessing specific data
+### Accessing specific data
 
 To access specifc data of the list we can use the '$' operator to extract the specific part of the data object.   
 
@@ -193,10 +191,9 @@ ls(casrn1_data)
 Given this list we can select different data as seen in previous examples, i.e. 'casrn1_data$(example)'.
 
 
-## Display the molecule drawing   
+### Display the molecule drawing   
 
-
-### Using SVG       
+#### Using SVG       
 
 According to Wikipedia, Scalable Vector Graphics, or SVG, is an XML based vector format for defining two-dimensional graphics and has been an open standard since 1999. Using the SVG data provided by the API, we will display the molecule drawing using the package 'magick', a useful toolkit for image processing in R.
 
@@ -210,7 +207,7 @@ image_read(str,200)
 
 ![](CASCommonChemR_files/figure-html/Display-1.png)
 
-# 2. Common Chemistry API record detail retrieval in a loop   
+## 2. Common Chemistry API record detail retrieval in a loop   
 
 Similar to the previous example, we will show how to query Common Chemistry for details given some registry number, but in this case show how this would be achievable through a list of registry numbers. This is extremely useful for researchers and users interested in large lists of chemical substances.
 
@@ -223,8 +220,6 @@ casrn_list <- as.list(c("10094-36-7", "10031-92-2", "10199-61-8", "10036-21-2", 
 
 n<-length(casrn_list) # To be used for future use
 
-
-
 # Iterate through list of casrn and append to list
 list <- lapply(casrn_list, function(i) {
   raw_casrn_data <- GET(paste0(detail_base_url, "cas_rn=", i))
@@ -233,7 +228,6 @@ list <- lapply(casrn_list, function(i) {
   Sys.sleep(1)
   return(casrn_data)
 })
- 
 
 head(list,n=1) # We now have a list of sublists of data corresponding to the casrn.
 ```
@@ -297,8 +291,8 @@ head(list,n=1) # We now have a list of sublists of data corresponding to the cas
 ## [[1]]$hasMolfile
 ## [1] TRUE
 ```
-## Display Images
 
+### Display Images
 
 ```r
 # First using 'lapply', we iterate through list and apply 'function(x)' that converts our image into a readable format
@@ -339,7 +333,7 @@ image_scale(image_read(imgs[[5]]),200)
 
 ![](CASCommonChemR_files/figure-html/disp-list-5.png)
 
-## Select some specific data    
+### Select some specific data    
 
 Using 'lapply()', we iterate through the list and grab each sub-list's canonicalSmile.
 
@@ -423,7 +417,7 @@ flatsyns
 ## [21] "1-Cyclohexene-1-carboximidic acid, ethyl ester"         
 ## [22] "Ethyl 1-cyclohexene-1-carboximidate"
 ```
-## Create Dataframe   
+### Create Dataframe   
 
 Let's create a dataframe from 'list' with the variables: 'uri', 'rn', 'name', 'inchiKey', 'canonicalSmile', and 'molecularMass'.
 
@@ -466,7 +460,7 @@ df
 ## uri.4        153.22
 ```
 
-# 3. Common Chemistry 
+## 3. Common Chemistry 
 
 In addition to the /detail API, the CAS Common Chemistry API has a /search method that allows searching by CAS RN, SMILES, InChI/InChIKey, and name.
 
@@ -620,7 +614,7 @@ quinine_data
 ## [1] TRUE
 ```
 
-## Handle multiple results
+### Handle multiple results
 
 ```r
 # setup search query parameters
@@ -688,7 +682,7 @@ unlist(names) #Display names
 ```
 
 
-## Handle multiple page results   
+### Handle multiple page results   
 
 The CAS Common Chemistry API returns 50 results per page, and only the first page is returned by default. If the search returns more than 50 results, the offset option can be added to page through and obtain all results:
 
@@ -883,7 +877,7 @@ head(mms, n=20)
 ## [[20]]
 ## [1] ""
 ```
-### Visualization   
+#### Visualization   
 
 Using the list of molecular mass values we collected in the previous example from the search query of 'selen*' we can create some neat visualizations in R using the 'hist()' and 'density()' functions.
 
@@ -910,7 +904,7 @@ polygon(d, col="plum", border="black")
 
 ![](CASCommonChemR_files/figure-html/kernel-1.png)<!-- -->
 
-# R Session Info
+## R Session Info
 
 
 ```r
