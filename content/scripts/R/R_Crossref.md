@@ -72,13 +72,13 @@ The raw data is in hexadecimal and is hard to read.
 
 ### Converting the data to JSON format (which is more readable)
 
-
 ```r
 api_data <- fromJSON(rawToChar(raw_api_data), flatten = TRUE)
 print(api_data)
 ```
 
 ```
+:tags: ["output_scroll"]
 ## $status
 ## [1] "ok"
 ## 
@@ -377,7 +377,7 @@ api_data$message$`reference`[1:7,1:7]    # prints the table of data
 ## 7        S Langdon 2010
 ```
 
-### Selecting some specific data
+### Selecting specific data
 
 Getting the Journal Title
 
@@ -465,6 +465,7 @@ loaded_data                       #Load Json data from file
 ```
 
 ```
+:tags: ["output_scroll"]
 ## $status
 ## [1] "ok"
 ## 
@@ -862,6 +863,7 @@ jour_data
 ```
 
 ```
+:tags: ["output_scroll"]
 ## $status
 ## [1] "ok"
 ## 
