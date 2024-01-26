@@ -5,9 +5,7 @@ output:
     keep_md: TRUE
 ---
 
-# ...in R
-
-## World Bank Data API in R
+# World Bank Data API in R
 
 by Vishank Patel and Adam M. Nguyen
 
@@ -19,7 +17,7 @@ These recipe examples were tested on March 24, 2023.
 
 See the bottom of the document for information on R and package versions.
 
-## Setup
+### Setup
 
 
 ```r
@@ -34,7 +32,7 @@ library(jsonlite)   #converting to JSON
 urlRoot <- "https://api.worldbank.org/v2/"
 ```
 
-# 1. Get list of country iso2Codes and names
+## 1. Get list of country iso2Codes and names
 
 For obtaining data from the World Bank API, it is helpful to first obtain a list of country codes and names.
 
@@ -64,7 +62,7 @@ country_data[1:10,1:5] # Display first 5 features of first 10 countries from cou
 ## 9  ARB       1A                  Arab World                           
 ## 10 ARE       AE        United Arab Emirates        Abu Dhabi   54.3705
 ```
-## Extract Country Codes
+### Extract Country Codes
 
 
 ```r
@@ -112,7 +110,7 @@ head(countryIso2Code,n=10) # Display first 10
 ## [1] "AE"
 ```
 
-## Extract country names
+### Extract country names
 
 
 ```r
@@ -159,8 +157,8 @@ head(countryName,n=10) # Display first 10 Country names
 ## [[10]]
 ## [1] "United Arab Emirates"
 ```
-## Store Country Codes and Names together
 
+### Store Country Codes and Names together
 
 ```r
 countryIso2CodeName <- transpose(list(countryIso2Code,countryName))
@@ -176,6 +174,7 @@ head(countryIso2CodeName, n=10)
 ```
 
 ```
+:tags: ["output_scroll"]
 ## [[1]]
 ## [[1]][[1]]
 ## [1] "AW"
@@ -258,7 +257,7 @@ head(countryIso2CodeName, n=10)
 
 Now we know the country iso2codes, which we can use to pull specific indicator data for countries.
 
-# 2. Compile a Custom Indicator Dataset
+## 2. Compile a Custom Indicator Dataset
 
 There are many availabe indicators: <https://data.worldbank.org/indicator>
 
@@ -276,9 +275,10 @@ Note that these three selected indictaors have a [CC-BY 4.0 license](https://dat
 ```r
 indicators <- list("IP.JRN.ARTC.SC", "IP.PAT.RESD", "NY.GDP.PCAP.CD")
 ```
-## United States (US)
 
-### Generate the web API URLs we need for U.S.:
+### United States (US)
+
+#### Generate the web API URLs we need for U.S.:
 
 
 ```r
@@ -300,7 +300,7 @@ us_api_url
 ## [3] "https://api.worldbank.org/v2/country/US/indicator/NY.GDP.PCAP.CD?format=json&per_page=500"
 ```
 
-### Retrieving Data
+#### Retrieving Data
 
 
 ```r
@@ -312,7 +312,7 @@ for (url in us_api_url) {
   us_indicator_data <- append(us_indicator_data,list(temp_data))  #making a list of tibbles 
 }
 ```
-### Extracting Data
+#### Extracting Data
 
 
 ```r
@@ -401,7 +401,7 @@ head(us_data)
 ## 6                         295327                          57866.74
 ```
 
-## United Kingdom (GB)
+### United Kingdom (GB)
 
 Now we can repeat the same process to find the relevant information for the United Kingdom indicated by the country code "GB". As you will see, much of the code is the same, so if needed, reference the United States example.
 
@@ -422,7 +422,7 @@ uk_api_url
 ## [3] "https://api.worldbank.org/v2/country/GB/indicator/NY.GDP.PCAP.CD?format=json&per_page=500"
 ```
 
-### Retrieving Data
+#### Retrieving Data
 
 
 ```r
@@ -432,7 +432,7 @@ for (url in uk_api_url) {
   uk_indicator_data <- append(uk_indicator_data,list(temp_data))  #making a list of tibbles 
 }
 ```
-### Extracting Data
+#### Extracting Data
 
 ```r
 # Extract Data
@@ -462,7 +462,7 @@ head(uk_data)
 ## 6                          13876                          41146.08
 ```
 
-# 3. Plot Indicator Data
+## 3. Plot Indicator Data
 
 Create line plots of US/UK Number of Scientific and Technical Journal Articles and Patents by year. Upon inspecting the dataset, there are no values before the year 2000 and after 2018. Hence, we will slice our data for visualizations accordingly.
 
@@ -533,7 +533,7 @@ ggplot(patent_data, aes(x = dates))+
 ![](R_WorldBank_Markdown_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 
-# R Session Info 
+## R Session Info 
 
 
 ```r

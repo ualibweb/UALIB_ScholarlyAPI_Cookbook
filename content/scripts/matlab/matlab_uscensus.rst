@@ -1,10 +1,7 @@
-...in Matlab
+U.S. Census Data API in Matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-U.S. Census Data API in Matlab
-*****************************************
 
 by Anastasia Ramig
 

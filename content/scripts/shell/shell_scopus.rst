@@ -1,10 +1,7 @@
-...in Unix Shell
+Scopus API in Unix Shell
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-Scopus API in Unix Shell
-********************************
 
 by Avery Fernandez
 

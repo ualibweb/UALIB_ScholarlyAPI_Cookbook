@@ -1,10 +1,7 @@
-...in Unix Shell
+Z39.50 in Unix Shell
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-Z39.50 in Unix Shell 
-************************
 
 by Vincent Scalfani and Cyrus Gomes
 

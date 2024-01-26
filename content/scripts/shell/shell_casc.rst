@@ -1,10 +1,7 @@
-...in Unix Shell
+CAS Common Chemistry API in Unix Shell
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-CAS Common Chemistry API in Unix Shell
-*****************************************
 
 by Avery M. Fernandez and Vincent F. Scalfani
 

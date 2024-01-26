@@ -5,9 +5,7 @@ output:
     keep_md: TRUE
 ---
 
-# ...in R
-
-## Chronicling Ameria API in R
+# Chronicling Ameria API in R
 
 By Cyrus Gomes, Vincent Scalfani, and Adam M. Nguyen
 
@@ -24,7 +22,7 @@ See the bottom of the document for information on R and package versions.
 Note that the data from the Alabama state intelligencer, The age-herald, and the Birmingham age-herald were contributed to Chronicling America by The University of Alabama Libraries: https://chroniclingamerica.loc.gov/awardees/au/
 
 
-# Setup
+### Setup
 
 First let us setup the required packages and base url for the Chronicling America API. If you have not already installed a package, run "install.packages('package name')", replacing 'package name' with the name of the package you require.
 
@@ -46,7 +44,7 @@ Setting the base url for the API:
 base_url <- "https://chroniclingamerica.loc.gov/"
 ```
 
-# 1. Basic API request
+## 1. Basic API request
 
 The Chronicling America API identifies newspapers and other records using LCCNs. We can query the API once we have the LCCN for the newspaper and even ask for particular issues and editions. For example, the following link lists newspapers published in the state of Alabama, from which the LCCN can be obtained: https://chroniclingamerica.loc.gov/newspapers/?state=Alabama
 
@@ -186,7 +184,6 @@ data
 ## [1] "1961-11-19"
 ```
 
-
 ```r
 # Download and save the PDF
 url <- data$pdf # Grabs the url of the pdf
@@ -201,11 +198,9 @@ url
 download.file(url, destfile = "file.pdf", mode = "wb") # Downloads the file and saves the pdf
 ```
 
-
-# 2. Frequency of “University of Alabama” mentions
+## 2. Frequency of “University of Alabama” mentions
 
 For this next example, querying the API is relatively the same process, therefore we will follow the same steps. Feel free to refer to example 1 for information on a step-by-step basis.
-
 
 ```r
 # API Query
@@ -256,8 +251,6 @@ nrow(data$items)
 ## [1] 500
 ```
 
-
-
 ```r
 # create a list of dates from each item record
 dates <- list() # Create empty list
@@ -276,7 +269,7 @@ unlist(dates[1:10])
 ##  [7] "19140602" "19120714" "19220917" "19170513"
 ```
 
-#### Converting the dates to years, so we can draw a histogram
+### Converting the dates to years, so we can draw a histogram
 
 
 ```r
@@ -306,7 +299,7 @@ hist(lst2, # Data
 
 ![](Chronam_in_R_Adam_Vers_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
-# 3. Sunday Comic Titles in the Age-herald
+## 3. Sunday Comic Titles in the Age-herald
 
 The Age - Herald published comics every Sunday, we will try to extract the titles of those published on page 15 of the 17th October 1897 edition.
 
@@ -401,7 +394,7 @@ for (i in 1:length(strings)){
 
 
 
-# 4. Industrialization keywords frequency in the Birmingham Age-herald
+## 4. Industrialization keywords frequency in the Birmingham Age-herald
 
 We will try to obtain the frequency of “Iron” on the front pages of the Birmingham Age- herald newspapers from the year 1900 to 1920. (limited to first 500 rows for testing here)
 
@@ -474,7 +467,7 @@ hist(hist2,
 
 ![](Chronam_in_R_Adam_Vers_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
-# R Session Info
+## R Session Info
 
 
 ```r

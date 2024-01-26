@@ -1,10 +1,7 @@
-...in Unix Shell
+PubMed API in Unix Shell
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-PubMed API in Unix Shell
-******************************
 
 by Avery Fernandez and Vincent Scalfani
 

@@ -1,10 +1,7 @@
-...in Matlab
+Chronicling America API in Matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
-
-Chronicling America API in Matlab
-*****************************************
 
 by Anastasia Ramig
 

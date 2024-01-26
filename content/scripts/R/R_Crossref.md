@@ -5,9 +5,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# ...in R
-
-## CrossRef API in R
+# CrossRef API in R
 
 By Cyrus Gomes, Vincent Scalfani, and Adam M. Nguyen
 
@@ -21,7 +19,7 @@ See the bottom of the document for information on R and package versions.
 
 From our testing, we have found that the crossref metadata across publishers and even journals can vary considerably. As a result, it can be easier to work with one journal at a time when using the crossref API (e.g., particulary when trying to extract selected data from records).
 
-# Setup
+### Setup
 
 Importing the necessary libraries and setting up the base api:
 
@@ -38,9 +36,9 @@ library(jsonlite)   #converting to JSON
 base_url <- "https://api.crossref.org/works/"
 ```
 
-# 1. Basic CrossRef API call
+## 1. Basic CrossRef API call
 
-## Let's set up basic parameters
+### Setup basic parameters
 
 
 ```r
@@ -56,7 +54,7 @@ complete_data
 ## [1] "https://api.crossref.org/works/10.1186/1758-2946-4-12?mailto=your_email@ua.edu"
 ```
 
-## Request data from CrossRef
+### Request data from CrossRef
 
 
 ```r
@@ -72,8 +70,7 @@ head(raw_api_data,n=100)
 ```
 The raw data is in hexadecimal and is hard to read.
 
-## Converting the data to JSON format (which is more readable)
-
+### Converting the data to JSON format (which is more readable)
 
 ```r
 api_data <- fromJSON(rawToChar(raw_api_data), flatten = TRUE)
@@ -81,6 +78,7 @@ print(api_data)
 ```
 
 ```
+:tags: ["output_scroll"]
 ## $status
 ## [1] "ok"
 ## 
@@ -353,7 +351,7 @@ print(api_data)
 
 Replace the above DOI value with a different DOI to customize.
 
-## Let's see the reference part of CrossRef in a convenient tabular way
+### Let's see the reference part of CrossRef in a convenient tabular way
 
 
 ```r
@@ -379,7 +377,7 @@ api_data$message$`reference`[1:7,1:7]    # prints the table of data
 ## 7        S Langdon 2010
 ```
 
-## Selecting some specific data
+### Selecting specific data
 
 Getting the Journal Title
 
@@ -447,7 +445,7 @@ bib_refs[0:5]
 ## [1] "Medina-Franco JL, Martinez-Mayorga K, Giulianotti MA, Houghten RA, Pinilla C: Visualization of the chemical space in drug discovery. Cur Comp-Aided Drug Des. 2008, 4: 322-333. 10.2174/157340908786786010."
 ```
 
-## Save JSON data to a file
+### Save JSON data to a file
 
 This is particularly useful for downstream testing or returning to results in the future (e.g., no need to keep requesting the data from crossref, save the results to a file)
 
@@ -458,7 +456,7 @@ jsonData <- toJSON(api_data)
 write (jsonData, "output.json")
 ```
 
-## Load JSON data from a file
+### Load JSON data from a file
 
 
 ```r
@@ -467,6 +465,7 @@ loaded_data                       #Load Json data from file
 ```
 
 ```
+:tags: ["output_scroll"]
 ## $status
 ## [1] "ok"
 ## 
@@ -737,9 +736,9 @@ loaded_data                       #Load Json data from file
 ## [1] "12"
 ```
 
-# 2. CrossRef API call with a Loop
+## 2. CrossRef API call with a Loop
 
-## Setup API parameters
+### Setup API parameters
 
 
 ```r
@@ -749,7 +748,7 @@ mailto <- "?mailto="
 doi <- "10.1186/1758-2946-4-12" #example
 ```
 
-## Create a List of DOIs
+### Create a List of DOIs
 
 
 ```r
@@ -762,7 +761,7 @@ doi_list <- list('10.1021/acsomega.1c03250',
              '10.1021/acsomega.8b01834')
 ```
 
-## Request metadata for each DOI from CrossRef API and save to a list
+### Request metadata for each DOI from CrossRef API and save to a list
 
 
 ```r
@@ -843,9 +842,9 @@ for (item in 1:length(doi_metadata)){
 ## [1] "Department of Pharmacoinformatics, National Institute of Pharmaceutical Educational and Research (NIPER), Chunilal Bhawan, 168, Manikata Main Road, 700054 Kolkata, India"
 ```
 
-# 3. Crossref API call for journal information
+## 3. Crossref API call for journal information
 
-## Setup API parameters
+### Setup API parameters
 
 
 ```r
@@ -855,7 +854,7 @@ mailto <- "?mailto="
 issn <- "1471-2105"  # issn for the journal BMC Bioinformatics
 ```
 
-## Request journal data from crossref API
+### Request journal data from crossref API
 
 
 ```r
@@ -864,6 +863,7 @@ jour_data
 ```
 
 ```
+:tags: ["output_scroll"]
 ## $status
 ## [1] "ok"
 ## 
@@ -1219,9 +1219,9 @@ jour_data
 ## 2 1471-2105 electronic
 ```
 
-# 4. Crossref API - Get article DOIs for a journal
+## 4. Crossref API - Get article DOIs for a journal
 
-## Setup API parameters
+### Setup API parameters
 
 
 ```r
@@ -1232,7 +1232,7 @@ issn <- "1471-2105"  # issn for the journal BMC Bioinformatics
 journal_works2014 <- "/works?filter=from-pub-date:2014,until-pub-date:2014&select=DOI" # query to get DOIs for 2014
 ```
 
-## Request DOI data from crossref API
+### Request DOI data from crossref API
 
 
 ```r
@@ -1299,7 +1299,7 @@ rows <- "&rows=700"
 doi_data_all <- fromJSON(rawToChar(GET(paste(jbase_url, issn, journal_works2014, rows, mailto, email, sep=""))$content), flatten = TRUE)
 ```
 
-## Extract DOIs
+### Extract DOIs
 
 
 ```r
@@ -1549,7 +1549,7 @@ print(doi_list2[1000:1020])
 ## [[21]]
 ## [1] "10.1186/s12859-016-1351-8"
 ```
-# R Session Info
+## R Session Info
 
 ```r
 sessionInfo()

@@ -5,9 +5,7 @@ output:
     keep_md: true
 ---
 
-# ...in R
-
-## USA Spending API in R
+# USA Spending API in R
 
 by Adam Miramontes Nguyen
 
@@ -21,7 +19,7 @@ These recipe examples were tested on December 1, 2023.
 
 See the bottom of the document for information on R and package versions.
 
-## Setup
+### Setup
 
 Run the following lines of code to load the libraries ‘httr’ and ‘jsonlite’. If you have not done so already, additionally, before the ‘library()’ functions, run ‘install.packages(c(‘httr’,’jsonlite’))’.
 

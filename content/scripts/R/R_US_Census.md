@@ -5,9 +5,7 @@ output:
     keep_md: true
 ---
 
-# ...in R
-
-## U.S. Census Data API in R
+# U.S. Census Data API in R
 
 by Adam Miramontes Nguyen
 
@@ -27,7 +25,7 @@ See also the [U.S. Census API Terms of Service](https://www.census.gov/data/deve
 
 **Attribution:** *This tutorial uses the Census Buereau Data API but is not endorsed or certified by the Census Bureau.*
 
-# API Key Information   
+### API Key Information   
 
 While an API key is not required to use the U.S. Census Data API, you may consider registering for an API key as the API is limited to 500 calls a day without a key. Sign up can be found here: https://api.census.gov/data/key_signup.html.    
 
@@ -40,7 +38,7 @@ Here we use 'Sys.getenv()' to retrieve our API key from the environment variable
 user_key = Sys.getenv('USCensusAPIKey')#use Sys.getenv() to access .Renviron
 ```
 
-# Setup censusapi Package
+### Setup censusapi Package
 The package, censusapi, allows users to easily access U.S. Census data and metadata, including datasets such as the Decennial Census, American Community Survey, Small Area Health Insurance Estimates, Small Area Income and Poverty Estimates, Population Estimates and Projections, and more. In this tutorial, we will be using this censusapi.
 
 If you haven't already, run "install.packages('censusapi')" in your R Console to install the US Census API package we will be using for this tutorial.
@@ -50,7 +48,7 @@ First let us set up the required library, "censusapi".
 ```r
 library(censusapi) # Access censusapi library
 ```
-# 1. Get Population Estimates of Counties by State    
+## 1. Get Population Estimates of Counties by State    
 
 Our primary means of accessing the U.S. Census API will be through the function "getCensus". In this example we give specific comments as to each line of code that should clarify each line.
 
@@ -115,7 +113,7 @@ head(alabama_counties_populations,n=10) #Display first entries of 'alabama_count
 Now we have successfully used the U.S. Census API to store population estimates from Alabama counties in the variable 'alabama_counties_populations'.
 
 
-# 2. Get Population Estiamtes Over a Range of Years   
+## 2. Get Population Estiamtes Over a Range of Years   
 
 We can use similar code as before, but we will loop through the different population estimate datasets by year.
 
@@ -158,7 +156,8 @@ head(pop_estimates_all,n=10)
 ## 9  2016      31573  Franklin County, Alabama
 ## 10 2016      20066   Marengo County, Alabama
 ```
-# 3. Plot Population Change
+
+## 3. Plot Population Change
 
 We will use the data we retrieved in example 2 and then calculate and graph the percent change in population per county.
 
@@ -213,7 +212,7 @@ ggplot(pop_pct_change, aes(x = reorder(pop_pct_change$County, as.numeric(pop_pct
 
 ![](US_Census_Data_in_R_files/figure-html/plot-popchg-1.png)<!-- -->
 
-# R Session Info
+## R Session Info
 
 
 ```r
