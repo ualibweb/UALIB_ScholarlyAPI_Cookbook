@@ -78,7 +78,6 @@ print(api_data)
 ```
 
 ```
-:tags: ["output_scroll"]
 ## $status
 ## [1] "ok"
 ## 
@@ -465,7 +464,6 @@ loaded_data                       #Load Json data from file
 ```
 
 ```
-:tags: ["output_scroll"]
 ## $status
 ## [1] "ok"
 ## 
