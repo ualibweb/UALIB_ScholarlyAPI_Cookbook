@@ -14,8 +14,8 @@ These recipe examples were tested on November 23, 2022 using Matlab R2022b.
 **Scalfani, V. F.**; Ralph, S. C. Alshaikh, A. A.; Bara, J. E. Programmatic Compilation of Chemical Data and Literature From PubChem Using Matlab. 
 *Chemical Engineering Education*, **2020**, *54*, 230. https://doi.org/10.18260/2-1-370.660-115508 and https://github.com/vfscalfani/MATLAB-cheminformatics)
 
-1. Setup
-============================================
+Setup
+=====
 
 Define the PubChem PUG-REST API base URL:
 
@@ -27,7 +27,7 @@ Define the PubChem PUG-REST API base URL:
    %% set MATLAB web options to a 30 second timeout
    options = weboptions('Timeout', 30);
 
-2. PubChem Similarity
+1. PubChem Similarity
 ===========================
 
 Get Compound Image
@@ -298,7 +298,7 @@ Retrieve Images of CID Compounds from Similarity Search
 
 .. image:: imgs/matlab_pc_im3.png
 
-3. PubChem SMARTS Search
+2. PubChem SMARTS Search
 ============================
 
 Search for chemical structures from a SMARTS substructure query.

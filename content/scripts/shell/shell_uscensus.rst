@@ -18,8 +18,11 @@ See also the U.S. `Census API Terms of Service`_
 **Attribution:** This tutorial uses the Census Bureau Data API but is not endorsed
 or certified by the Census Bureau.
 
+Setup
+=====
+
 Program requirements
-=========================
+--------------------
 
 In order to run this code, you will need to first install `curl`_, `jq`_, and `gnuplot`_.
 curl is used to request the data from the API, jq is used to parse the JSON data,
@@ -30,7 +33,7 @@ and gnuplot is used to plot the data.
 .. _gnuplot: http://www.gnuplot.info/
 
 API Key Information
-=========================
+-------------------
 
 While an API key is not required to use the U.S. Census Data API, you may consider
 registering for an API key as the API is limited to 500 calls a day without a key.
@@ -205,7 +208,7 @@ View the first 25 lines
    2015,Alabama,Lowndes County,10458
    2015,Alabama,Macon County,19105
 
-3. Plot Population Change
+3. Plot population change
 ================================
 
 This data is based off the 2021 Population Estimates dataset:

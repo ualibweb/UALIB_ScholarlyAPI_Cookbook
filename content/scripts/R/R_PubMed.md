@@ -7,7 +7,7 @@ output:
 
 # PubMed API in R
 
-by Adam Miramontes Nguyen    
+by Adam M. Nguyen    
 
 The recipe examples were tested on Mar 24, 2023.
 
@@ -20,7 +20,7 @@ https://cran.r-project.org/web/packages/easyPubMed/easyPubMed.pdf
 
 See the bottom of the document for information on R and package versions.
 
-### Setup
+## Setup
 
 First let's install the easyPubMed package as well as load the library.
 If you do not already have the package installed, run the following command in your console: "install.packages("easyPubMed", repos = "http://cran.us.r-project.org")".

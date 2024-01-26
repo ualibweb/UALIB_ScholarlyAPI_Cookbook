@@ -17,8 +17,7 @@ These recipe examples were tested on March 24, 2023.
 
 See the bottom of the document for information on R and package versions.
 
-### Setup
-
+## Setup
 
 ```r
 # Load Packages

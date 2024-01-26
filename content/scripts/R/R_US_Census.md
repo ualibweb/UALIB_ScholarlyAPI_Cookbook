@@ -7,7 +7,7 @@ output:
 
 # U.S. Census Data API in R
 
-by Adam Miramontes Nguyen
+by Adam M. Nguyen
 
 These recipe examples were tested on March 24, 2023.
 
@@ -24,6 +24,8 @@ See the bottom of the document for information on R and package versions.
 See also the [U.S. Census API Terms of Service](https://www.census.gov/data/developers/about/terms-of-service.html)
 
 **Attribution:** *This tutorial uses the Census Buereau Data API but is not endorsed or certified by the Census Bureau.*
+
+## Setup
 
 ### API Key Information   
 

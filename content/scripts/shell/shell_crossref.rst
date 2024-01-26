@@ -20,7 +20,7 @@ In order to run this code, you will need to first install `curl`_ and `jq`_. cur
 .. _jq: https://stedolan.github.io/jq/
 
 
-1. Basic crossref API call
+1. Basic Crossref API call
 ===========================
 
 Setup API parameters
@@ -34,7 +34,7 @@ Setup API parameters
    
    The ``;`` allows us to enter multiple variable assignments on one line and the ``$`` allows for variable expansion.
 
-Request data from crossref API
+Request data from Crossref API
 -------------------------------
 
 If you want to view the returned json data directly, you can pipe the curl -s (silent option) output to jq:
@@ -245,7 +245,7 @@ We will use the issn for the journal *BMC Bioinformatics* and year 2014 as an ex
 
    jbase_url="https://api.crossref.org/journals/"; email="your_email@ua.edu"; mailto="&mailto="$email; issn="1471-2105"; journal_works2014="/works?filter=from-pub-date:2014,until-pub-date:2014&select=DOI"
 
-Request DOI data from crossref API
+Request DOI data from Crossref API
 -----------------------------------
 
 .. code-block:: shell
