@@ -3,7 +3,7 @@ Chronicling America API in Unix Shell
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
 
-by Avery M. Fernandez
+by Avery Fernandez
 
 **LOC Chronicling America API Documentation:** https://chroniclingamerica.loc.gov/about/api/
 

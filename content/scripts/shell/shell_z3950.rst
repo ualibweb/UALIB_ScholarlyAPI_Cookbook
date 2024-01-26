@@ -3,7 +3,7 @@ Z39.50 in Unix Shell
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
 
-by Vincent Scalfani and Cyrus Gomes
+by Vincent F. Scalfani and Cyrus Gomes
 
 .. note::
 

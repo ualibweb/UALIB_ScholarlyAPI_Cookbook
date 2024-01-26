@@ -13,8 +13,11 @@ in order to use the Scopus API.
 
 .. _API policies and appropiate use-cases: https://dev.elsevier.com/use_cases.html
 
+Setup
+==========
+
 Program requirements
-=========================
+--------------------
 
 In order to run this code, you will need to first install `curl`_, and `jq`_.
 curl is used to request the data from the API and jq is used to parse the JSON data.
@@ -22,8 +25,8 @@ curl is used to request the data from the API and jq is used to parse the JSON d
 .. _curl: https://github.com/curl/curl
 .. _jq: https://stedolan.github.io/jq/
 
-1. Setup
-==========
+API Key Information
+-------------------
 
 We will start by setting up the API key. Save your key in a text file in
 your current directory and import your key as follows:
@@ -38,7 +41,7 @@ Set the url for the base API:
 
    api="https://api.elsevier.com/content/search/scopus"
 
-2. Get Author data
+1. Get Author data
 ======================
 
 Records for Author
@@ -184,7 +187,7 @@ Citation information:
    "45"
    "11"
 
-3. Author Data in a Loop
+2. Author Data in a Loop
 ==========================
 
 Number of Records for Author
@@ -308,7 +311,7 @@ Get the article titles:
    ...
    ...
 
-4. Get References via a Title Search
+3. Get References via a Title Search
 ==========================================
 
 Number of Title Match Records

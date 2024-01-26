@@ -3,7 +3,7 @@ World Bank API in Matlab
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
 
-by Vincent Scalfani
+by Vincent F. Scalfani
 
 See the `World Bank API documentation`_
 

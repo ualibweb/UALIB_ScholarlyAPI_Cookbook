@@ -7,7 +7,7 @@ output:
 
 # arXiv API in R
 
-by Adam Miramontes Nguyen
+by Adam M. Nguyen
 
 These recipe examples were tested on December 1, 2023.
 
@@ -27,7 +27,9 @@ See the bottom of the document for information on R and package versions.
 
 Hosted and maintained by Cornell University, arXiv is an open-access and free distribution service containing nearly 2.5 million scholarly articles in fields including physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science and economics at the time of writing. In this tutorial we will introduce how to use the API with some examples, but for larger bulk downloads of data from arXiv, we recommend [Kaggle's arxiv Dataset](https://www.kaggle.com/datasets/Cornell-University/arxiv/data), which is updated monthly with the full arXiv data set and metadata.
 
-### Setup
+## Setup
+
+### Load Library
 
 Run the following lines of code to load the library ‘aRxiv’. If you have not done so already, additionally, before the ‘library()’ functions, run ‘install.packages('aRxiv')’. aRxiv is the package we will use to interface with the arXiv API.
 

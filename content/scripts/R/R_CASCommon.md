@@ -7,7 +7,7 @@ output:
 
 # CAS Common Chemistry API in R
 
-by Adam Miramontes Nguyen
+by Adam M. Nguyen
 
 The recipe examples were tested on March 24, 2023.
 
@@ -464,8 +464,7 @@ df
 
 In addition to the /detail API, the CAS Common Chemistry API has a /search method that allows searching by CAS RN, SMILES, InChI/InChIKey, and name.
 
-## Request data form CAS Common Chemistry Search API
-
+### Request data from CAS Common Chemistry Search API
 
 ```r
 search_base_url <- "https://commonchemistry.cas.org/api/search?q="
@@ -797,8 +796,8 @@ We can now iterate through  the list of registry numbers to store data about the
 
 
 ```r
-# now we can loop through each casrn and use the detail API to obtain the entire record
-# this will query CAS Common Chem 191 times and take ~ 5 min.
+# Now we can loop through each casrn and use the detail API to obtain the entire record
+# This will query CAS Common Chem 191 times and take ~ 5 min.
 detail_base_url <- "https://commonchemistry.cas.org/api/detail?"
 n_detail_data <- list()
 for (casrn in n_casrn_list) {
@@ -905,7 +904,6 @@ polygon(d, col="plum", border="black")
 ![](CASCommonChemR_files/figure-html/kernel-1.png)<!-- -->
 
 ## R Session Info
-
 
 ```r
 sessionInfo()

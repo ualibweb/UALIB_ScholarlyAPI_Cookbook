@@ -11,7 +11,7 @@ These recipe examples were tested on April 21, 2022 in MATLAB R2021a.
 
 *From our testing, we have found that the crossref metadata across publishers and even journals can vary considerably. As a result, it can be easier to work with one journal at a time when using the crossref API (e.g., particularly when trying to extract selected data from records).*
 
-1. Basic crossref API call
+1. Basic Crossref API call
 ============================
 
 Setup API parameters
@@ -25,7 +25,7 @@ Setup API parameters
    options = weboptions('Timeout', 30);
    doi = "10.1186/1758-2946-4-12"; %% example
 
-Request data from crossref API
+Request data from Crossref API
 --------------------------------
 
 .. code-block:: matlab
@@ -255,7 +255,7 @@ Setup API parameters
    mailto = "?mailto=" + email;
    issn = "1471-2105"; %% issn for the journal BMC Bioinformatics
 
-Request journal data from crossref API
+Request journal data from Crossref API
 ---------------------------------------
 
 .. code-block:: matlab
@@ -292,7 +292,7 @@ Request journal data from crossref API
 4. Crossref API - Get article DOIs for a journal
 =================================================
 
-Setup API Parameters
+Setup API parameters
 ----------------------
 
 .. code-block:: matlab
@@ -304,7 +304,7 @@ Setup API Parameters
    issn = "1471-2105";  %% issn for the journal BMC Bioinformatics
    journal_works2014 = "/works?filter=from-pub-date:2014,until-pub-date:2014&select=DOI"; %% query to get DOIs for 2014
 
-Request DOI data from crossref API
+Request DOI data from Crossref API
 -----------------------------------
 
 .. code-block:: matlab

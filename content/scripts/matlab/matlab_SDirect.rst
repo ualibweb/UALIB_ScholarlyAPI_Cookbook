@@ -32,7 +32,7 @@ Identifier Note
 We will use DOIs as the article identifiers. See our Crossref and Scopus API tutorials for workflows on how to create lists of DOIs and identifiers for specific searches and journals. The Elsevier ScienceDirect Article (Full-Text) API also accepts other identifiers like Scopus IDs and PubMed IDs (see API specification documents linked above).
 
 1. Retrieve full-text XML of an article
------------------------------------------
+=======================================
 
 .. code-block:: matlab
 
@@ -46,7 +46,7 @@ We will use DOIs as the article identifiers. See our Crossref and Scopus API tut
    
 
 2. Retrieve plain text of an article
---------------------------------------
+====================================
 
 .. code-block:: matlab
 
@@ -59,7 +59,7 @@ We will use DOIs as the article identifiers. See our Crossref and Scopus API tut
    writematrix(fulltext2, "fulltext2.txt", "Delimiter", "\t");
 
 3. Retrieve full-text in a loop
---------------------------------
+===============================
 
 Create an array of 5 DOIs for testing.
 

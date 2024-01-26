@@ -3,7 +3,7 @@ PubChem API in Unix Shell
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
 
-by Avery Fernandez and Vincent Scalfani
+by Avery Fernandez and Vincent F. Scalfani
 
 These recipe examples were tested on August 4, 2022 using GNOME Terminal (with Bash 4.4.20) in Ubuntu 18.04.
 
@@ -17,8 +17,11 @@ These recipe examples were tested on August 4, 2022 using GNOME Terminal (with B
   
    This tutorial uses ``curl`` and ``jq`` for interacting with the PubChem API. You may also be interested in using the `NCBI EDirect command line program <https://www.ncbi.nlm.nih.gov/books/NBK179288/>`_. We have several tutorials for EDirect in our `EDirectChemInfo repository <https://github.com/ualibweb/EDirectChemInfo>`_.
 
+Setup
+============================================
+
 Program requirements
-=======================
+--------------------
 
 In order to run this code, you will need to first install `curl`_, and `jq`_. curl is used to request the data from the API, and jq is used to parse the JSON data. In addition, if you want to be able to print the molecules as ASCII characters in your terminal, you will need to install `RDKit`_ and download the `print_mols`_ Python script.
 
@@ -27,8 +30,8 @@ In order to run this code, you will need to first install `curl`_, and `jq`_. cu
 .. _RDKit: https://www.rdkit.org/
 .. _print_mols: https://github.com/vfscalfani/teletype_mols
 
-1. Setup
-============================================
+Define base URL
+---------------
 
 Define the PubChem PUG-REST API base URL:
 
@@ -36,7 +39,7 @@ Define the PubChem PUG-REST API base URL:
 
    api="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/"
 
-2. PubChem Similarity
+1. PubChem Similarity
 ==========================
 
 Get Compound Image
@@ -425,7 +428,7 @@ Finally, we can also visualize the compounds as ASCII drawings using the `print_
    C               C                   C                            
                                                                  
 
-3. PubChem SMARTS Search
+2. PubChem SMARTS Search
 ============================
 
 Search for chemical structures from a SMARTS substructure query.

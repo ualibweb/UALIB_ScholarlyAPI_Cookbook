@@ -7,7 +7,7 @@ output:
 
 # SEC EDGAR API in R
 
-by Adam Miramontes Nguyen
+by Adam M. Nguyen
 
 These recipe examples were tested on December 1, 2023.
 
@@ -23,7 +23,9 @@ These recipe examples were tested on December 1, 2023.
 
 See the bottom of the document for information on R and package versions.
 
-### Setup
+## Setup
+
+### Load libraries
 
 Run the following lines of code to load the libraries ‘httr’ and ‘jsonlite’. If you have not done so already, additionally, before the ‘library()’ functions, run ‘install.packages(c(‘httr’,’jsonlite’))’.
 
@@ -37,7 +39,6 @@ library(jsonlite)
 
 The SEC EDGAR API requires you to provide your name and email when sending requests. Simply edit the following variables with your information.
 
-
 ```r
 # Designate your user info
 firstName <- "First"
@@ -47,14 +48,12 @@ email <- "Email@email.com"
 
 Alternatively, you can also designate environment variables ([click here to see how](https://support.posit.co/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf)) to access your user information.
 
-
 ```r
 # Here we simply use the 'Sys.getenv()' function to grab the variables, first, last, and email
 firstName <- Sys.getenv("first")
 lastName <- Sys.getenv("last")
 email <- Sys.getenv("email")
 ```
-
 
 ### SEC EDGAR Data Installation
 

@@ -7,7 +7,7 @@ output:
 
 # PubChem API in R
 
-By Vishank Patel and Adam M Nguyen
+By Vishank Patel and Adam M. Nguyen
 
 **Documentation:**
 
@@ -581,8 +581,4 @@ sessionInfo()
 ## [41] timechange_0.2.0 rmarkdown_2.20   rstudioapi_0.14  R6_2.5.1        
 ## [45] igraph_1.4.1     compiler_4.2.1
 ```
-
-
-
-
 

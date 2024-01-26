@@ -13,15 +13,15 @@ You will need to register for an API key from the Elsevier Developer portal in o
 
 **Elsevier How to Guide: Text Mining:** https://dev.elsevier.com/tecdoc_text_mining.html
 
+Setup
+======
+
 Program requirements
-=========================
+--------------------
 
 In order to run this code, you will need to first install `curl`_. curl is used to request the data from the API.
 
 .. _curl: https://github.com/curl/curl
-
-Setup
-======
 
 Create a variable for API Key
 ---------------------------------
@@ -38,7 +38,7 @@ Identifier Note
 We will use DOIs as the article identifiers. See our Crossref and Scopus API tutorials for workflows on how to create lists of DOIs and identifiers for specific searches and journals. The Elsevier ScienceDirect Article (Full-Text) API also accepts other identifiers like Scopus IDs and PubMed IDs (see API specification documents linked above).
 
 1. Retrieve full-text XML of an article
------------------------------------------
+=======================================
 
 .. code-block:: shell
 
@@ -47,7 +47,7 @@ We will use DOIs as the article identifiers. See our Crossref and Scopus API tut
    curl "$elsevier_url""$doi1"$"?APIKey=""$apiKey"$"&httpAccept=text/xml" > fulltext1.xml # save to file
 
 2. Retrieve plain text of an article
---------------------------------------
+====================================
 
 .. code-block:: shell
 
@@ -56,7 +56,7 @@ We will use DOIs as the article identifiers. See our Crossref and Scopus API tut
    curl "$elsevier_url""$doi2"$"?APIKey=""$apiKey"$"&httpAccept=text/plain" > fulltext2.txt # save to file
 
 3. Retrieve full-text in a loop
---------------------------------
+===============================
 
 Create an array of 5 DOIs for testing.
 

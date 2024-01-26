@@ -7,7 +7,7 @@ editor_options:
 
 # CrossRef API in R
 
-By Cyrus Gomes, Vincent Scalfani, and Adam M. Nguyen
+By Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
 
 **Documentation:**
 
@@ -19,7 +19,7 @@ See the bottom of the document for information on R and package versions.
 
 From our testing, we have found that the crossref metadata across publishers and even journals can vary considerably. As a result, it can be easier to work with one journal at a time when using the crossref API (e.g., particulary when trying to extract selected data from records).
 
-### Setup
+## Setup
 
 Importing the necessary libraries and setting up the base api:
 
@@ -78,7 +78,6 @@ print(api_data)
 ```
 
 ```
-:tags: ["output_scroll"]
 ## $status
 ## [1] "ok"
 ## 
@@ -465,7 +464,6 @@ loaded_data                       #Load Json data from file
 ```
 
 ```
-:tags: ["output_scroll"]
 ## $status
 ## [1] "ok"
 ## 
