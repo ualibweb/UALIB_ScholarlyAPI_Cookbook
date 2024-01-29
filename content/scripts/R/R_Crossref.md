@@ -7,7 +7,7 @@ editor_options:
 
 # CrossRef API in R
 
-By Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
+by Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
 
 **Documentation:**
 
