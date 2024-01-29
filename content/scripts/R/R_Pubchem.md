@@ -7,7 +7,7 @@ output:
 
 # PubChem API in R
 
-By Vishank Patel and Adam M. Nguyen
+by Vishank Patel and Adam M. Nguyen
 
 **Documentation:**
 
