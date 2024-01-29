@@ -5,7 +5,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# CrossRef API in R
+# Crossref API in R
 
 by Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
 
