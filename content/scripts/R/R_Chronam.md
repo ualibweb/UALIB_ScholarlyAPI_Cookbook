@@ -7,7 +7,7 @@ output:
 
 # Chronicling Ameria API in R
 
-By Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
+by Cyrus Gomes, Vincent F. Scalfani, and Adam M. Nguyen
 
 These recipe examples were tested on March 24, 2023.
 

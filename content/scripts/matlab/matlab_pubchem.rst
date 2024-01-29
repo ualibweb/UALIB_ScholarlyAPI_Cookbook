@@ -3,7 +3,7 @@ PubChem API in Matlab
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
 
-by Vincent Scalfani and Anastasia Ramig
+by Vincent F. Scalfani and Anastasia Ramig
 
 These recipe examples were tested on November 23, 2022 using Matlab R2022b.
 
