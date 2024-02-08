@@ -106,8 +106,10 @@ For good luck, let's add ``Hello World!`` in each programming language:
 
       .. code-block:: c
 
-         printf("Hello World!\n");
-
+         int main() {
+            printf("Hello World!\n");
+            return 0;
+         }
 
 What about Video Tutorials?
 ***************************
