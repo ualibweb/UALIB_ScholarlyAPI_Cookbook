@@ -99,6 +99,18 @@ For good luck, let's add ``Hello World!`` in each programming language:
 
          In[1]:= Print["Hello World!"]
 
+   .. tab-item:: R
+
+      .. code-block:: r
+
+         > print("Hello World!")
+
+   .. tab-item:: C
+
+      .. code-block:: c
+
+         printf("Hello World!\n");
+
 
 What about Video Tutorials?
 ============================
