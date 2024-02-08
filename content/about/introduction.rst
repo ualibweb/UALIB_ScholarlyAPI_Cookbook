@@ -3,11 +3,8 @@ Introduction
 
 .. sectionauthor:: Vincent F. Scalfani <vfscalfani@ua.edu>
 
-Overview
-**********
-
 What is this?
-===============
+*************
 
 This is an open online book containing short scholarly API code examples (i.e., "recipes") 
 that demonstrate how to work with various scholarly web service APIs. It is part of the University of 
@@ -16,7 +13,7 @@ Alabama Libraries efforts to support `Research Data Services`_.
 .. _Research Data Services: https://guides.lib.ua.edu/Data/ResearchDataServices/
 
 What should I be aware of before getting started?
-===================================================
+*************************************************
 
 Before interacting with any scholarly APIs (or similar web service), it is very important to review the
 usage policies, which generally includes information such as query limits and data reuse policies.
@@ -44,7 +41,7 @@ to follow when working with any web API:
 5. Cache the API returned data when testing. For example, if you are trying to parse the returned API data in a scripting workflow, save the returned data in a variable or to a file so that you do not need to repeat the API request unnecessarily for the downstream parsing or analysis.
 
 What kind of content is included?
-==================================
+*********************************
 
 The scope of this book is to provide short code examples related to the retrieval of data and information
 from scholarly APIs using several different programming languages.
@@ -63,7 +60,7 @@ UA Libraries Scout database for programming books (e.g., `TI python`).
 
 
 Which Programming Languages are Covered?
-========================================
+****************************************
 
 Currently, we are planning to provide scholarly API code examples in Python, Unix Shell (Bash), 
 Matlab, and Mathematica. We hope that providing examples in several programming languages will 
@@ -113,14 +110,14 @@ For good luck, let's add ``Hello World!`` in each programming language:
 
 
 What about Video Tutorials?
-============================
+***************************
 
 Yes! We plan to also reproduce selected written tutorials from this book as videos. 
 In those cases, a link will be provided to the video on the corresponding tutorial page.
 
 
 Who is Creating the Content?
-=============================
+****************************
 
 The Scholarly API Cookbook content is authored by University of Alabama 
 Libraries faculty and student assistants. Specific authors are noted on each 
