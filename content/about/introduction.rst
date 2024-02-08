@@ -62,8 +62,8 @@ UA Libraries Scout database for programming books (e.g., `TI python`).
 Which Programming Languages are Covered?
 ****************************************
 
-Currently, we are planning to provide scholarly API code examples in Python, Unix Shell (Bash), 
-Matlab, and Mathematica. We hope that providing examples in several programming languages will 
+Currently, we scholarly API code examples in Python, Unix Shell (Bash), Matlab, Mathematica, R,
+and C. We hope that providing examples in several programming languages will 
 provide the reader with not only a choice, but also some information about the differences between 
 the programming workflows. In some cases, for example, it may be preferable to 
 choose one language over the other.
