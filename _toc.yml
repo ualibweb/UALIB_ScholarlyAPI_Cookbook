@@ -90,6 +90,12 @@ parts:
   - caption: BUSINESS
     chapters:
 
+    # U.S. Bureau of Economic Analysis
+    - file: content/scripts/A_overview/bea_overview
+      sections:
+      - file: content/scripts/python/python_bea
+        title: "...in Python"
+
     # U.S. Bureau of Labor Statistics
     - file: content/scripts/A_overview/bls_overview
       sections:
@@ -181,6 +187,12 @@ parts:
         title: "...in Mathematica"
       - file: content/scripts/R/R_CASCommon
         title: "...in R"
+
+    # National Weather Service
+    - file: content/scripts/A_overview/nws_overview
+      sections:
+      - file: content/scripts/python/python_nws
+        title: "...in Python"
 
     # PubChem
     - file: content/scripts/A_overview/pubchem_overview
