@@ -19,12 +19,16 @@ parts:
         title: "...in Matlab"
       - file: content/scripts/mathematica/mathematica_SDirect
         title: "...in Mathematica"
+      - file: content/scripts/C/C_SDirect
+        title: "...in C"
 
     # Springer
     - file: content/scripts/A_overview/springer_overview
       sections:
       - file: content/scripts/python/python_springer
         title: "...in Python"
+      - file: content/scripts/C/C_springer
+        title: "...in C"
 
     # Wiley TDM
     - file: content/scripts/A_overview/wileytdm_overview
@@ -105,6 +109,8 @@ parts:
       sections:
       - file: content/scripts/python/python_ustreasury
         title: "...in Python"
+      - file: content/scripts/C/C_ustreasury
+        title: "...in C"
 
     # World Bank
     - file: content/scripts/A_overview/worldbank_overview
