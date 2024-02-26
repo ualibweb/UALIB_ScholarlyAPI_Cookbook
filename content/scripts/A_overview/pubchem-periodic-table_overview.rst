@@ -10,7 +10,7 @@ PubChem is a database of chemical molecules and their properties. It is maintain
   
 The PubChem Periodic Table API provides programmatic access to a machine-readable periodic table. An API key is not required for this API, but a rate limit of 5 requests per second is enforced.
 
-See the PubChem Periodic Table[#ppt1]_ and PubChem APIs documentation[#ppt2]_ for more information on accessing the API. Please check the terms of use[#ppt3]_ for more information on the usage of this API.
+See the PubChem Periodic Table [#ppt1]_ and PubChem APIs documentation [#ppt2]_ for more information on accessing the API. Please check the terms of use [#ppt3]_ for more information on the usage of this API.
 
 .. rubric:: References
 
