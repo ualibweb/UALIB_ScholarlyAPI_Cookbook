@@ -16,7 +16,7 @@ See the PubChem Periodic Table [#ppt1]_ and PubChem APIs documentation [#ppt2]_ 
 
 .. [#ppt1] `<https://pubchem.ncbi.nlm.nih.gov/periodic-table/>`_
 
-.. [#bea2] `<https://pubchemdocs.ncbi.nlm.nih.gov/programmatic-access>`_
+.. [#ppt2] `<https://pubchemdocs.ncbi.nlm.nih.gov/programmatic-access>`_
 
-.. [#bea3] `<https://www.ncbi.nlm.nih.gov/home/about/policies/>`_
+.. [#ppt3] `<https://www.ncbi.nlm.nih.gov/home/about/policies/>`_
 
