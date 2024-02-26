@@ -210,6 +210,12 @@ parts:
       - file: content/scripts/C/C_Pub_Chem
         title: "...in C"
 
+    # PubChem Periodic Table
+    - file: content/scripts/A_overview/pubchem-periodic-table_overview
+      sections:
+      - file: content/scripts/python/python_pubchem-periodic-table
+        title: "...in Python"
+
     # PubMed
     - file: content/scripts/A_overview/pubmed_overview
       sections:
