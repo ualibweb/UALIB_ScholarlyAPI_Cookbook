@@ -151,6 +151,16 @@ parts:
         title: "...in Unix Shell"
 
 
+  - caption: GIS
+    chapters:
+
+    # U.S. Census Geocoding
+    - file: content/scripts/A_overview/census-geocoding_overview
+      sections:
+      - file: content/scripts/python/python_census-geocoding
+        title: "...in Python"
+        
+
   - caption: HUMANITIES
     chapters:
 
